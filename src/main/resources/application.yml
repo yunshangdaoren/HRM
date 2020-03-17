@@ -11,11 +11,16 @@ spring:
   thymeleaf:
     enabled: false
   mvc:
+    static-path-pattern: /static/**
     view:
       #配置视图解析器前缀
       prefix: /WEB-INF/jsp/
       #配置视图解析器后缀缀
       suffix: .jsp
+  #资源路径
+  resources:
+    static-locations:
+    - classpath:/static/
        
 mybatis:
   mapper-locations: classpath:mapping/*.xml
