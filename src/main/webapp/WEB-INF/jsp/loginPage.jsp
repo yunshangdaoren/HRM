@@ -50,7 +50,7 @@
         <div class="container">
             <div class="col-md-6 content-center">
                 <div class="card card-login card-plain" style="width:410px;">
-                    <form class="form" action="<%=request.getContextPath() %>/login/login.do"  method="get" onsubmit="return loginFormEmptyCheck()">
+                    <form class="form" action="/login/loginCheck"  method="get" onsubmit="return loginFormEmptyCheck()">
                         <div class="content" style="margin:0px;padding:0px;">
                             <div class="input-group form-group-no-border input-lg" style="margin-bottom:15px;">
                                 <span class="input-group-addon">
@@ -62,11 +62,11 @@
                                 <span class="input-group-addon">
                                     <i class="now-ui-icons text_caps-small"></i>
                                 </span>
-                                <input type="text" id="userPwd" name="userPwd" placeholder="Enter your password..." class="form-control" value="<%=password %>" />
+                                <input type="password" id="userPwd" name="userPwd" placeholder="Enter your password..." class="form-control" value="<%=password %>" />
                             </div>
                         </div>
                         <!-- 如果登录不成功，则提示用户，>账户或密码错误 -->
-                        <p style="color:red;font-size:16px;margin:0px;padding:0px;">${msg_loginFail }</p>
+                        <p style="color:red;font-size:16px;margin:0px;padding:0px;">${erro_loginFail }</p>
                         <div class="footer text-center" style="padding-top:0px;">
                         	<div>
                         		<div style="float:left;width:50%;text-align: center;">

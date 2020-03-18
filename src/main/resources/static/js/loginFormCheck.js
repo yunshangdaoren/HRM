@@ -1,13 +1,13 @@
 function loginFormEmptyCheck(){
-	if($("#uAccount").val()==''){
+	if($("#userAccount").val()==''){
 		alert("账户不能为空！");
-		$("#uAccount").focus();
+		$("#userAccount").focus();
 		return false;
 	}
 	
-	if($("#uPassword").val()==''){
+	if($("#userPwd").val()==''){
 		alert("密码不能为空！");
-		$("#uPassword").focus();
+		$("#userPwd").focus();
 		return false;
 	}
 }
