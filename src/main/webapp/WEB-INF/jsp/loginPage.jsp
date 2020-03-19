@@ -100,14 +100,14 @@
 		<div class="panel_resetPwd">
 			<div class="panel">
     			<div class="panel-heading">
-    				<label>重置密码</label>
+    				<label>找回密码</label>
     				<button id="btn_hideShadeDiv" type="button" class="btn btn-success">退出</button>
     			</div>
     			<div class="panel_body">
     				<form id="formEditCon" class="form-horizontal" role="form">
     					<div class="form-group">
     						<div class="col-sm-12">
-      							<input type="text" name="userAccount" id="userAccount" placeholder="请输入账户">
+      							<input type="text" name="userAccount" id="find_UserAccount" placeholder="请输入账户">
     						</div>
   						</div>
   						<div class="form-group">

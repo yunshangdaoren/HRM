@@ -2,10 +2,10 @@
 #userAccount,#userPwd{
 	font-size:13px;
 }
-.span_resetPwd{
+.span_fogetPwd{
 	font-size:14px;
 }
-.span_resetPwd:hover{
+.span_fogetPwd:hover{
 	cursor: pointer;
 	color: red;
 }
