@@ -2,3 +2,34 @@
 #userAccount,#userPwd{
 	font-size:13px;
 }
+.span_resetPwd{
+	font-size:14px;
+}
+.span_resetPwd:hover{
+	cursor: pointer;
+	color: red;
+}
+.panel_resetPwd{
+	width: 500px;
+	height: 320px;
+	overflow: hide;
+	margin:auto;
+	margin-top:200px;
+	background-color:#fff;
+	z-index:6;
+}
+.panel .panel_body{
+	width:100%;
+	height:234px;
+}
+.panel .panel_body form{
+	width:100%;
+	height:100%;
+	padding-top:12px;
+}
+.panel .panel_body form div{
+	width:100%;
+}
+.panel .panel_body #btn_submit{
+	margin-left:225px;
+}

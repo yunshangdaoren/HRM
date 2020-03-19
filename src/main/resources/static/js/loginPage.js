@@ -1,3 +1,4 @@
+//登录页面账户和密码非空判断
 function loginFormEmptyCheck(){
 	if($("#userAccount").val()==''){
 		alert("账户不能为空！");
@@ -11,3 +12,8 @@ function loginFormEmptyCheck(){
 		return false;
 	}
 }
+
+//显示重置密码遮罩层
+$(".span_resetPwd").click(function(){
+	$(".shade_resetPwd").show();
+});

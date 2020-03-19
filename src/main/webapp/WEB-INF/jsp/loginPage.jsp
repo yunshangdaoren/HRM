@@ -17,9 +17,9 @@
     <link href="/static/assets/css/now-ui-kit.css?v=1.1.0" rel="stylesheet" />
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link href="/static/assets/css/demo.css" rel="stylesheet" /> 
-    <link href="/static/css/loginPage.css" rel="stylesheet" /> 
-    <script type="text/javascript" src="/static/js/jquery.min.js"></script>  
-    <script type="text/javascript" src="/static/js/loginFormCheck.js"></script> 
+    <script type="text/javascript" src="/static/js/jquery.min.js"></script> 
+    <link href="/static/css/loginPage.css" rel="stylesheet" />  
+    <link href="/static/css/shadeDiv.css" rel="stylesheet" />
 </head>
 <body  class="login-page sidebar-collapse">
 	<%
@@ -73,7 +73,7 @@
                         			<input class="remember" type="checkbox" name="remember" value="1" checked="checked"/><b>记住密码？</b>
                         		</div>
                         		<div style="float:right;width:50%;">
-                        			<a href="#pablo" class="link" style="font-size:14px;" >忘记密码?</a>
+                        			<span class="span_resetPwd">重置密码</span>
                         		</div>
                         	</div>
                             <input style="margin-top:4px;" type="submit" id="loginSubmit" class="btn btn-primary btn-round btn-lg btn-block" value="登录"/>
@@ -94,7 +94,48 @@
             </div>
         </footer>
     </div>
+    
+    <!-- 遮罩层，用于编辑联系人信息 -->
+	<div class="shadeDiv">
+		<div class="panel_resetPwd">
+			<div class="panel">
+    			<div class="panel-heading">
+    				<label>重置密码</label>
+    				<button id="btn_hideShadeDiv" type="button" class="btn btn-success">退出</button>
+    			</div>
+    			<div class="panel_body">
+    				<form id="formEditCon" class="form-horizontal" role="form">
+    					<div class="form-group">
+    						<label for="firstname" class="col-sm-5 control-label">请输入旧密码</label>
+    						<div class="col-sm-12">
+      							<input type="text" class="form-control" name="conName" id="editConName">
+    						</div>
+  						</div>
+      					<div class="form-group">
+    						<label for="firstname" class="col-sm-5 control-label">请输入新密码</label>
+    						<div class="col-sm-12">
+      							<input type="text" class="form-control" name="conName" id="editConName">
+    						</div>
+  						</div>
+  						<div class="form-group">
+    						<label for="firstname" class="col-sm-5 control-label">请再次确认密码</label>
+    						<div class="col-sm-12">
+      							<input type="text" class="form-control" name="conPhone" id="editConPhone">
+    						</div>
+  						</div>
+  						<div class="form-group">
+    						<div class="col-sm-offset-6 col-sm-6">
+      							<button id="btn_submit" class="btn btn-primary">提交</button>
+    						</div>
+ 	 					</div>
+					</form>
+    			</div>
+			</div>
+		</div>
+	</div>
 </body>
+<script type="text/javascript" src="/static/js/loginPage.js"></script> 
+<script type="text/javascript" src="/static/js/shadeDiv.js"></script> 
 <!--   Core JS Files   -->
 <script src="/static/assets/js/core/jquery.3.2.1.min.js" type="text/javascript"></script>
 <script src="/static/assets/js/core/popper.min.js" type="text/javascript"></script>

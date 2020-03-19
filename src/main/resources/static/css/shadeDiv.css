@@ -1,0 +1,35 @@
+@charset "UTF-8";
+.shadeDiv{
+	position:absolute;
+	top:0px;
+	left:0px;
+	width:100%;
+	height:100%;
+	background:rgba(0, 0, 0, 0.4);
+	line-height:100%;
+	z-index:2;
+}
+.shadeDiv .panel{
+	width:100%;
+	height:100%;
+}
+.shadeDiv .panel .panel-heading{
+	background-color:#0085DD;
+	height:46px;
+}
+.shadeDiv .panel .panel-heading label{
+	font-size:18px;
+	line-height:46px;
+	color:#FFF;
+	font-weight:500;
+	margin-left:5px;
+}
+#btn_hideShadeDiv{
+	float:right;
+	height:38px;
+	margin-top:4px;
+	margin-right:3px;
+	font-size:16px;
+	text-align:center;
+}
+

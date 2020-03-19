@@ -59,4 +59,11 @@ public class LoginController {
 			return "redirect:/hello";
 		}
 	}
+	
+	public String ajaxResetPwd(String userPwd) {
+		
+		return "";
+	}
+	
+	
 }
