@@ -107,29 +107,29 @@
     				<form id="formEditCon" class="form-horizontal" role="form">
     					<div class="form-group">
     						<div class="col-sm-12">
-      							<input type="text" name="conName" id="editConName" placeholder="请输入账户">
+      							<input type="text" name="userAccount" id="userAccount" placeholder="请输入账户">
     						</div>
   						</div>
   						<div class="form-group">
     						<div class="col-sm-12">
-      							<input type="text" name="conName" id="editConName" placeholder="请输入绑定的安全邮箱">
+      							<input type="text" name="securityMail" id="securityMail" placeholder="请输入绑定的安全邮箱">
     						</div>
   						</div>
       					<span style="color:red;">如果没有邮箱，请联系管理员。</span>
     					<div class="form-group">
     						<div class="col-sm-12">
-      							<input type="text" name="conName" id="input_emailVerificationCode" style="width:180px;display:inline-block;" placeholder="请输入邮箱验证码">
+      							<input type="text" name="emailVerificationCode" id="emailVerificationCode" style="width:180px;display:inline-block;" placeholder="请输入邮箱验证码">
       							<div id="btn_sendEmailVerificationCode" class="btn btn-primary">发送验证码</div>
     						</div>
   						</div>
       					<div class="form-group">
     						<div class="col-sm-12">
-      							<input type="text" name="conName" id="editConName" placeholder="请输入新密码">
+      							<input type="text" name="newUserPwd" id="newUserPwd" placeholder="请输入新密码">
     						</div>
   						</div>
   						<div class="form-group">
     						<div class="col-sm-12">
-      							<input type="text" name="conPhone" id="editConPhone" placeholder="请再次确认密码">
+      							<input type="text" name="confirmPwd" id="confirmPwd" placeholder="请再次确认密码">
     						</div>
   						</div>
   						<div class="form-group">

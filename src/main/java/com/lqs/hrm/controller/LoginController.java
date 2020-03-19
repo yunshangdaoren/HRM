@@ -60,9 +60,10 @@ public class LoginController {
 		}
 	}
 	
-	public String ajaxResetPwd(String userPwd) {
+	@RequestMapping("sendEmailVerificationCode")
+	public String sendEmailVerificationCode(String userAccount, String securityMail) {
 		
-		return "";
+		return "status:1";
 	}
 	
 	
