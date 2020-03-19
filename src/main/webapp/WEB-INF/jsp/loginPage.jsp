@@ -73,7 +73,7 @@
                         			<input class="remember" type="checkbox" name="remember" value="1" checked="checked"/><b>记住密码？</b>
                         		</div>
                         		<div style="float:right;width:50%;">
-                        			<span class="span_resetPwd">重置密码</span>
+                        			<span class="span_fogetPwd">忘记密码？</span>
                         		</div>
                         	</div>
                             <input style="margin-top:4px;" type="submit" id="loginSubmit" class="btn btn-primary btn-round btn-lg btn-block" value="登录"/>
@@ -106,21 +106,30 @@
     			<div class="panel_body">
     				<form id="formEditCon" class="form-horizontal" role="form">
     					<div class="form-group">
-    						<label for="firstname" class="col-sm-5 control-label">请输入旧密码</label>
     						<div class="col-sm-12">
-      							<input type="text" class="form-control" name="conName" id="editConName">
-    						</div>
-  						</div>
-      					<div class="form-group">
-    						<label for="firstname" class="col-sm-5 control-label">请输入新密码</label>
-    						<div class="col-sm-12">
-      							<input type="text" class="form-control" name="conName" id="editConName">
+      							<input type="text" name="conName" id="editConName" placeholder="请输入账户">
     						</div>
   						</div>
   						<div class="form-group">
-    						<label for="firstname" class="col-sm-5 control-label">请再次确认密码</label>
     						<div class="col-sm-12">
-      							<input type="text" class="form-control" name="conPhone" id="editConPhone">
+      							<input type="text" name="conName" id="editConName" placeholder="请输入绑定的安全邮箱">
+    						</div>
+  						</div>
+      					<span style="color:red;">如果没有邮箱，请联系管理员。</span>
+    					<div class="form-group">
+    						<div class="col-sm-12">
+      							<input type="text" name="conName" id="input_emailVerificationCode" style="width:180px;display:inline-block;" placeholder="请输入邮箱验证码">
+      							<div id="btn_sendEmailVerificationCode" class="btn btn-primary">发送验证码</div>
+    						</div>
+  						</div>
+      					<div class="form-group">
+    						<div class="col-sm-12">
+      							<input type="text" name="conName" id="editConName" placeholder="请输入新密码">
+    						</div>
+  						</div>
+  						<div class="form-group">
+    						<div class="col-sm-12">
+      							<input type="text" name="conPhone" id="editConPhone" placeholder="请再次确认密码">
     						</div>
   						</div>
   						<div class="form-group">

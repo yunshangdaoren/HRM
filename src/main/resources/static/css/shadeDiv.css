@@ -24,7 +24,7 @@
 	font-weight:500;
 	margin-left:5px;
 }
-#btn_hideShadeDiv{
+.shadeDiv .panel .panel-heading #btn_hideShadeDiv{
 	float:right;
 	height:38px;
 	margin-top:4px;
@@ -32,4 +32,6 @@
 	font-size:16px;
 	text-align:center;
 }
-
+.shadeDiv .panel .panel_body #btn_submit{
+	font-size:18px;
+}

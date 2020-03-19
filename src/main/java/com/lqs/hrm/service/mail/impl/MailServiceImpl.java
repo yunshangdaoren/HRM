@@ -19,7 +19,7 @@ public class MailServiceImpl implements MailService {
 	private String from;
 
 	/**
-	 * 简单文本邮件
+	 * 发送简单文本邮件
 	 */
 	@Override
 	public void sendSimpleMail(String to, String subject, String contentText) {
@@ -37,4 +37,19 @@ public class MailServiceImpl implements MailService {
 		mailSender.send(message);
 	}
 
+	/**
+	 * 发送HTML邮件
+	 */
+	@Override
+	public void sendHtmlMail(String to, String subject, String contentText) {
+		
+	}
+
+	/**
+	 * 发送带附件的邮件
+	 */
+	@Override
+	public void sendAttachmentsMail(String to, String subject, String contentText, String filePath) {
+		
+	}
 }

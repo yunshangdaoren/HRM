@@ -14,6 +14,6 @@ function loginFormEmptyCheck(){
 }
 
 //显示重置密码遮罩层
-$(".span_resetPwd").click(function(){
-	$(".shade_resetPwd").show();
+$(".span_fogetPwd").click(function(){
+	$(".shadeDiv").show();
 });
