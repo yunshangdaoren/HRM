@@ -64,7 +64,7 @@ $("#btn_sendEmailVerificationCode").click(function(){
 	var securityMail = $("#securityMail").val();
 	$("#btn_sendEmailVerificationCode").text("发送中...");
 	$("#btn_sendEmailVerificationCode").css("pointer-events","none");
-	$.ajax({
+	$.ajax({ 
 		url:"/login/sendEmailVerificationCode?userAccount="+userAccount+"&securityMail="+securityMail,
 		dataType:"json",
 		success:function(result){
