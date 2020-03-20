@@ -12,15 +12,14 @@ import com.lqs.hrm.mapper.UserMapper;
 @Service
 public class LoginService {
 	@Autowired
-	private UserMapper userMapper;
+	private UserService userService;
 	
 	public User getUser(Integer userAccount, String userPwd) {
-		UserExample userExample = new UserExample();
-		userExample.or().andUserAccountEqualTo(userAccount).andUserPwdEqualTo(userPwd);
-		List<User> users = userMapper.selectByExample(userExample);
-		if (users.size() == 0) {
-			return null;
-		}
-		return users.get(0);
+		return userService.getUser(userAccount, userPwd);
 	}
+	
+	public int updateUserPwd(Integer userAccount, String newUserPwd) {
+		return userService.updateUserPwd(userAccount, newUserPwd);
+	}
+	
 }

@@ -104,7 +104,7 @@
     				<button id="btn_hideShadeDiv" type="button" class="btn btn-success">退出</button>
     			</div>
     			<div class="panel_body">
-    				<form id="formEditCon" class="form-horizontal" role="form">
+    				<form id="form_retrievePwd" class="form-horizontal" role="form">
     					<div class="form-group">
     						<div class="col-sm-12">
       							<input type="text" name="userAccount" id="find_UserAccount" placeholder="请输入账户">
@@ -134,7 +134,7 @@
   						</div>
   						<div class="form-group">
     						<div class="col-sm-offset-6 col-sm-6">
-      							<button id="btn_submit" class="btn btn-primary">提交</button>
+      							<button id="btn_submitRetrievePwd" type="button" class="btn btn-primary">提交</button>
     						</div>
  	 					</div>
 					</form>
@@ -142,6 +142,7 @@
 			</div>
 		</div>
 	</div>
+	
 </body>
 <script type="text/javascript" src="/static/js/loginPage.js"></script> 
 <script type="text/javascript" src="/static/js/shadeDiv.js"></script> 

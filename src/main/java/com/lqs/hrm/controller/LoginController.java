@@ -1,5 +1,6 @@
 package com.lqs.hrm.controller;
 
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,6 +18,7 @@ import com.alibaba.fastjson.JSON;
 import com.lqs.hrm.entity.User;
 import com.lqs.hrm.service.LoginService;
 import com.lqs.hrm.service.mail.impl.MailServiceImpl;
+import com.lqs.hrm.util.RandomNumberUtil;
 
 @Controller
 @RequestMapping("login")
@@ -26,11 +28,23 @@ public class LoginController {
 	@Autowired
 	private MailServiceImpl mailService;
 	
+	/**
+	 * 跳转到登录页面
+	 * @return
+	 */
 	@RequestMapping("loginPage")
 	public String loginPage() {
 		return "loginPage";
 	}
 	
+	/**
+	 * 登录
+	 * @param u
+	 * @param request
+	 * @param response
+	 * @param map
+	 * @return
+	 */
 	@RequestMapping("loginCheck")
 	public String loginCheck(User u, HttpServletRequest request,HttpServletResponse response, ModelMap map ) {
 		User user = loginService.getUser(u.getUserAccount(), u.getUserPwd());
@@ -42,6 +56,7 @@ public class LoginController {
 			//查询到该用户
 			HttpSession session = request.getSession();
 			session.setAttribute("session_loginUser", user);
+			session.setMaxInactiveInterval(60*60);
 			if (u.getRememberPwd()!=null && u.getRememberPwd()==true) {
 				//记住账户密码
 				Cookie cookieUserAccount = new Cookie("userAccount", String.valueOf(u.getUserAccount()));
@@ -55,7 +70,6 @@ public class LoginController {
 				for (Cookie cookie : cookies) {
 					if (cookie.getName().equals(u.getUserAccount().toString()) || 
 								cookie.getName().equals(u.getUserPwd().toString())) {
-						System.out.println("================== ：删除Cookie");
 						//删除该cookie
 						cookie.setMaxAge(0);
 						response.addCookie(cookie);
@@ -66,14 +80,80 @@ public class LoginController {
 		}
 	}
 	
+	/**
+	 * 发送邮件验证码
+	 * @param userAccount
+	 * @param securityMail
+	 * @return
+	 */
 	@RequestMapping("sendEmailVerificationCode")
 	@ResponseBody
-	public String sendEmailVerificationCode(String userAccount, String securityMail) {
-		Map<String, Object> map = new HashMap<>();
-		mailService.sendSimpleMail(securityMail, "找回密码", "这是一封找回密码的邮件，您的验证码为872992");
-		map.put("status", "1");
-		return JSON.toJSONString(map);
+	public String sendEmailVerificationCode(String userAccount, String securityMail, HttpServletRequest request) {
+		//获取到随机6位数验证码
+		Integer emailVerificationCode = RandomNumberUtil.getRandomSixDigitNumber();
+		//返回结果Map
+		Map<String, Object> resultMap = new HashMap<>();
+		//储存Session Map
+		Map<String, Integer> codeMap = new HashMap<>();
+		codeMap.put("emailVerificationCode", emailVerificationCode);
+		//Session
+		HttpSession session = request.getSession();
+		System.out.println("########发送之前userAccount:"+userAccount);
+		//将验证码储存在Session里面
+		session.setAttribute(userAccount, String.valueOf(emailVerificationCode));
+		//设置验证码有效期为10分钟
+		session.setMaxInactiveInterval(10*60);
+		//发送验证码
+		mailService.sendSimpleMail(securityMail, "找回密码", "这是一封找回密码的邮件，您的验证码为"+emailVerificationCode+",验证码有效期为10分钟。");
+		resultMap.put("status", "1");
+		return JSON.toJSONString(resultMap);
 	}
 	
+	/**
+	 * 找回密码
+	 * @return
+	 */
+	@RequestMapping("retrievePwd")
+	@ResponseBody
+	public String retrievePwd(String userAccount, String securityMail, String emailVerificationCode, String newUserPwd, HttpServletRequest request) {
+		//获取到储存在Session中的验证码
+		HttpSession session = request.getSession();
+		System.out.println("########发送之后userAccount:"+userAccount);
+		String code = (String) session.getAttribute(userAccount);
+		System.out.println("code:"+code);
+		//返回结果Map
+		Map<String, String> resultMap = new HashMap<>();
+		//Integer verificationCode = codeMap.get("emailVerificationCode");
+		if (Integer.valueOf(code) != Integer.valueOf(emailVerificationCode)) {
+			//输入的验证码不正确
+			System.out.println("验证码不正确");
+			resultMap.put("status", "0");
+			resultMap.put("message", "验证码不正确");
+		}else {
+			//验证码正确,修改账户密码
+			int status = loginService.updateUserPwd(Integer.valueOf(userAccount), newUserPwd);
+			System.out.println("status:" + status);
+			if (status == 1) {
+				//修改成功
+				session.removeAttribute(userAccount);
+				resultMap.put("status", "1");
+				resultMap.put("message", "修改成功！");
+			}else {
+				resultMap.put("status", "0");
+				resultMap.put("message", "修改失败！");
+			}
+			resultMap.put("status", String.valueOf(status));
+		}
+		return JSON.toJSONString(resultMap);
+	}
 	
 }
+
+
+
+
+
+
+
+
+

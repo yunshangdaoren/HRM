@@ -31,8 +31,9 @@
 .panel_resetPwd .panel .panel_body form div{
 	width:100%;
 }
-.panel_resetPwd .panel .panel_body #btn_submit{
+.panel_resetPwd .panel .panel_body #btn_submitRetrievePwd{
 	margin-left:225px;
+	font-size:16px;
 }
 .panel_resetPwd .panel .panel_body form input{
 	width:400px;
@@ -46,7 +47,7 @@
 	height:50px;
 	margin-left:34px;
 	line-height:30px;
-	font-size:16px;
+	font-size:15px;
 }
 
 
