@@ -98,9 +98,8 @@ public class LoginController {
 		codeMap.put("emailVerificationCode", emailVerificationCode);
 		//Session
 		HttpSession session = request.getSession();
-		System.out.println("########发送之前userAccount:"+userAccount);
 		//将验证码储存在Session里面
-		session.setAttribute(userAccount, String.valueOf(emailVerificationCode));
+		session.setAttribute(userAccount, codeMap);
 		//设置验证码有效期为10分钟
 		session.setMaxInactiveInterval(10*60);
 		//发送验证码
@@ -118,13 +117,15 @@ public class LoginController {
 	public String retrievePwd(String userAccount, String securityMail, String emailVerificationCode, String newUserPwd, HttpServletRequest request) {
 		//获取到储存在Session中的验证码
 		HttpSession session = request.getSession();
-		System.out.println("########发送之后userAccount:"+userAccount);
-		String code = (String) session.getAttribute(userAccount);
-		System.out.println("code:"+code);
+		//获取到储存的codeMap
+		Map<String, Integer> codeMap = (Map<String, Integer>) session.getAttribute(userAccount);
+		//获取到存储的邮箱验证码
+		Integer code = codeMap.get("emailVerificationCode");
+		System.out.println("存储的code:"+code);
+		System.out.println("接收的emailVerificationCode" + emailVerificationCode);
 		//返回结果Map
 		Map<String, String> resultMap = new HashMap<>();
-		//Integer verificationCode = codeMap.get("emailVerificationCode");
-		if (Integer.valueOf(code) != Integer.valueOf(emailVerificationCode)) {
+		if (code.intValue() != Integer.valueOf(emailVerificationCode).intValue()) {
 			//输入的验证码不正确
 			System.out.println("验证码不正确");
 			resultMap.put("status", "0");
@@ -132,7 +133,6 @@ public class LoginController {
 		}else {
 			//验证码正确,修改账户密码
 			int status = loginService.updateUserPwd(Integer.valueOf(userAccount), newUserPwd);
-			System.out.println("status:" + status);
 			if (status == 1) {
 				//修改成功
 				session.removeAttribute(userAccount);

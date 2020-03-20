@@ -105,6 +105,7 @@ $("#btn_submitRetrievePwd").click(function(){
 			success:function(result){
 				if(result.status==1){
 					alert("修改成功！");
+					$(".shadeDiv").hide();
 				}else{
 					alert(result.message);
 				}

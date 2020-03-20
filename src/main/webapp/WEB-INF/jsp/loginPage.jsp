@@ -124,12 +124,12 @@
   						</div>
       					<div class="form-group">
     						<div class="col-sm-12">
-      							<input type="text" name="newUserPwd" id="newUserPwd" placeholder="请输入新密码">
+      							<input type="password" name="newUserPwd" id="newUserPwd" placeholder="请输入新密码">
     						</div>
   						</div>
   						<div class="form-group">
     						<div class="col-sm-12">
-      							<input type="text" name="confirmPwd" id="confirmPwd" placeholder="请再次确认密码">
+      							<input type="password" name="confirmPwd" id="confirmPwd" placeholder="请再次确认密码">
     						</div>
   						</div>
   						<div class="form-group">
