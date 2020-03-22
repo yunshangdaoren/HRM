@@ -65,7 +65,7 @@ $("#btn_sendEmailVerificationCode").click(function(){
 	$("#btn_sendEmailVerificationCode").text("发送中...");
 	$("#btn_sendEmailVerificationCode").css("pointer-events","none");
 	$.ajax({ 
-		url:"/login/sendEmailVerificationCode?userAccount="+userAccount+"&securityMail="+securityMail,
+		url:"/login/sendEmailVerificationCode.do?userAccount="+userAccount+"&securityMail="+securityMail,
 		dataType:"json",
 		success:function(result){
 			if(result.status==1){
@@ -99,7 +99,7 @@ $("#btn_submitRetrievePwd").click(function(){
 	//调用方法判断两次输入的密码是否一致
 	if(retrievePwdFormEmptyCheck()){
 		$.ajax({
-			url:"/login/retrievePwd",
+			url:"/login/retrievePwd.do",
 			data:$("#form_retrievePwd").serialize(),
 			dataType:"json",
 			success:function(result){

@@ -1,0 +1,44 @@
+#leftNav{
+	width:170px;
+	height:620px;
+	background:black;
+	float:left;
+}
+.modu-head{
+	width: 170px;
+	height: 60px;
+	text-align: center;
+	background: #444;
+	cursor: pointer;
+	border-bottom:1px solid black;
+}
+.modu-head:hover{
+	background: #666;
+}
+.modu-head p{
+	color: white;
+	font-size:17px;
+	line-height:60px;
+	cursor: pointer;
+}
+.modu-content{
+	width: 100%;
+	display: none;
+}
+.modu-content .content-body{
+	width: 100%;
+	background: white;
+}
+.modu-content .content-body a{
+	display: block;
+	text-decoration: none;
+	color: black;
+	height: 45px;
+	line-height: 45px;
+	text-align: center;
+	border-bottom: 1px solid black;
+	font-size: 14px;
+}
+.modu-content .content-body a:hover{
+	background: #DDDDDD;
+}

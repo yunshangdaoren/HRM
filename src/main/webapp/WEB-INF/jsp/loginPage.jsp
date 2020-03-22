@@ -50,7 +50,7 @@
         <div class="container">
             <div class="col-md-6 content-center">
                 <div class="card card-login card-plain" style="width:410px;">
-                    <form class="form" action="/login/loginCheck"  method="get" onsubmit="return loginFormEmptyCheck()">
+                    <form class="form" action="/login/loginCheck.do"  method="get" onsubmit="return loginFormEmptyCheck()">
                         <div class="content" style="margin:0px;padding:0px;">
                             <div class="input-group form-group-no-border input-lg" style="margin-bottom:15px;">
                                 <span class="input-group-addon">

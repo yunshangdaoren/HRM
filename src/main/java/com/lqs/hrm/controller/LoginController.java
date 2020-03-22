@@ -32,7 +32,7 @@ public class LoginController {
 	 * 跳转到登录页面
 	 * @return
 	 */
-	@RequestMapping("loginPage")
+	@RequestMapping("loginPage.do")
 	public String loginPage() {
 		return "loginPage";
 	}
@@ -45,13 +45,13 @@ public class LoginController {
 	 * @param map
 	 * @return
 	 */
-	@RequestMapping("loginCheck")
+	@RequestMapping("loginCheck.do")
 	public String loginCheck(User u, HttpServletRequest request,HttpServletResponse response, ModelMap map ) {
 		User user = loginService.getUser(u.getUserAccount(), u.getUserPwd());
 		if (user == null) {
 			//无该用户
 			map.put("erro_loginFail", "账号或密码错误!");
-			return "loginPage";
+			return "loginPage.do";
 		}else {
 			//查询到该用户
 			HttpSession session = request.getSession();
@@ -76,7 +76,7 @@ public class LoginController {
 					}
 				}
 			}
-			return "redirect:/hello";
+			return "redirect:/department/departmentIndex.do";
 		}
 	}
 	
@@ -86,7 +86,7 @@ public class LoginController {
 	 * @param securityMail
 	 * @return
 	 */
-	@RequestMapping("sendEmailVerificationCode")
+	@RequestMapping("sendEmailVerificationCode.do")
 	@ResponseBody
 	public String sendEmailVerificationCode(String userAccount, String securityMail, HttpServletRequest request) {
 		//获取到随机6位数验证码
@@ -112,7 +112,7 @@ public class LoginController {
 	 * 找回密码
 	 * @return
 	 */
-	@RequestMapping("retrievePwd")
+	@RequestMapping("retrievePwd.do")
 	@ResponseBody
 	public String retrievePwd(String userAccount, String securityMail, String emailVerificationCode, String newUserPwd, HttpServletRequest request) {
 		//获取到储存在Session中的验证码
