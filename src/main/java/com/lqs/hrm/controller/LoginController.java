@@ -1,14 +1,11 @@
 package com.lqs.hrm.controller;
 
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -61,6 +58,8 @@ public class LoginController {
 				//记住账户密码
 				Cookie cookieUserAccount = new Cookie("userAccount", String.valueOf(u.getUserAccount()));
 				Cookie cookieUserPwd = new Cookie("userPwd", String.valueOf(u.getUserPwd()));
+				cookieUserAccount.setMaxAge(30*24*60*60);
+				cookieUserPwd.setMaxAge(30*24*60*60);
 				response.addCookie(cookieUserAccount);
 				response.addCookie(cookieUserPwd);
 			}else {

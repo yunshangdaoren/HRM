@@ -10,6 +10,7 @@
 	<script type="text/javascript" src="/static/bootstrap/js/bootstrap.min.js"></script>
 	<link rel="stylesheet" href="/static/css/base.css" />
 	<link rel="stylesheet" href="/static/css/leftNav.css" />
+	<script type="text/javascript" src="/static/js/base.js"></script>
 </head>
 <body>
 <div id="leftNav">
@@ -19,8 +20,8 @@
 		</div>
 		<div class="modu-content">
 			<div class="content-body">
-				<a href="${pageContext.request.contextPath}/saleChance/listNotDisSC.do" >部门详情</a>
-				<a href="${pageContext.request.contextPath}/saleChance/toAddSC.do" >职位变动</a>
+				<a href="/saleChance/listNotDisSC.do" >部门详情</a>
+				<a href="/saleChance/toAddSC.do" >职位变动</a>
 			</div>
 		</div>
 	</div>
@@ -82,12 +83,12 @@
 			</div>
 			<div class="modu-content">
 				<div class="content-body">
-					<a href="${pageContext.request.contextPath}/user/listSaleManager.do" >系统用户列表</a>
-					<a href="${pageContext.request.contextPath}/user/toAddUser.do" >创建系统用户</a>
+					<a href="/user/listSaleManager.do" >系统用户列表</a>
+					<a href="/user/toAddUser.do" >创建系统用户</a>
 				</div>
 			</div>
 		</div>	
 </div>
-<script type="text/javascript" src="${pageContext.request.contextPath }/js/leftNav.js"></script>
+<script type="text/javascript" src="/static/js/leftNav.js"></script>
 </body>
 </html>
