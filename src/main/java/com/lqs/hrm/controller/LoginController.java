@@ -51,7 +51,7 @@ public class LoginController {
 		if (user == null) {
 			//无该用户
 			map.put("erro_loginFail", "账号或密码错误!");
-			return "loginPage.do";
+			return "forward:/login/loginPage.do";
 		}else {
 			//查询到该用户
 			HttpSession session = request.getSession();
@@ -78,6 +78,17 @@ public class LoginController {
 			}
 			return "redirect:/department/departmentIndex.do";
 		}
+	}
+	
+	/**
+	 * 退出登录
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("logout.do")
+	public String logout(HttpServletRequest request) {
+		request.getSession().invalidate();
+		return "redirect:/login/loginPage.do";
 	}
 	
 	/**

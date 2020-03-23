@@ -5,7 +5,7 @@
   <context id="context1" targetRuntime="MyBatis3" defaultModelType="flat">
   	<!-- 数据库连接 -->
     <jdbcConnection connectionURL="jdbc:mysql://localhost:3306/hrm?useUnicode=true&amp;characterEncoding=utf-8&amp;
-    	useSSL=false&amp;serverTimezone=Asia/Shanghai" 
+    	useSSL=false&amp;allowPublicKeyRetrieval=true&amp;serverTimezone=Asia/Shanghai" 
     	driverClass="com.mysql.cj.jdbc.Driver" password="root" userId="root" />
     <!-- Java实体类所在包名称和项目名称 -->
     <javaModelGenerator targetPackage="com.lqs.hrm.entity" targetProject="HRM/src/main/java" />

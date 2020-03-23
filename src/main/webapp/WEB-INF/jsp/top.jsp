@@ -14,7 +14,7 @@
 		<li><a href="#">联系管理员</a></li>
 		<li class="divider"></li>
 		<li><a href="#">帮助</a></li>
-		<li><a href="/login/logout">退出登录</a></li>
+		<li><a href="/login/logout.do">退出登录</a></li>
 	</ul>
 </div>
 </div>
