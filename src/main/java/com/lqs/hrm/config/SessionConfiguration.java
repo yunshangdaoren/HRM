@@ -14,7 +14,7 @@ public class SessionConfiguration implements WebMvcConfigurer{
 	/**
 	 * 注册拦截器
 	 */
-	@Override
+	@Override 
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(new ApiInterceptor())
 		.addPathPatterns("/**")
