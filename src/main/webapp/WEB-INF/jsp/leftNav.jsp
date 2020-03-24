@@ -10,7 +10,8 @@
 	<script type="text/javascript" src="/static/bootstrap/js/bootstrap.min.js"></script>
 	<link rel="stylesheet" href="/static/css/base.css" />
 	<link rel="stylesheet" href="/static/css/leftNav.css" />
-	<script type="text/javascript" src="/static/js/base.js"></script>
+	<link href="/static/css/shadeDiv.css" rel="stylesheet" />
+	<script type="text/javascript" src="/static/js/top.js"></script>
 </head>
 <body>
 <div id="leftNav">
@@ -90,5 +91,6 @@
 		</div>	
 </div>
 <script type="text/javascript" src="/static/js/leftNav.js"></script>
+<script type="text/javascript" src="/static/js/shadeDiv.js"></script>
 </body>
 </html>

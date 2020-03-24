@@ -11,6 +11,7 @@ function loginFormEmptyCheck(){
 		$("#userPwd").focus();
 		return false;
 	}
+	return true;
 }
 //重置密码登录页面非空判断
 function retrievePwdFormEmptyCheck(){
@@ -46,10 +47,9 @@ function retrievePwdFormEmptyCheck(){
 	}
 	//两次密码是否一致判断
 	if($("#newUserPwd").val()!=$("#confirmPwd").val()){
-		alert("两次密码不一致！");
+		alert("新密码和确认密码不一致！");
 		return false;
 	}
-	
 	//上面判断无误则返回true
 	return true;
 }
@@ -68,8 +68,8 @@ $("#btn_sendEmailVerificationCode").click(function(){
 		url:"/login/sendEmailVerificationCode.do?userAccount="+userAccount+"&securityMail="+securityMail,
 		dataType:"json",
 		success:function(result){
-			if(result.status==1){
-				alert("邮件发送成功！");
+			if(result.statusCode==1){
+				alert(result.message);
 				resendTime(30);
 			}else{
 				alert("邮件发送失败！");
@@ -93,7 +93,6 @@ function resendTime(wait) {
 		1000)
 	}
 }
-
 //提交重置密码点击事件
 $("#btn_submitRetrievePwd").click(function(){
 	//调用方法判断两次输入的密码是否一致
@@ -103,8 +102,8 @@ $("#btn_submitRetrievePwd").click(function(){
 			data:$("#form_retrievePwd").serialize(),
 			dataType:"json",
 			success:function(result){
-				if(result.status==1){
-					alert("修改成功！");
+				if(result.statusCode==1){
+					alert(result.message);
 					$(".shadeDiv").hide();
 				}else{
 					alert(result.message);
@@ -112,5 +111,30 @@ $("#btn_submitRetrievePwd").click(function(){
 			}
 		});
 	}
+});
+//登录
+$("#loginSubmit").click(function(){
+	if(loginFormEmptyCheck()){
+		$.ajax({
+			url:"/login/loginCheck.do",
+			data:$("#form_login").serialize(),
+			dataType:"json",
+			type:"get",
+			success:function(result){
+				if(result.statusCode==1){
+					//登录成功后页面跳转
+					window.location.href=result.url;
+				}else{
+					alert(result.message);
+					$(".p_erroLoginFail").text(result.message);
+					$(".p_erroLoginFail").show();
+				}
+			}
+		});
+	}
+});
+//输入框内容改变时，将错误提示隐藏
+$("input").change(function(){
+	$(".p_erroLoginFail").hide();
 });
 

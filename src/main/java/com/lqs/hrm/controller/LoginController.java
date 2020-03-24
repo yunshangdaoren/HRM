@@ -8,22 +8,24 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSON;
 import com.lqs.hrm.entity.User;
-import com.lqs.hrm.service.LoginService;
-import com.lqs.hrm.service.mail.impl.MailServiceImpl;
+import com.lqs.hrm.service.impl.LoginServiceImpl;
+import com.lqs.hrm.service.impl.MailServiceImpl;
+import com.lqs.hrm.service.impl.UserServiceImpl;
 import com.lqs.hrm.util.RandomNumberUtil;
 
 @Controller
 @RequestMapping("login")
 public class LoginController {
 	@Autowired
-	private LoginService loginService;
+	private LoginServiceImpl loginService;
 	@Autowired
 	private MailServiceImpl mailService;
+	@Autowired
+	private UserServiceImpl userService;
 	
 	/**
 	 * 跳转到登录页面
@@ -43,17 +45,20 @@ public class LoginController {
 	 * @return
 	 */
 	@RequestMapping("loginCheck.do")
-	public String loginCheck(User u, HttpServletRequest request,HttpServletResponse response, ModelMap map ) {
+	@ResponseBody
+	public String loginCheck(User u, HttpServletRequest request,HttpServletResponse response) {
+		//返回结果Map
+		Map<String, Object> resultMap = new HashMap<>();
 		User user = loginService.getUser(u.getUserAccount(), u.getUserPwd());
 		if (user == null) {
 			//无该用户
-			map.put("erro_loginFail", "账号或密码错误!");
-			return "forward:/login/loginPage.do";
+			resultMap.put("statusCode", "0");
+			resultMap.put("message", "账号或密码错误!");
 		}else {
 			//查询到该用户
 			HttpSession session = request.getSession();
 			session.setAttribute("session_loginUser", user);
-			session.setMaxInactiveInterval(60*60);
+			session.setMaxInactiveInterval(24*60*60);
 			if (u.getRememberPwd()!=null && u.getRememberPwd()==true) {
 				//记住账户密码
 				Cookie cookieUserAccount = new Cookie("userAccount", String.valueOf(u.getUserAccount()));
@@ -75,8 +80,11 @@ public class LoginController {
 					}
 				}
 			}
-			return "redirect:/department/departmentIndex.do";
+			resultMap.put("statusCode", "1");
+			resultMap.put("message", "登录成功!");
+			resultMap.put("url", "http://localhost:8080/department/departmentIndex.do");
 		}
+		return JSON.toJSONString(resultMap);
 	}
 	
 	/**
@@ -114,7 +122,8 @@ public class LoginController {
 		session.setMaxInactiveInterval(10*60);
 		//发送验证码
 		mailService.sendSimpleMail(securityMail, "找回密码", "这是一封找回密码的邮件，您的验证码为"+emailVerificationCode+",验证码有效期为10分钟。");
-		resultMap.put("status", "1");
+		resultMap.put("statusCode", "1");
+		resultMap.put("message", "发送成功！");
 		return JSON.toJSONString(resultMap);
 	}
 	
@@ -131,28 +140,24 @@ public class LoginController {
 		Map<String, Integer> codeMap = (Map<String, Integer>) session.getAttribute(userAccount);
 		//获取到存储的邮箱验证码
 		Integer code = codeMap.get("emailVerificationCode");
-		System.out.println("存储的code:"+code);
-		System.out.println("接收的emailVerificationCode" + emailVerificationCode);
 		//返回结果Map
 		Map<String, String> resultMap = new HashMap<>();
 		if (code.intValue() != Integer.valueOf(emailVerificationCode).intValue()) {
 			//输入的验证码不正确
-			System.out.println("验证码不正确");
-			resultMap.put("status", "0");
+			resultMap.put("statusCode", "0");
 			resultMap.put("message", "验证码不正确");
 		}else {
 			//验证码正确,修改账户密码
-			int status = loginService.updateUserPwd(Integer.valueOf(userAccount), newUserPwd);
+			int status = userService.updateUserPwd(Integer.valueOf(userAccount), newUserPwd);
 			if (status == 1) {
 				//修改成功
 				session.removeAttribute(userAccount);
-				resultMap.put("status", "1");
+				resultMap.put("statusCode", "1");
 				resultMap.put("message", "修改成功！");
 			}else {
-				resultMap.put("status", "0");
+				resultMap.put("statusCode", "0");
 				resultMap.put("message", "修改失败！");
 			}
-			resultMap.put("status", String.valueOf(status));
 		}
 		return JSON.toJSONString(resultMap);
 	}

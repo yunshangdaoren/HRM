@@ -1,4 +1,4 @@
-package com.lqs.hrm.service.mail;
+package com.lqs.hrm.service;
 
 /**
  * 邮件Service接口

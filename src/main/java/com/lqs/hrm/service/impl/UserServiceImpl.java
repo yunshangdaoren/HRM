@@ -1,4 +1,4 @@
-package com.lqs.hrm.service;
+package com.lqs.hrm.service.impl;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import com.lqs.hrm.entity.UserExample;
 import com.lqs.hrm.mapper.UserMapper;
 
 @Service
-public class UserService {
+public class UserServiceImpl {
 	@Autowired
 	private UserMapper userMapper;
 	

@@ -1,4 +1,4 @@
-package com.lqs.hrm.service.mail.impl;
+package com.lqs.hrm.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -6,7 +6,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
-import com.lqs.hrm.service.mail.MailService;
+import com.lqs.hrm.service.MailService;
 
 @Service
 public class MailServiceImpl implements MailService {

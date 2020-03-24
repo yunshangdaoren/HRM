@@ -49,7 +49,7 @@
         <div class="container">
             <div class="col-md-6 content-center">
                 <div class="card card-login card-plain" style="width:410px;">
-                    <form class="form" action="/login/loginCheck.do"  method="get" onsubmit="return loginFormEmptyCheck()">
+                    <form class="form" id="form_login">
                         <div class="content" style="margin:0px;padding:0px;">
                             <div class="input-group form-group-no-border input-lg" style="margin-bottom:15px;">
                                 <span class="input-group-addon">
@@ -64,8 +64,8 @@
                                 <input type="password" id="userPwd" name="userPwd" placeholder="Enter your password..." class="form-control" value="<%=password %>" />
                             </div>
                         </div>
-                        <!-- 如果登录不成功，则提示用户，>账户或密码错误 -->
-                        <p style="color:red;font-size:16px;margin:0px;padding:0px;">${erro_loginFail }</p>
+                        <!-- 如果登录不成功，则提示用户，账户或密码错误 -->
+                        <p class="p_erroLoginFail" style="color:red;font-size:16px;margin:0px;padding:0px;"></p>
                         <div class="footer text-center" style="padding-top:0px;">
                         	<div>
                         		<div style="float:left;width:50%;text-align: center;">
@@ -75,7 +75,7 @@
                         			<span class="span_fogetPwd">忘记密码？</span>
                         		</div>
                         	</div>
-                            <input style="margin-top:4px;" type="submit" id="loginSubmit" class="btn btn-primary btn-round btn-lg btn-block" value="登录"/>
+                            <input style="margin-top:4px;" type="button" id="loginSubmit" class="btn btn-primary btn-round btn-lg btn-block" value="登录"/>
                         </div>
                     </form>
                 </div>
@@ -143,6 +143,7 @@
 	</div>
 	
 </body>
+<script type="text/javascript" src="/static/js/jquery.min.js"></script>
 <script type="text/javascript" src="/static/js/loginPage.js"></script> 
 <script type="text/javascript" src="/static/js/shadeDiv.js"></script> 
 <!--   Core JS Files   -->

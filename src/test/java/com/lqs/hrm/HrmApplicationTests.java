@@ -5,13 +5,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.lqs.hrm.entity.User;
-import com.lqs.hrm.service.LoginService;
-import com.lqs.hrm.service.mail.impl.MailServiceImpl;
+import com.lqs.hrm.service.impl.LoginServiceImpl;
+import com.lqs.hrm.service.impl.MailServiceImpl;
 
 @SpringBootTest
 class HrmApplicationTests {
 	@Autowired 
-	private LoginService service;
+	private LoginServiceImpl service;
 	@Autowired
 	private MailServiceImpl mailService;
 

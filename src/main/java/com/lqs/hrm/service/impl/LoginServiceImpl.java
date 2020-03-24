@@ -1,4 +1,4 @@
-package com.lqs.hrm.service;
+package com.lqs.hrm.service.impl;
 
 import java.util.List;
 
@@ -10,16 +10,13 @@ import com.lqs.hrm.entity.UserExample;
 import com.lqs.hrm.mapper.UserMapper;
 
 @Service
-public class LoginService {
+public class LoginServiceImpl {
 	@Autowired
-	private UserService userService;
+	private UserServiceImpl userService;
 	
 	public User getUser(Integer userAccount, String userPwd) {
 		return userService.getUser(userAccount, userPwd);
 	}
 	
-	public int updateUserPwd(Integer userAccount, String newUserPwd) {
-		return userService.updateUserPwd(userAccount, newUserPwd);
-	}
 	
 }
