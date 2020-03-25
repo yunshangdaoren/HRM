@@ -84,6 +84,7 @@
 			</div>
 			<div class="modu-content">
 				<div class="content-body">
+					<a href="/user/toAddUser.do" >消息管理</a>
 					<a href="/user/listSaleManager.do" >系统用户列表</a>
 					<a href="/user/toAddUser.do" >创建系统用户</a>
 				</div>

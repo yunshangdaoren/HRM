@@ -1,6 +1,7 @@
 #leftNav{
 	width:140px;
-	height:620px;
+	height:100%;
+	min-height:620px;
 	background:black;
 	float:left;
 }

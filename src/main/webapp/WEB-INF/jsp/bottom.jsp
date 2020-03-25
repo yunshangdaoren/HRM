@@ -5,3 +5,4 @@
 		<script>document.write(new Date().getFullYear())</script> luckylas@163.com All Rights Reserved
 	</span>
 </div>
+<script type="text/javascript" src="/static/js/base.js"></script>

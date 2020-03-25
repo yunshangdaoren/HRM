@@ -5,8 +5,12 @@
 //-->
 </script>
 <div id="top">
-	<div class="div_title">HRM管理系统<span></span></div>
-	<span>欢迎账户：${session_loginUser.userAccount }(${session_loginUser.userName })</span>
+	<div class="div-title">
+		<span>HRM管理系统</span>
+	</div>
+	<div class="div-date">
+		<span class="span-date"></span>
+	</div>
 	<div class="btn-group">
 		<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
 			设置 <span class="caret"></span>
@@ -17,10 +21,17 @@
 			<li><a href="#">联系管理员</a></li>
 			<li class="divider"></li>
 			<li><a href="#">帮助</a></li>
-			<li><a class="a_logout" href="/login/logout.do">退出登录</a></li>
+			<li><a class="a-logout" href="/login/logout.do">退出登录</a></li>
 		</ul>
 	</div>
-	<img id="img_headPortrait" src="/static/img/head.jpg" alt="头像" class="img-circle">
+	<div class="div-news">
+		<img title="未读消息" src="/static/img/news-white.png" class="img-news">
+		<b class="b-newsAlt"></b>
+	</div>
+	<div class="div-userInfo">
+		<img id="img-headPortrait" src="/static/img/head.jpg" alt="头像" class="img-circle">
+		<span>账户:${session_loginUser.userAccount }</span>
+	</div>
 </div>
 
   <!-- 遮罩层，用于修改密码 -->

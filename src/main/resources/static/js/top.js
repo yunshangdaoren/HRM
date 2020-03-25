@@ -57,3 +57,20 @@ $("#btn_submitChangeUserPwd").click(function(){
 $("#currentUserPwd").change(function(){
 	$(".span_erroCurrentPwd").hide();
 });
+//显示日期
+var date = new Date();   
+var year = date.getFullYear();    //获取当前年份   
+var mon = date.getMonth()+1;      //获取当前月份   
+var day = date.getDate();          //获取当前日   
+var week = date.getDay();          //获取当前星期几   
+var weeks = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
+$(".span-date").text(year+'-'+mon+'-'+day+' '+weeks[week]);  
+    
+//未读消息
+$(".img-news").mouseover(function(){
+	//alert("移入");
+	$(".img-news").attr("src","/static/img/news-dark.png");
+}).mouseout(function () {
+	$(".img-news").attr("src","/static/img/news-white.png");
+});
+

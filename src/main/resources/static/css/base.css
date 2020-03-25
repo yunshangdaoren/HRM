@@ -2,6 +2,9 @@
 	margin:0px;
 	padding:0px;
 }
+html, body{
+	height:100%;
+}
 #top,#bottom{
 	width:100%;
 	background:black;
@@ -9,12 +12,36 @@
 /* 顶部导航栏样式 */
 #top{
 	height:65px;
+	min-width:1380px;
+	user-select:none;
+}
+#top .div-title{
+	height:65px;
+	float:left;
+}
+#top .div-title span{
+	color:#FF0000;
+	font-size:32px;
+	line-height:65px;
+	margin-left:8px;
 }
 #top span{
 	color:white;
 	font-size:15px;
 	line-height:65px;
-	margin-left:10px;
+}
+#top .div-date{
+	width:auto;
+	height:65px;
+	float:left;
+}
+#top .div-date span{
+	position:absolute;
+	color:white;
+	line-height:0px;
+	font-size:15px;
+	margin-left:8px;
+	margin-top:45px;
 }
 #top .btn-group{
 	line-height:65px;
@@ -22,14 +49,44 @@
 	margin-top:14px;
 	margin-right:15px;
 }
-
-#top #img_headPortrait{
+#top .div-userInfo{
+	float:right;
+	margin-right:16px;
+}
+#top .div-userInfo span{
+	line-height:65px;
+}
+#top .div-userInfo #img-headPortrait{
 	width:52px;
 	height:52px;
+	line-height:65px;
 	background-size:cover;
+}
+#top .div-news{
+	height:65px;
 	float:right;
-	margin-top:6px;
-	margin-right:10px;
+	margin-right:16px;
+}
+/* 消息提示图片小红点 */
+#top .div-news .img-news{
+	width:32px;
+	height:32px;
+	line-height:65px;
+	margin-top:17px;
+}
+#top .div-news .img-news:hover{
+	cursor:pointer;
+	src:/static/img/news-dark.png
+}
+/* 消息提示小红点 */
+#top .div-news .b-newsAlt{
+	width:12px;
+	height:12px;
+	background-color:red;
+	position:absolute;
+	margin-left:-13px;
+	margin-top:14px;
+	border-radius:10px;
 }
 /* 修改密码弹出框样式 */
 .shadeDiv .panel_changeUserPwd{
@@ -87,16 +144,17 @@
 	min-width:1380px;
 	max-width:100%;
 	min-height:620px;
-	max-height:auto;
 	overflow: hidden;
 }
 #right{
-	width:1200px;
+	min-width:1220px;
 	height:auto;
 	position: relative;
-	left: 20px;
+	left: 10px;
+	right:10px;
 	float:left;
 	padding-top:15px;
+	background-color:red;
 }
 
 #right .title{
@@ -115,7 +173,8 @@
 }
 /* 底部栏样式 */
 #bottom{
-	width:100%;
+	min-width:1380px;
+	max-width:100%;
 	height:80px;
 	text-align:center;
 	color:#888;
