@@ -8,6 +8,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.lqs.hrm.interceptor.ApiInterceptor;
 
+/**
+ * 拦截器配置
+ * @author Administrator
+ *
+ */
 @Configuration
 public class SessionConfiguration implements WebMvcConfigurer{
 	

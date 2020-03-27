@@ -8,6 +8,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+/**
+ * 请求拦截器
+ * @author Administrator
+ *
+ */
 @Component
 public class ApiInterceptor implements HandlerInterceptor{
 	
@@ -21,7 +26,6 @@ public class ApiInterceptor implements HandlerInterceptor{
 			System.out.println("用户不存在");
 			return true;
 		}
-		System.out.println("用户存在");
 		return true;
 	}
 	

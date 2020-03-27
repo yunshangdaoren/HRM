@@ -2,6 +2,11 @@ package com.lqs.hrm.entity;
 
 import java.util.Date;
 
+/**
+ * 用户实体类
+ * @author Administrator
+ *
+ */
 public class User {
 
 	/**
