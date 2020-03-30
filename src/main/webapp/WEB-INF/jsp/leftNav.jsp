@@ -22,7 +22,8 @@
 		<div class="modu-content">
 			<div class="content-body">
 				<a href="/saleChance/listNotDisSC.do" >部门详情</a>
-				<a href="/saleChance/toAddSC.do" >职位变动</a>
+				<a href="/saleChance/listNotDisSC.do" >部门管理</a>
+				<a href="/saleChance/listNotDisSC.do" >职位管理</a>
 			</div>
 		</div>
 	</div>
@@ -87,6 +88,7 @@
 					<a href="/user/toAddUser.do" >消息管理</a>
 					<a href="/user/listSaleManager.do" >系统用户列表</a>
 					<a href="/user/toAddUser.do" >创建系统用户</a>
+					<a href="/user/toAddUser.do" >权限管理</a>
 				</div>
 			</div>
 		</div>	
