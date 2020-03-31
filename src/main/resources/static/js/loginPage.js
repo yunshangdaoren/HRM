@@ -13,7 +13,7 @@ function loginFormEmptyCheck(){
 	}
 	return true;
 }
-//重置密码登录页面非空判断
+//重置密码登录弹出层非空判断
 function retrievePwdFormEmptyCheck(){
 	if($("#find_UserAccount").val()==''){
 		alert("账户不能为空！");
@@ -57,6 +57,10 @@ function retrievePwdFormEmptyCheck(){
 //显示重置密码遮罩层
 $(".span_fogetPwd").click(function(){
 	$(".shadeDiv").show();
+});
+//关闭重置密码遮罩层
+$("#btn_hideShadeDiv").click(function(){
+	$(".shadeDiv").hide();
 });
 //发送验证码点击事件
 $("#btn_sendEmailVerificationCode").click(function(){

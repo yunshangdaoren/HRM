@@ -10,19 +10,28 @@
 	<script type="text/javascript" src="/static/bootstrap/js/bootstrap.min.js"></script>
 	<link rel="stylesheet" href="/static/css/base.css" />
 	<link rel="stylesheet" href="/static/css/leftNav.css" />
-	<link href="/static/css/shadeDiv.css" rel="stylesheet" />
+	<link rel="stylesheet" href="/static/css/top.css" />
 	<script type="text/javascript" src="/static/js/top.js"></script>
 </head>
 <body>
+
+<!-- 左侧导航栏 -->
 <div id="leftNav">
+	<div class="modu">
+		<div class="modu-head">
+			<p>工作台</p>
+		</div>
+		<div class="modu-content">
+		</div>
+	</div>
 	<div class="modu">
 		<div class="modu-head">
 			<p>组织架构管理</p>
 		</div>
 		<div class="modu-content">
 			<div class="content-body">
-				<a href="/saleChance/listNotDisSC.do" >部门详情</a>
-				<a href="/saleChance/listNotDisSC.do" >部门管理</a>
+				<a href="/department/departmentDetail.do" >部门详情</a>
+				<a href="/department/departmentManage.do" >部门管理</a>
 				<a href="/saleChance/listNotDisSC.do" >职位管理</a>
 			</div>
 		</div>
@@ -94,6 +103,5 @@
 		</div>	
 </div>
 <script type="text/javascript" src="/static/js/leftNav.js"></script>
-<script type="text/javascript" src="/static/js/shadeDiv.js"></script>
 </body>
 </html>

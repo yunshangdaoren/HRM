@@ -1,9 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!--
-
-//-->
-</script>
 <div id="top">
 	<div class="div-title">
 		<span>HRM管理系统</span>
@@ -34,13 +30,15 @@
 	</div>
 </div>
 
-  <!-- 遮罩层，用于修改密码 -->
-	<div class="shadeDiv">
-		<div class="panel_changeUserPwd">
+<!-- 遮罩层 -->
+<div class="shadeDiv"></div>
+
+	<!-- 弹出层，用于修改密码 -->
+	<div class="panel_changeUserPwd">
 			<div class="panel">
     			<div class="panel-heading">
     				<label>修改密码</label>
-    				<button id="btn_hideShadeDiv" type="button" class="btn btn-success">退出</button>
+    				<button id="btn_hidePanelChangeUserPwd" type="button" class="btn btn-success">退出</button>
     			</div>
     			<div class="panel_body">
     				<form id="form_changeUserPwd">
@@ -60,4 +58,12 @@
     			</div>
 			</div>
 		</div>
-	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	

@@ -141,7 +141,6 @@
 			</div>
 		</div>
 	</div>
-	
 </body>
 <script type="text/javascript" src="/static/js/jquery.min.js"></script>
 <script type="text/javascript" src="/static/js/loginPage.js"></script> 

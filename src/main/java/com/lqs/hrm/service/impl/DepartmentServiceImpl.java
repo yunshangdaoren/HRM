@@ -3,13 +3,15 @@ package com.lqs.hrm.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.lqs.hrm.entity.Department;
 import com.lqs.hrm.entity.DepartmentExample;
 import com.lqs.hrm.mapper.DepartmentMapper;
 import com.lqs.hrm.service.DepartmentService;
 
-public class DeptServiceImpl implements DepartmentService{
+@Service
+public class DepartmentServiceImpl implements DepartmentService{
 	@Autowired
 	private DepartmentMapper departmentMapper;
 	
@@ -24,15 +26,21 @@ public class DeptServiceImpl implements DepartmentService{
 		example.createCriteria().andDeptIdIsNotNull();
 		return departmentMapper.selectByExample(example);
 	}
-	
+
 	@Override
-	public List<Department> list(String deptName) {
-		
+	public Department get(String deptName) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<Department> list(String deptName, Integer deptLevel) {
+	public List<Department> listByManageEmpJobId(Integer manageEmpjobid) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Department> list(String deptName, Integer manageEmpjobid, Integer deptLevel) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -56,9 +64,10 @@ public class DeptServiceImpl implements DepartmentService{
 
 	@Override
 	public int delte(Integer deptId) {
-		
+		// TODO Auto-generated method stub
 		return 0;
 	}
+	
 
 
 }

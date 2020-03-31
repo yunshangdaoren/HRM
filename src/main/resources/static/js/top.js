@@ -1,10 +1,16 @@
-//退出
+//退出登录
 $(".a_logout").click(function(){
 	
 });
-//显示修改密码弹出框
+//显示修改密码弹出层
 $(".a_changeUserPwd").click(function(){
 	$(".shadeDiv").show();
+	$(".panel_changeUserPwd").show();
+});
+//关闭修改密码弹出层
+$("#btn_hidePanelChangeUserPwd").click(function(){
+	$(".shadeDiv").hide();
+	$(".panel_changeUserPwd").hide();
 });
 //修改密码对话框非空判断
 function changeUserPwdFormEmptyCheck(){

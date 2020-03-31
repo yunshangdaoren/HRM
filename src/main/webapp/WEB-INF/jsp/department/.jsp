@@ -12,7 +12,7 @@
 	<div id="center">
 		<%@ include file="../leftNav.jsp" %>
 		<div id="right">
-			<span class="title">部门详情</span>
+			<span class="title">部门管理</span>
 			<div class="div_search">
 				<form class="form-inline">
   					<div class="form-group">
@@ -85,7 +85,6 @@
 		</div>
 	</div>
 	<%@ include file="../bottom.jsp" %>
-	
 	
 </body>
 </html>

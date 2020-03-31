@@ -9,6 +9,18 @@
 	cursor: pointer;
 	color: red;
 }
+/* 遮罩层样式  */
+.shadeDiv{
+	display:none;
+	position:absolute;
+	top:0px;
+	left:0px;
+	width:100%;
+	height:100%;
+	background:rgba(0, 0, 0, 0.4);
+	line-height:100%;
+	z-index:2;
+}
 .panel_resetPwd{
 	width: 520px;
 	height: 450px;
@@ -17,6 +29,38 @@
 	margin-top:200px;
 	background-color:#fff;
 	z-index:6;
+}
+.panel_resetPwd .panel{
+	width:100%;
+	height:100%;
+	border:0px;
+	border-radius:0px;
+}
+.panel_resetPwd .panel .panel-heading{
+	background-color:#0085DD;
+	height:46px;
+	padding:0px;
+	border-radius:0px;
+}
+.panel_resetPwd .panel .panel-heading label{
+	font-size:18px;
+	line-height:46px;
+	color:#FFF;
+	font-weight:500;
+	margin-left:5px;
+}
+.panel_resetPwd .panel .panel_body #form_retrievePwd .form-group{
+	margin-left:0px;
+	margin-right:0px;
+}
+.panel_resetPwd .panel .panel-heading #btn_hideShadeDiv{
+	float:right;
+	height:38px;
+	margin-top:4px;
+	margin-right:3px;
+	font-size:16px;
+	text-align:center;
+	line-height:15px;
 }
 .panel_resetPwd .panel .panel_body{
 	width:100%;
