@@ -36,12 +36,22 @@ public class DepartmentController {
 	@RequestMapping("addDepartment.do")
 	public String add(Department department, HttpServletRequest request, HttpServletResponse response) {
 		Map<String, Object> resultMap = new HashMap<>();
-		String deptLevel = request.getParameter("level");
-		String parentDeptName = request.getParameter("parentDeptName");
-		String deptManageName = request.getParameter("deptManageName");
-		String deptStatus = request.getParameter("status");
 		
+		String deptLevelStr = request.getParameter("level");
+		String parentDeptNameStr = request.getParameter("parentDeptName");
+		String deptManageNameStr = request.getParameter("deptManageName");
+		String deptStatusStr = request.getParameter("status");
 		
+		//部门级别
+		int deptLevel = departmentLevelService.get(Integer.parseInt(deptLevelStr)).getLevel();
+		//上级部门id
+		int parentId = 0;
+		if (parentDeptNameStr != null || !"".equals(parentDeptNameStr)) {
+			Department parentDepartment = departmentService.get(parentDeptNameStr);
+			parentId = parentDepartment.getDeptId();
+		}
+		//部门主管工号
+		int manageEmpjobid = 0;
 		
 		
 		//departmentService.insert(department);

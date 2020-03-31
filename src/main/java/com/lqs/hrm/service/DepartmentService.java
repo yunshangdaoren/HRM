@@ -16,6 +16,12 @@ public interface DepartmentService {
 	 * @return
 	 */
 	Department get(Integer deptId);
+	
+	/**
+	 * 通过部门名称获取部门信息
+	 * @param deptName
+	 * @return
+	 */
 	Department get(String deptName);
 	List<Department> list();
 	List<Department> listByManageEmpJobId(Integer manageEmpjobid);

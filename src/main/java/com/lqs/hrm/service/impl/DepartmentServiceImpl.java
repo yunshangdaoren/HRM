@@ -15,11 +15,17 @@ public class DepartmentServiceImpl implements DepartmentService{
 	@Autowired
 	private DepartmentMapper departmentMapper;
 	
+	/**
+	 * 通过部门id查询部门信息
+	 */
 	@Override
 	public Department get(Integer deptId) {
 		return departmentMapper.selectByPrimaryKey(deptId);
 	}
 
+	/**
+	 * 获取所有部门信息
+	 */
 	@Override
 	public List<Department> list() {
 		DepartmentExample example = new DepartmentExample();
@@ -27,10 +33,18 @@ public class DepartmentServiceImpl implements DepartmentService{
 		return departmentMapper.selectByExample(example);
 	}
 
+	/**
+	 * 通过部门名称获取部门信息
+	 */
 	@Override
 	public Department get(String deptName) {
-		// TODO Auto-generated method stub
-		return null;
+		DepartmentExample example = new DepartmentExample();
+		example.createCriteria().andDeptNameEqualTo(deptName);
+		if(departmentMapper.selectByExample(example).size() == 0) {
+			return null;
+		}else {
+			return departmentMapper.selectByExample(example).get(0);
+		}
 	}
 
 	@Override
