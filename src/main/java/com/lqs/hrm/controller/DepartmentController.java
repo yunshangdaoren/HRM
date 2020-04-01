@@ -40,10 +40,10 @@ public class DepartmentController {
 	
 	@RequestMapping("departmentManage.do")
 	public String departmentManage(ModelMap map, HttpServletRequest request){
-		PageHelper.startPage(0, 1);
+		PageHelper.startPage(0, 10);
 		List<Department> departmentList = departmentService.list();
-		PageInfo<Department> pageInfo = new PageInfo<>(departmentList);
-		map.put("pageInfo", pageInfo);
+		PageResult pageResult = PageResultUtil.getPageResult(new PageInfo<>(departmentList));
+		map.put("pageResult", pageResult);
 		return "department/departmentManage";
 	}
 	
