@@ -20,7 +20,7 @@ public class UserServiceImpl {
 	 * @param newUserPwd
 	 * @return
 	 */
-	public int updateUserPwd(Integer userAccount, String newUserPwd) {
+	public int updateUserPwd(String userAccount, String newUserPwd) {
 		UserExample example = new UserExample();
 		example.createCriteria().andUserAccountEqualTo(userAccount);
 		User user = new User();
@@ -28,7 +28,7 @@ public class UserServiceImpl {
 		return userMapper.updateByExampleSelective(user, example);
 	}
 	
-	public User getUser(Integer userAccount, String userPwd) {
+	public User getUser(String userAccount, String userPwd) {
 		UserExample userExample = new UserExample();
 		userExample.createCriteria().andUserAccountEqualTo(userAccount).andUserPwdEqualTo(userPwd);
 		List<User> users = userMapper.selectByExample(userExample);
@@ -38,7 +38,7 @@ public class UserServiceImpl {
 		return users.get(0);
 	}
 	
-	public User getUser(Integer userAccount) {
+	public User getUser(String userAccount) {
 		UserExample userExample = new UserExample();
 		userExample.createCriteria().andUserAccountEqualTo(userAccount);
 		List<User> users = userMapper.selectByExample(userExample);

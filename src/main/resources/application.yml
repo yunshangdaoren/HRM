@@ -46,11 +46,11 @@ mybatis:
   type-aliases-package: com.lqs.entity
 
 #pagehelper分页插件
-#pagehelper:
- #   helperDialect: mysql
-  #  reasonable: true
-  #  supportMethodsArguments: true
-  #  params: count=countSql
+pagehelper:
+    helperDialect: mysql
+    reasonable: true
+    supportMethodsArguments: true
+    params: count=countSql
 
 
 

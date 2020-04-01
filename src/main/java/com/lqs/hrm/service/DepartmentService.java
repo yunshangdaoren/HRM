@@ -25,7 +25,7 @@ public interface DepartmentService {
 	Department get(String deptName);
 	List<Department> list();
 	List<Department> listByManageEmpJobId(Integer manageEmpjobid);
-	List<Department> list(String deptName, Integer manageEmpjobid, Integer deptLevel);
+	List<Department> list(String deptName);
 	List<Department> list(Integer deptLevel);
 	int insert(Department department);
 	int update(Department department);

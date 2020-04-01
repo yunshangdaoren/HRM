@@ -14,7 +14,7 @@ public class LoginServiceImpl {
 	@Autowired
 	private UserServiceImpl userService;
 	
-	public User getUser(Integer userAccount, String userPwd) {
+	public User getUser(String userAccount, String userPwd) {
 		return userService.getUser(userAccount, userPwd);
 	}
 	

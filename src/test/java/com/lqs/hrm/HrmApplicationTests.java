@@ -21,7 +21,7 @@ class HrmApplicationTests {
 
 	@Test
 	void getUser() {
-		User user = service.getUser(new Integer(1), "123456");
+		User user = service.getUser("1", "123456");
 		System.out.println("User信息如下：==========================");
 		System.out.println("User信息如下：==========================");
 		System.out.println("User信息如下：==========================");

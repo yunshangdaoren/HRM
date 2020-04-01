@@ -24,16 +24,6 @@ public class DepartmentServiceImpl implements DepartmentService{
 	}
 
 	/**
-	 * 获取所有部门信息
-	 */
-	@Override
-	public List<Department> list() {
-		DepartmentExample example = new DepartmentExample();
-		example.createCriteria().andDeptIdIsNotNull();
-		return departmentMapper.selectByExample(example);
-	}
-
-	/**
 	 * 通过部门名称获取部门信息
 	 */
 	@Override
@@ -46,6 +36,16 @@ public class DepartmentServiceImpl implements DepartmentService{
 			return departmentMapper.selectByExample(example).get(0);
 		}
 	}
+	
+	/**
+	 * 获取所有部门信息
+	 */
+	@Override
+	public List<Department> list() {
+		DepartmentExample example = new DepartmentExample();
+		example.createCriteria().andDeptIdIsNotNull();
+		return departmentMapper.selectByExample(example);
+	}
 
 	@Override
 	public List<Department> listByManageEmpJobId(Integer manageEmpjobid) {
@@ -54,7 +54,7 @@ public class DepartmentServiceImpl implements DepartmentService{
 	}
 
 	@Override
-	public List<Department> list(String deptName, Integer manageEmpjobid, Integer deptLevel) {
+	public List<Department> list(String deptName) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -67,7 +67,8 @@ public class DepartmentServiceImpl implements DepartmentService{
 
 	@Override
 	public int insert(Department department) {
-		return departmentMapper.insertSelective(department);
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	@Override
@@ -81,6 +82,7 @@ public class DepartmentServiceImpl implements DepartmentService{
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
 	
 
 
