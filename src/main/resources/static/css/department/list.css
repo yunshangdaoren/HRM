@@ -20,13 +20,16 @@
 #right .div_search form .form-group{
 	display:blcok-inline;
 }
+#right .div_search form .form-group input{
+	width:120px;
+}
 #right .div_search form button{
 	width:80px;
 	margin-left:6px;
 	display:blcok-inline;
 }
 
-/* Ìí¼Ó²¿ÃÅµ¯³ö²ãÑùÊ½ */
+/* ï¿½ï¿½Ó²ï¿½ï¿½Åµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê½ */
 .panel_addDepartment{
 	width:600px;
 	height:480px;
@@ -37,7 +40,7 @@
 	top:0px; 
 	right:0px; 
 	bottom:0px;
-    margin:auto;    /* ÓÐÁËÕâ¸ö¾Í×Ô¶¯¾ÓÖÐÁË */
+    margin:auto;    /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
 }
 .panel_addDepartment .panel{
 	width:100%;

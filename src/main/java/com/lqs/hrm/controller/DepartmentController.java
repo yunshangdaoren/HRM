@@ -67,20 +67,12 @@ public class DepartmentController {
 		return "department/list";
 	}
 	
-//	@RequestMapping("departmentManage.do")
-//	public String departmentManage(PageRequest pageRequest, ModelMap map){
-//		PageHelper.startPage(pageRequest.getPageNum(), pageRequest.getPageSize());
-//		List<Department> departmentList = departmentService.list();
-//		PageResult pageResult = PageResultUtil.getPageResult(new PageInfo<>(departmentList));
-//		map.put("pageResult", pageResult);
-//		return "department/departmentManage";
-//	}
-	
-	@RequestMapping("addDepartment.do")
+	@RequestMapping("add.do")
 	public String add(Department department, HttpServletRequest request, HttpServletResponse response) {
 		Map<String, Object> resultMap = new HashMap<>();
-		
+		//获取部门级别信息
 		String deptLevelStr = request.getParameter("level");
+		//获取部门级别信息
 		String parentDeptNameStr = request.getParameter("parentDeptName");
 		String deptManageNameStr = request.getParameter("deptManageName");
 		String deptStatusStr = request.getParameter("status");
@@ -101,9 +93,14 @@ public class DepartmentController {
 		return "";
 	}
 	
-	@RequestMapping("list")
+	@RequestMapping("get")
 	@ResponseBody
-	public JsonPageResult list(PageRequest pageRequest) {
+	public JsonPageResult list(HttpServletRequest request) {
+		String deptIdStr = request.getParameter("deptId");
+		String deptNameStr = request.getParameter("deptName");
+		String manageEmpjobidStr = request.getParameter("manageEmpjobid");
+		String dlIdStr = request.getParameter("dlId");
+		
 		PageHelper.startPage(pageRequest.getPageNum(), pageRequest.getPageSize());
 		List<Department> list = departmentService.list();
 		if (list == null) {

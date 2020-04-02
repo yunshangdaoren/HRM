@@ -23,10 +23,25 @@ public interface DepartmentService {
 	 * @return
 	 */
 	Department get(String deptName);
+	
+	/**
+	 * @return 所有部门信息
+	 */
 	List<Department> list();
-	List<Department> listByManageEmpJobId(Integer manageEmpjobid);
-	List<Department> list(String deptName);
-	List<Department> list(Integer deptLevel);
+	
+	List<Department> listByManageEmpJobId(String manageEmpjobid);
+	List<Department> listByDlId(Integer dlId);
+	List<Department> listByDeptIdName(Integer deptId, String deptName);
+	List<Department> listByDeptIdManageEmpJobId(Integer deptId, String manageEmpjobid);
+	List<Department> listByDeptIdDlId(Integer deptId, Integer dlId);
+	List<Department> listByDeptNameManageEmpJobId(String deptName, String manageEmpjobid);
+	List<Department> listByDeptNameDlId(String deptName, Integer dlId);
+	List<Department> listByManageEmpJobIdDlId(String manageEmpjobid, Integer dlId);
+	List<Department> listByDeptIdNameManageEmpJobId(Integer deptId, String deptName, String manageEmpjobid);
+	List<Department> listByDeptIdManageEmpJonIdDlId(Integer deptId, String manageEmpjobid, Integer dlId);
+	List<Department> listByDeptNameManageEmpJonIdDlId(String deptName, String manageEmpjobid, Integer dlId);
+	List<Department> listByAll(Integer deptId, String deptName, String manageEmpjobid, Integer dlId);
+	
 	int insert(Department department);
 	int update(Department department);
 	int delte(Integer deptId);

@@ -36,39 +36,13 @@ public class DepartmentServiceImpl implements DepartmentService{
 			return departmentMapper.selectByExample(example).get(0);
 		}
 	}
-	
+
 	/**
-	 * 获取所有部门信息
+	 * 新增指定部门信息
 	 */
 	@Override
-	public List<Department> list() {
-		DepartmentExample example = new DepartmentExample();
-		example.createCriteria().andDeptIdIsNotNull();
-		return departmentMapper.selectByExample(example);
-	}
-
-	@Override
-	public List<Department> listByManageEmpJobId(Integer manageEmpjobid) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Department> list(String deptName) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Department> list(Integer deptLevel) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public int insert(Department department) {
-		// TODO Auto-generated method stub
-		return 0;
+		return departmentMapper.insertSelective(department);
 	}
 
 	@Override
@@ -82,8 +56,93 @@ public class DepartmentServiceImpl implements DepartmentService{
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
 	
+	/**
+	 * 获取所有部门信息
+	 */
+	@Override
+	public List<Department> list() {
+		DepartmentExample example = new DepartmentExample();
+		//按照日期排序
+		example.setOrderByClause("last_operator_date desc");
+		example.createCriteria().andDeptIdIsNotNull();
+		return departmentMapper.selectByExample(example);
+	}
 
+	@Override
+	public List<Department> listByManageEmpJobId(String manageEmpjobid) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Department> listByDlId(Integer dlId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Department> listByDeptIdName(Integer deptId, String deptName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Department> listByDeptIdManageEmpJobId(Integer deptId, String manageEmpjobid) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Department> listByDeptIdDlId(Integer deptId, Integer dlId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Department> listByDeptNameManageEmpJobId(String deptName, String manageEmpjobid) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Department> listByDeptNameDlId(String deptName, Integer dlId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Department> listByManageEmpJobIdDlId(String manageEmpjobid, Integer dlId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Department> listByDeptIdNameManageEmpJobId(Integer deptId, String deptName, String manageEmpjobid) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Department> listByDeptIdManageEmpJonIdDlId(Integer deptId, String manageEmpjobid, Integer dlId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Department> listByDeptNameManageEmpJonIdDlId(String deptName, String manageEmpjobid, Integer dlId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * 根据部门id、部门名称、部门主管工号、部门级别查询
+	 */
+	@Override
+	public List<Department> listByAll(Integer deptId, String deptName, String manageEmpjobid, Integer dlId) {
+		DepartmentExample example = new DepartmentExample();
+		example.or().andDeptIdEqualTo(deptId).andDeptNameEqualTo(deptName).andManageEmpjobidEqualTo(manageEmpjobid).andDlIdEqualTo(dlId);
+		return departmentMapper.selectByExample(example);
+	}
 
 }

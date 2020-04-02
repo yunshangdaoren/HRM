@@ -15,6 +15,10 @@
 			<span class="title">部门详情</span>
 			<div class="div_search">
 				<form class="form-inline">
+					<div class="form-group">
+    					<label for="exampleInputName2">部门id</label>
+    					<input type="text" class="form-control" id="input-selectDeptId">
+  					</div>
   					<div class="form-group">
     					<label for="exampleInputName2">部门名称</label>
     					<input type="text" class="form-control" id="input-selectDeptName">
@@ -62,17 +66,17 @@
 							<td>${department.manageEmpName }</td>
 							<td>${department.deptEmpnum }</td>
 							<td>${department.deptDesc }</td>
-							<td>${department.parentId }</td>
+							<td>${department.parentDeptName }</td>
 							<td>${department.statusName }</td>
 							<td><fmt:formatDate value="${department.lastOperatorDate }" type="both"/></td>
 							<td><a href="#">${department.operatorEmpName }</a></td>
 							<td>
-								<a class="infoSC">
+								<a class="a_deptDetail" href="#">
 					    			<span class="label label-primary">查看详情</span>
 					    		</a>
 					    	</td>
 					    	<td>
-								<a class="infoSC" href="#" style="text-decoration:none;">
+								<a class="a_deptStatus" href="#" style="text-decoration:none;">
 					    			<span class="label label-primary">状态管理</span>
 					    		</a>
 					    	</td>
@@ -85,7 +89,16 @@
 			<!-- 分页代码 -->
 			<div class="pageNav">
 				<ul class="pagination">
-					<li><a href="/department/list.do?pageNum=1" style="pointer-events:none;">首页</a></li>
+					<li>
+						<c:choose>
+    						<c:when test="${pageResult.pageNum == pageResult.totalPages }">
+    							<a href="/department/list.do?pageNum=1">首页</a>
+    						</c:when>
+    						<c:otherwise>
+    							<a href="#" style="cursor: default;">首页</a>
+    						</c:otherwise>
+    					</c:choose>
+					</li>
     				<li>
     					<c:choose>
     						<c:when test="${pageResult.pageNum >1}">
@@ -107,7 +120,16 @@
     						</c:otherwise>
     					</c:choose>
     				</li>
-    				<li><a href="/department/list.do?pageNum=${pageResult.totalPages}">尾页</a></li>
+    				<li>
+    					<c:choose>
+    						<c:when test="${pageResult.pageNum == pageResult.totalPages }">
+    							<a href="#" style="cursor: default;">尾页</a>
+    						</c:when>
+    						<c:otherwise>
+    							<a href="/department/list.do?pageNum=${pageResult.totalPages}">尾页</a>
+    						</c:otherwise>
+    					</c:choose>
+    				</li>
     				<li>
     					<span style="line-height:1.42857143;" class="span-totalPages">共${pageResult.totalPages }页</span>
     				</li>
@@ -141,18 +163,13 @@
     						<div class="col-sm-8">
       							<select class="form-control" name="level" id="input-addDeptLevel">
       								<option value="" disabled selected hidden>请选择</option>
-  									<option value="1">1级(最高)</option>
-  									<option value="2">2级</option>
-  									<option value="3">3级</option>
-  									<option value="4">4级</option>
-  									<option value="5">5级(最低)</option>
 								</select>
     						</div>
   						</div>
   						<div class="form-group">
     						<label for="lastname" class="col-sm-2 control-label">上级部门</label>
     						<div class="col-sm-8">
-      							<input type="text" list="list-parentDeptName" class="form-control" name="parentDeptName" id="input-addParentDeptName" placeholder="请输入上级部门名称">
+      							<input type="text" list="list-parentDeptName" class="form-control" name="parentDeptName" id="input-addParentDeptName" placeholder="请输入上级部门名称或id">
     							<datalist id="list-parentDeptName" style="height:50px;overflow:auto;">
   									<option value="BMW">
 								</datalist>

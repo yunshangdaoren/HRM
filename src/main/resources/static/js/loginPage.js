@@ -126,7 +126,7 @@ $("#loginSubmit").click(function(){
 			type:"get",
 			success:function(result){
 				if(result.statusCode==1){
-					//登录成功后页面跳转
+					//登录成功后页面跳转至指定地址
 					window.location.href=result.url;
 				}else{
 					alert(result.message);
