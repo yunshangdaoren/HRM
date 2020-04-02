@@ -51,7 +51,7 @@ public class DepartmentController {
 			//设置上级部门名称
 			if (department.getParentId() != null) {
 				department.setParentDeptName(departmentService.get(department.getParentId()).getDeptName());
-			}
+			} 
 			//设置部门主管名称
 			if("".equals(department.getManageEmpjobid()) || department.getManageEmpjobid() != null) {
 				department.setManageEmpName(userService.getUser(department.getManageEmpjobid()).getUserName());
