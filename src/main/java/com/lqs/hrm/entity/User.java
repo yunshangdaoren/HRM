@@ -2,6 +2,8 @@ package com.lqs.hrm.entity;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class User {
 
 	/**

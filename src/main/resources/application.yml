@@ -21,8 +21,9 @@ spring:
     static-locations:
     - classpath:/static/
   jackson:
-    time-zone:
-      GMT+8
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+    default-property-inclusion: always
   ##网易163邮箱配置
   mail:
     host: smtp.163.com #发送邮件服务器

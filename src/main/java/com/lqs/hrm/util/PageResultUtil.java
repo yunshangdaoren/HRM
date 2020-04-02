@@ -19,12 +19,12 @@ public class PageResultUtil {
 		PageResult pageResult = new PageResult();
 		//设置当前页码
 		pageResult.setPageNum(pageInfo.getPageNum());
-		System.out.println("==========================");
-		System.out.println("当前页码:"+pageInfo.getPageNum());
-		System.out.println("每页数量:"+pageInfo.getPageSize());
-		System.out.println("记录总数:"+pageInfo.getTotal());
-		System.out.println("页码总数:"+pageInfo.getPages());
-		System.out.println("==========================");
+//		System.out.println("==========================");
+//		System.out.println("当前页码:"+pageInfo.getPageNum());
+//		System.out.println("每页数量:"+pageInfo.getPageSize());
+//		System.out.println("记录总数:"+pageInfo.getTotal());
+//		System.out.println("页码总数:"+pageInfo.getPages());
+//		System.out.println("==========================");
 		//设置每页数量
 		pageResult.setPageSize(pageInfo.getPageSize());
 		//设置记录总数

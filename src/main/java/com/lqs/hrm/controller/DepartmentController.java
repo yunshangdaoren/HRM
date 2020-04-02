@@ -20,6 +20,8 @@ import com.lqs.hrm.json.JsonCommonResult;
 import com.lqs.hrm.json.JsonPageResult;
 import com.lqs.hrm.service.impl.DepartmentLevelServiceImpl;
 import com.lqs.hrm.service.impl.DepartmentServiceImpl;
+import com.lqs.hrm.service.impl.StatusServiceImpl;
+import com.lqs.hrm.service.impl.UserServiceImpl;
 import com.lqs.hrm.util.PageRequest;
 import com.lqs.hrm.util.PageResult;
 import com.lqs.hrm.util.PageResultUtil;
@@ -31,21 +33,48 @@ public class DepartmentController {
 	private DepartmentServiceImpl departmentService;
 	@Autowired
 	private DepartmentLevelServiceImpl departmentLevelService;
+	@Autowired
+	private StatusServiceImpl statusService;
+	@Autowired
+	private UserServiceImpl userService;
 	
 
-	@RequestMapping("departmentDetail.do")
-	public String departmentIndex(){
-		return "department/departmentDetail";
-	}
-	
-	@RequestMapping("departmentManage.do")
-	public String departmentManage(ModelMap map, HttpServletRequest request){
-		PageHelper.startPage(0, 10);
+	@RequestMapping("list.do")
+	public String departmentIndex(PageRequest pageRequest, ModelMap map){
+		PageHelper.startPage(pageRequest.getPageNum(), pageRequest.getPageSize());
 		List<Department> departmentList = departmentService.list();
+		for (Department department : departmentList) {
+			//设置部门级别
+			department.setDlLeve(departmentLevelService.get(department.getDlId()).getLevel());
+			//设置部门状态名称
+			department.setStatusName(statusService.get(department.getStatusId()).getStatusName());
+			//设置上级部门名称
+			if (department.getParentId() != null) {
+				department.setParentDeptName(departmentService.get(department.getParentId()).getDeptName());
+			}
+			//设置部门主管名称
+			if("".equals(department.getManageEmpjobid()) || department.getManageEmpjobid() != null) {
+				department.setManageEmpName(userService.getUser(department.getManageEmpjobid()).getUserName());
+			}
+			//设置操作人名称
+			if("".equals(department.getOperatorEmpjobid()) || department.getOperatorEmpjobid() != null) {
+				department.setManageEmpName(userService.getUser(department.getOperatorEmpjobid()).getUserName());
+			}
+			department.setOperatorEmpName(userService.getUser(department.getOperatorEmpjobid()).getUserName());
+		}
 		PageResult pageResult = PageResultUtil.getPageResult(new PageInfo<>(departmentList));
 		map.put("pageResult", pageResult);
-		return "department/departmentManage";
+		return "department/list";
 	}
+	
+//	@RequestMapping("departmentManage.do")
+//	public String departmentManage(PageRequest pageRequest, ModelMap map){
+//		PageHelper.startPage(pageRequest.getPageNum(), pageRequest.getPageSize());
+//		List<Department> departmentList = departmentService.list();
+//		PageResult pageResult = PageResultUtil.getPageResult(new PageInfo<>(departmentList));
+//		map.put("pageResult", pageResult);
+//		return "department/departmentManage";
+//	}
 	
 	@RequestMapping("addDepartment.do")
 	public String add(Department department, HttpServletRequest request, HttpServletResponse response) {

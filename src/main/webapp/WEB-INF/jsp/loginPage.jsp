@@ -43,6 +43,7 @@
            <h1 style="margin: auto;">人力资源管理系统 </h1>
         </div>
     </nav>
+    
     <!-- End Navbar -->
     <div class="page-header" filter-color="orange">
         <div class="page-header-image" style="background-image:url(/static/assets/img/login.jpg)"></div>

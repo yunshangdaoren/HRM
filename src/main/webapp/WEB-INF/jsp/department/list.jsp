@@ -5,8 +5,7 @@
 <head>
 <meta charset="UTF-8">
 	<title>组织架构</title>
-	<link href="/static/css/department/departmentDetail.css" rel="stylesheet" />
-	<link href="/static/css/shadeDiv.css" rel="stylesheet" />
+	<link href="/static/css/department/list.css" rel="stylesheet" />
 </head>
 <body>
 	<%@ include file="../top.jsp" %>
@@ -48,16 +47,37 @@
 						<th>部门人数</th>
 						<th>部门描述</th>
 						<th>上级部门</th>
-						<th>下级部门</th>
-						<th>创建人</th>
-						<th>创建时间</th>
 						<th>状态</th>
+						<th>最后一次操作间</th>
+						<th>操作人</th>
 						<th>详情</th>
 						<th style="width:150px;">操作</th>
 					</tr>
 				</thead>
 				<tbody>
-					
+					<c:forEach items="${pageResult.content }" var="department">
+						<tr>
+							<td>${department.deptId }</td>
+							<td>${department.deptName }</td>
+							<td>${department.manageEmpName }</td>
+							<td>${department.deptEmpnum }</td>
+							<td>${department.deptDesc }</td>
+							<td>${department.parentId }</td>
+							<td>${department.statusName }</td>
+							<td><fmt:formatDate value="${department.lastOperatorDate }" type="both"/></td>
+							<td><a href="#">${department.operatorEmpName }</a></td>
+							<td>
+								<a class="infoSC">
+					    			<span class="label label-primary">查看详情</span>
+					    		</a>
+					    	</td>
+					    	<td>
+								<a class="infoSC" href="#" style="text-decoration:none;">
+					    			<span class="label label-primary">状态管理</span>
+					    		</a>
+					    	</td>
+						</tr>
+					</c:forEach>
 				</tbody>
 			</table>
 			<!-- 查询内容为空提示 -->
@@ -65,20 +85,36 @@
 			<!-- 分页代码 -->
 			<div class="pageNav">
 				<ul class="pagination">
-					<li><a href="#" style="pointer-events:none;">首页</a></li>
-    				<li><a href="#">上一页</a></li>
-    				<li><a href="#">1</a></li>
-    				<li><a href="#">2</a></li>
-    				<li><a href="#">3</a></li>
-    				<li><a href="#">4</a></li>
-    				<li><a href="#">...</a></li>
-    				<li><a href="#">下一页</a></li>
-    				<li><a href="#">尾页</a></li>
-    				<li><span style="line-height:1.42857143;">共26页</span></li>
+					<li><a href="/department/list.do?pageNum=1" style="pointer-events:none;">首页</a></li>
+    				<li>
+    					<c:choose>
+    						<c:when test="${pageResult.pageNum >1}">
+    							<a href="/department/list.do?pageNum=${pageResult.pageNum-1}">上一页</a>
+    						</c:when>
+    						<c:otherwise>
+    							<a href="#" style="cursor: default;">上一页</a>
+    						</c:otherwise>
+    					</c:choose>
+    				</li>
+    				<li><a href="#">当前第${pageResult.pageNum }页</a></li>
+    				<li>
+    					<c:choose>
+    						<c:when test="${pageResult.pageNum < pageResult.totalPages }">
+    							<a href="/department/list.do?pageNum=${pageResult.pageNum+1}">下一页</a>
+    						</c:when>
+    						<c:otherwise>
+    							<a href="#" style="cursor: default;">下一页</a>
+    						</c:otherwise>
+    					</c:choose>
+    				</li>
+    				<li><a href="/department/list.do?pageNum=${pageResult.totalPages}">尾页</a></li>
+    				<li>
+    					<span style="line-height:1.42857143;" class="span-totalPages">共${pageResult.totalPages }页</span>
+    				</li>
 				</ul>
-				<div class="input-group" style="width:130px;float:right;">
-					<input type="text" class="form-control" style="z-index:0;">
-        			<span class="input-group-addon" style="cursor:pointer;" >跳转至</span>
+				<div class="input-group" style="width:146px;float:right;">
+					<input id="input-pageNum" type="text" class="form-control" style="z-index:0;">
+        			<span id="span-jumPageNum" class="input-group-addon" style="cursor:pointer;" >跳转至该页</span>
  				</div>
 			</div>
 		</div>
@@ -158,5 +194,5 @@
 			</div>
 		</div>
 </body>
-	<script type="text/javascript" src="/static/js/department/departmentDetail.js"></script>
+	<script type="text/javascript" src="/static/js/department/list.js"></script>
 </html>

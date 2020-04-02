@@ -67,3 +67,23 @@ $("#btn-submitEditSC").click(function(){
 		});
 	};
 });
+
+//跳转至指定页
+$("#span-jumPageNum").click(function(){
+	//获取要跳转到指定页码
+	var pageNum = $("#input-pageNum").val();
+	//获取总页码
+	var totalPage = $(".span-totalPages").text().replace(/[^0-9]/ig,"");
+	if($.isNumeric(pageNum)){
+		totalPage = parseInt(totalPage);
+		//alert("pageNum:"+pageNum+"  totalPage"+totalPage);
+		if(pageNum > totalPage || pageNum <= 0){
+			alert("请输入正确的页码！")
+		}else{
+			window.location.href = "http://localhost:8080/department/list.do?pageNum="+pageNum;
+		}
+	}else{
+		alert("请输入正确的页码！")
+	}
+});
+

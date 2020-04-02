@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
@@ -62,7 +63,11 @@ public class UserController {
 		return JSON.toJSONString(resultMap);
 	}
 	
-	
+	@RequestMapping("get")
+	@ResponseBody
+	public User get(String userAccount) {
+		return userService.getUser(userAccount);
+	}
 	
 	
 	
