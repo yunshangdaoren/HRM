@@ -93,16 +93,25 @@ public class DepartmentController {
 		return "";
 	}
 	
-	@RequestMapping("get")
+	@RequestMapping("query")
 	@ResponseBody
-	public JsonPageResult list(HttpServletRequest request) {
+	public JsonPageResult list(HttpServletRequest request, PageRequest pageRequest) {
 		String deptIdStr = request.getParameter("deptId");
 		String deptNameStr = request.getParameter("deptName");
-		String manageEmpjobidStr = request.getParameter("manageEmpjobid");
+		String manageEmpNameStr = request.getParameter("manageEmpName");
 		String dlIdStr = request.getParameter("dlId");
-		
+		//分页
 		PageHelper.startPage(pageRequest.getPageNum(), pageRequest.getPageSize());
-		List<Department> list = departmentService.list();
+		List<Department> list = null;
+		if ("".equals(deptIdStr) && "".equals(deptNameStr) && "".equals(manageEmpNameStr) && "".equals(dlIdStr)) {
+			//如果查询的条件全部为空，则查询出所有部门信息
+			list = departmentService.list();
+		}else if( "".equals(deptNameStr) && "".equals(manageEmpNameStr) && "".equals(dlIdStr)) {
+			//如果查询的条件部门id为空，则根据部门名称，部门主管名称，部门级别查询
+			//查询部门主管名称所在部门
+			Department department = 
+			list = departmentService.list
+		}
 		if (list == null) {
 			return new JsonPageResult("100", null, "没有数据！");
 		}

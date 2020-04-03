@@ -17,19 +17,19 @@
 				<form class="form-inline">
 					<div class="form-group">
     					<label for="exampleInputName2">部门id</label>
-    					<input type="text" class="form-control" id="input-selectDeptId">
+    					<input type="text" class="form-control" name="deptId" id="input-selectDeptId">
   					</div>
   					<div class="form-group">
     					<label for="exampleInputName2">部门名称</label>
-    					<input type="text" class="form-control" id="input-selectDeptName">
+    					<input type="text" class="form-control"  name="deptName" id="input-selectDeptName">
   					</div>
   					<div class="form-group">
-    					<label for="exampleInputEmail2">部门主管</label>
-    					<input type="email" class="form-control" id="input-selectDeptManageName">
+    					<label for="exampleInputEmail2">部门主管名称</label>
+    					<input type="email" class="form-control"  name="manageEmpName" id="input-selectDeptManageName">
   					</div>
   					<div class="form-group">
   						<label for="exampleInputEmail2">部门级别</label>
-    					<select class="form-control" id="input-selectDeptLevel">
+    					<select class="form-control" id="input-selectDeptLevel"  name="dlId">
     						<option value="" disabled selected hidden>请选择</option>
   							<option value="1">1</option>
   							<option value="2">2</option>
@@ -47,6 +47,7 @@
 					<tr>
 						<th>部门ID</th>
 						<th>部门名称</th>
+						<th>部门级别</th>
 						<th>部门主管</th>
 						<th>部门人数</th>
 						<th>部门描述</th>
@@ -63,6 +64,7 @@
 						<tr>
 							<td>${department.deptId }</td>
 							<td>${department.deptName }</td>
+							<td>${department.dlLeve }级</td>
 							<td>${department.manageEmpName }</td>
 							<td>${department.deptEmpnum }</td>
 							<td>${department.deptDesc }</td>
