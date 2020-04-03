@@ -5,7 +5,7 @@ function selectDeptFormEmptyCheck(){
 	var deptManageName = $("#input-selectDeptManageName").val();
 	var deptLevel = $("#input-selectDeptLevel").val();
 	if(deptId == '' && deptName=='' && deptManageName=='' && deptLevel==null){
-		alert("查询条件为空！")
+		//查询条件为空
 		return false;
 	}
 	//上面判断无误则返回true
@@ -34,24 +34,22 @@ function addDeptFormEmptyCheck(){
 }
 //查询部门信息按钮点击事件
 $("#btn-selectDept").click(function(){
-	if(selectDeptFormEmptyCheck()){
-		$.ajax({
-			url:"/department/loginCheck.do",
-			data:$("#form_login").serialize(),
-			dataType:"json",
-			type:"get",
-			success:function(result){
-				if(result.statusCode==1){
-					//登录成功后页面跳转至指定地址
-					window.location.href=result.url;
-				}else{
-					alert(result.message);
-					$(".p_erroLoginFail").text(result.message);
-					$(".p_erroLoginFail").show();
-				}
+	$.ajax({
+		url:"/department/query.do",
+		data:$("#form-queryDept").serialize(),
+		dataType:"json",
+		type:"get",
+		success:function(result){
+			if(result.code==200){
+				//登录成功后页面跳转至指定地址
+				window.location.href=result.url;
+			}else{
+				alert(result.message);
+				$(".p_erroLoginFail").text(result.message);
+				$(".p_erroLoginFail").show();
 			}
-		});
-	};
+		}
+	});
 });
 //显示添加部门弹出层,并给部门级别信息下拉框赋值
 $("#btn-addDept").click(function(){
@@ -100,6 +98,8 @@ $("#btn-submitEditSC").click(function(){
 		});
 	};
 });
+//全局变量，跳转至指定页码地址
+var locationHref = "http://localhost:8080/department/list.do?";
 //跳转至指定页码
 $("#span-jumPageNum").click(function(){
 	//获取要跳转到指定页码
@@ -112,7 +112,7 @@ $("#span-jumPageNum").click(function(){
 		if(pageNum > totalPage || pageNum <= 0){
 			alert("请输入正确的页码！")
 		}else{
-			window.location.href = "http://localhost:8080/department/list.do?pageNum="+pageNum;
+			window.location.href = locationHref+"pageNum="+pageNum;
 		}
 	}else{
 		alert("请输入正确的页码！")

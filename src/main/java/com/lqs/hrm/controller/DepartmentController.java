@@ -1,5 +1,6 @@
 package com.lqs.hrm.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -93,7 +94,7 @@ public class DepartmentController {
 		return "";
 	}
 	
-	@RequestMapping("query")
+	@RequestMapping("query.do")
 	@ResponseBody
 	public JsonPageResult list(HttpServletRequest request, PageRequest pageRequest) {
 		String deptIdStr = request.getParameter("deptId");
@@ -102,15 +103,19 @@ public class DepartmentController {
 		String dlIdStr = request.getParameter("dlId");
 		//分页
 		PageHelper.startPage(pageRequest.getPageNum(), pageRequest.getPageSize());
-		List<Department> list = null;
-		if ("".equals(deptIdStr) && "".equals(deptNameStr) && "".equals(manageEmpNameStr) && "".equals(dlIdStr)) {
+		List<Department> list = new ArrayList<Department>();
+		System.out.println(deptIdStr+"-"+deptNameStr+"-"+manageEmpNameStr+"-"+dlIdStr);
+		if (deptIdStr==null && deptNameStr==null && manageEmpNameStr==null && dlIdStr==null) {
+			System.out.println("查询条件都为空");
 			//如果查询的条件全部为空，则查询出所有部门信息
 			list = departmentService.list();
-		}else if( "".equals(deptNameStr) && "".equals(manageEmpNameStr) && "".equals(dlIdStr)) {
-			//如果查询的条件部门id为空，则根据部门名称，部门主管名称，部门级别查询
-			//查询部门主管名称所在部门
-			Department department = 
-			list = departmentService.list
+		}else if(deptNameStr==null && manageEmpNameStr==null && dlIdStr==null) {
+			//如果查询条件：部门名称，部门主管名称，部门级别为空，则根据部门id查询
+			//查询部门id所在部门
+			Department department = departmentService.get(Integer.valueOf(deptIdStr));
+			list.add(department);
+		}else {
+			System.out.println("不为空");
 		}
 		if (list == null) {
 			return new JsonPageResult("100", null, "没有数据！");

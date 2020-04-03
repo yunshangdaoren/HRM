@@ -14,7 +14,7 @@
 		<div id="right">
 			<span class="title">部门详情</span>
 			<div class="div_search">
-				<form class="form-inline">
+				<form class="form-inline" id="form-queryDept">
 					<div class="form-group">
     					<label for="exampleInputName2">部门id</label>
     					<input type="text" class="form-control" name="deptId" id="input-selectDeptId">
@@ -94,20 +94,20 @@
 					<li>
 						<c:choose>
     						<c:when test="${pageResult.pageNum == pageResult.totalPages }">
-    							<a href="/department/list.do?pageNum=1">首页</a>
+    							<a href="/department/list.do?pageNum=1" class="a-indexPage">首页</a>
     						</c:when>
     						<c:otherwise>
-    							<a href="#" style="cursor: default;">首页</a>
+    							<a href="#" style="cursor: default;" class="a-indexPage">首页</a>
     						</c:otherwise>
     					</c:choose>
 					</li>
     				<li>
     					<c:choose>
     						<c:when test="${pageResult.pageNum >1}">
-    							<a href="/department/list.do?pageNum=${pageResult.pageNum-1}">上一页</a>
+    							<a href="/department/list.do?pageNum=${pageResult.pageNum-1}" class="a-prePage">上一页</a>
     						</c:when>
     						<c:otherwise>
-    							<a href="#" style="cursor: default;">上一页</a>
+    							<a href="#" style="cursor: default;" class="a-prePage">上一页</a>
     						</c:otherwise>
     					</c:choose>
     				</li>
@@ -115,20 +115,20 @@
     				<li>
     					<c:choose>
     						<c:when test="${pageResult.pageNum < pageResult.totalPages }">
-    							<a href="/department/list.do?pageNum=${pageResult.pageNum+1}">下一页</a>
+    							<a href="/department/list.do?pageNum=${pageResult.pageNum+1}" class="a-nextPage">下一页</a>
     						</c:when>
     						<c:otherwise>
-    							<a href="#" style="cursor: default;">下一页</a>
+    							<a href="#" style="cursor: default;" class="a-nextPage">下一页</a>
     						</c:otherwise>
     					</c:choose>
     				</li>
     				<li>
     					<c:choose>
     						<c:when test="${pageResult.pageNum == pageResult.totalPages }">
-    							<a href="#" style="cursor: default;">尾页</a>
+    							<a href="#" style="cursor: default;" class="a-endPage">尾页</a>
     						</c:when>
     						<c:otherwise>
-    							<a href="/department/list.do?pageNum=${pageResult.totalPages}">尾页</a>
+    							<a href="/department/list.do?pageNum=${pageResult.totalPages}" class="a-endPage">尾页</a>
     						</c:otherwise>
     					</c:choose>
     				</li>
