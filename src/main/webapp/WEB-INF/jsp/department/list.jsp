@@ -42,7 +42,7 @@
   					<button id="btn-addDept" type="button" class="btn btn-success">添加部门</button>
 				</form>
 			</div>
-			<table class="table table-hover">
+			<table class="table table-hover" id="table-deptDtail">
 				<thead>
 					<tr>
 						<th>部门ID</th>
@@ -74,7 +74,7 @@
 							<td><a href="#">${department.operatorEmpName }</a></td>
 							<td>
 								<a class="a_deptDetail" href="#">
-					    			<span class="label label-primary">查看详情</span>
+					    			<span class="label label-primary">详情</span>
 					    		</a>
 					    	</td>
 					    	<td>

@@ -34,22 +34,56 @@ function addDeptFormEmptyCheck(){
 }
 //查询部门信息按钮点击事件
 $("#btn-selectDept").click(function(){
-	$.ajax({
-		url:"/department/query.do",
-		data:$("#form-queryDept").serialize(),
-		dataType:"json",
-		type:"get",
-		success:function(result){
-			if(result.code==200){
-				//登录成功后页面跳转至指定地址
-				window.location.href=result.url;
-			}else{
-				alert(result.message);
-				$(".p_erroLoginFail").text(result.message);
-				$(".p_erroLoginFail").show();
+	if(selectDeptFormEmptyCheck()){
+		$.ajax({
+			url:"/department/query.do?",
+			data:$("#form-queryDept").serialize(),
+			dataType:"json",
+			type:"get",
+			success:function(result){
+				if(result.code==200){
+					//表格赋值
+					//清空表格
+					$("#table-deptDtail tr:not(:first)").empty();
+					var list = result.pageResult.content;
+					var tableHtml = "";
+					for(var i = 0; i < list.length; i++){
+						tableHtml += "<tr>"+
+										"<td>"+list[i].deptId+"</td>"+
+										"<td>"+list[i].deptName+"</td>"+
+										"<td>"+list[i].dlLeve+"级</td>"+
+										"<td>"+list[i].manageEmpName+"</td>"+
+										"<td>"+list[i].deptEmpnum+"</td>"+
+										"<td>"+list[i].deptDesc+"</td>"+
+										"<td>"+list[i].parentDeptName+"</td>"+
+										"<td>"+list[i].statusName+"</td>"+
+										"<td><fmt:formatDate value='"+list[i].lastOperatorDate+"' type='both'/></td>"+
+										"<td><a href='#'>"+list[i].operatorEmpName+"</a></td>"+
+										"<td>"+
+											"<a class='a_deptDetail' href='#'>"+
+												"<span class='label label-primary'>详情</span>"+
+											"</a>"+
+										"</td>"+
+										"<td>"+
+											"<a class='a_deptStatus' href='#' style='text-decoration:none;'>"+
+												"<span class='label label-primary'>状态管理</span>"+
+											"</a>"+
+										"</td>"+
+										"</tr>";
+					}
+					$("#table-deptDtail").append(tableHtml);
+					//修改全局页码跳转地址
+					locationHref = "localhost:8080/department/query.do?";
+					//操作页码栏显示和跳转的地址
+					$(".a-indexPage").attr("href",)
+				}else{
+					alert(result.message);
+				}
 			}
-		}
-	});
+		});
+	}else{
+		window.location.href = "localhost:8080/department/list.do?";
+	}
 });
 //显示添加部门弹出层,并给部门级别信息下拉框赋值
 $("#btn-addDept").click(function(){
@@ -99,7 +133,7 @@ $("#btn-submitEditSC").click(function(){
 	};
 });
 //全局变量，跳转至指定页码地址
-var locationHref = "http://localhost:8080/department/list.do?";
+var locationHref = "localhost:8080/department/list.do?";
 //跳转至指定页码
 $("#span-jumPageNum").click(function(){
 	//获取要跳转到指定页码
@@ -110,7 +144,7 @@ $("#span-jumPageNum").click(function(){
 		totalPage = parseInt(totalPage);
 		//alert("pageNum:"+pageNum+"  totalPage"+totalPage);
 		if(pageNum > totalPage || pageNum <= 0){
-			alert("请输入正确的页码！")
+			alert("请输入正确的页码！");
 		}else{
 			window.location.href = locationHref+"pageNum="+pageNum;
 		}

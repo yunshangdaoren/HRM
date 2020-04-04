@@ -7,9 +7,9 @@ package com.lqs.hrm.util;
  */
 public class PageRequest {
 	/**
-	 * 当前页码
+	 * 当前页码，默认为1
 	 */
-	private int pageNum;
+	private int pageNum = 1;
 	
 	/**
 	 * 每页数量，默认为13
