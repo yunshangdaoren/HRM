@@ -49,7 +49,7 @@ class HrmApplicationTests {
 	
 	@Test
 	void dateTest() {
-		List<Department> departmentList = departmentService.list();
+		List<Department> departmentList = departmentService.listByNo();
 		for (Department department : departmentList) {
 			System.out.println("日期："+department.getLastOperatorDate());
 		}

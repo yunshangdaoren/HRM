@@ -6,6 +6,11 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+/**
+ * 部门实体类
+ * @author luckyliuqs
+ *
+ */
 public class Department {
     /**
      *

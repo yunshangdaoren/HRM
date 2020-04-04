@@ -102,35 +102,16 @@
     					</c:choose>
 					</li>
     				<li>
-    					<c:choose>
-    						<c:when test="${pageResult.pageNum >1}">
-    							<a href="/department/list.do?pageNum=${pageResult.pageNum-1}" class="a-prePage">上一页</a>
-    						</c:when>
-    						<c:otherwise>
-    							<a href="#" style="cursor: default;" class="a-prePage">上一页</a>
-    						</c:otherwise>
-    					</c:choose>
-    				</li>
-    				<li><a href="#">当前第${pageResult.pageNum }页</a></li>
-    				<li>
-    					<c:choose>
-    						<c:when test="${pageResult.pageNum < pageResult.totalPages }">
-    							<a href="/department/list.do?pageNum=${pageResult.pageNum+1}" class="a-nextPage">下一页</a>
-    						</c:when>
-    						<c:otherwise>
-    							<a href="#" style="cursor: default;" class="a-nextPage">下一页</a>
-    						</c:otherwise>
-    					</c:choose>
+    					<a href="/department/list.do?pageNum=${pageResult.pageNum-1}" class="a-prePage">上一页</a>
     				</li>
     				<li>
-    					<c:choose>
-    						<c:when test="${pageResult.pageNum == pageResult.totalPages }">
-    							<a href="#" style="cursor: default;" class="a-endPage">尾页</a>
-    						</c:when>
-    						<c:otherwise>
-    							<a href="/department/list.do?pageNum=${pageResult.totalPages}" class="a-endPage">尾页</a>
-    						</c:otherwise>
-    					</c:choose>
+    					<a href="#" class="a-currentPage">当前第${pageResult.pageNum }页</a>
+    				</li>
+    				<li>
+    					<a href="/department/list.do?pageNum=${pageResult.pageNum+1}" class="a-nextPage">下一页</a>
+    				</li>
+    				<li>
+    					<a href="#" style="cursor: default;" class="a-endPage">尾页</a>
     				</li>
     				<li>
     					<span style="line-height:1.42857143;" class="span-totalPages">共${pageResult.totalPages }页</span>

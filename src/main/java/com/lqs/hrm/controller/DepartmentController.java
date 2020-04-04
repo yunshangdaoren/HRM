@@ -18,6 +18,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.github.pagehelper.util.StringUtil;
 import com.lqs.hrm.entity.Department;
+import com.lqs.hrm.entity.Employee;
 import com.lqs.hrm.json.JsonPageResult;
 import com.lqs.hrm.service.impl.DepartmentLevelServiceImpl;
 import com.lqs.hrm.service.impl.DepartmentServiceImpl;
@@ -43,7 +44,7 @@ public class DepartmentController {
 	@RequestMapping("list.do")
 	public String departmentIndex(PageRequest pageRequest, ModelMap map){
 		PageHelper.startPage(pageRequest.getPageNum(), pageRequest.getPageSize());
-		List<Department> departmentList = departmentService.list();
+		List<Department> departmentList = departmentService.listByNo();
 		setDeptInfo(departmentList);
 		PageResult pageResult = PageResultUtil.getPageResult(new PageInfo<>(departmentList));
 		map.put("pageResult", pageResult);
@@ -65,8 +66,8 @@ public class DepartmentController {
 		//上级部门id
 		int parentId = 0;
 		if (parentDeptNameStr != null || !"".equals(parentDeptNameStr)) {
-			Department parentDepartment = departmentService.get(parentDeptNameStr);
-			parentId = parentDepartment.getDeptId();
+			//Department parentDepartment = departmentService.listByDeptName(parentDeptNameStr);
+			//parentId = parentDepartment.getDeptId();
 		}
 		//部门主管工号
 		int manageEmpjobid = 0;
@@ -91,17 +92,104 @@ public class DepartmentController {
 		if (StringUtil.isEmpty(deptIdStr) && StringUtil.isEmpty(deptNameStr) && StringUtil.isEmpty(manageEmpNameStr) && StringUtil.isEmpty(dlIdStr)) {
 			System.out.println("查询条件都为空");
 			//如果查询的条件全部为空，则查询出所有部门信息
-			departmentList = departmentService.list();
-		}else if("".equals(deptNameStr) && "".equals(manageEmpNameStr) && dlIdStr==null) {
-			//部门名称，部门主管名称，部门级别为空，则根据部门id查询
-			//查询部门id所在部门
-			System.out.println("开始查询指定部门id的部门");
-			System.out.println("部门id："+deptIdStr);
+			departmentList = departmentService.listByNo();
+		}else if(StringUtil.isEmpty(deptNameStr) && StringUtil.isEmpty(manageEmpNameStr) && StringUtil.isEmpty(dlIdStr)) {
+			//则根据部门id查询
 			Department department = departmentService.get(Integer.valueOf(deptIdStr));
-			System.out.println("查询出来的部门信息："+ department);
 			departmentList.add(department);
+		}else if(StringUtil.isEmpty(deptIdStr) && StringUtil.isEmpty(manageEmpNameStr) && StringUtil.isEmpty(dlIdStr)){
+			//则根据部门名称查询
+			departmentList = departmentService.listByDeptName(deptNameStr);
+		}else if(StringUtil.isEmpty(deptIdStr) && StringUtil.isEmpty(deptNameStr) && StringUtil.isEmpty(dlIdStr)) {
+			//根据部门主管名称查询
+			//查询指定职工名称的职工信息
+			List<Employee> employeeList = employeeService.listByEmpName(manageEmpNameStr);
+			//对职工列表进行遍历查询出相应的部门信息
+			for (Employee employee : employeeList) {
+				List<Department> list = departmentService.listBymanageEmpjobid(employee.getEmpJobid());
+				for (Department department : list) {
+					departmentList.add(department);
+				}
+			}
+		}else if(StringUtil.isEmpty(deptIdStr) && StringUtil.isEmpty(deptNameStr) && StringUtil.isEmpty(manageEmpNameStr)) {
+			//根据部门级别查询
+			departmentList = departmentService.listByDlId(Integer.valueOf(dlIdStr));
+		}else if(StringUtil.isEmpty(manageEmpNameStr) && StringUtil.isEmpty(dlIdStr)) {
+			//根据部门id，部门名称查询
+			departmentList = departmentService.listByDeptIdName(Integer.valueOf(deptIdStr), deptNameStr);
+		}else if(StringUtil.isEmpty(deptNameStr) && StringUtil.isEmpty(dlIdStr)) {
+			//根据部门id，部门主管名称查询
+			//查询指定职工名称的职工信息
+			List<Employee> employeeList = employeeService.listByEmpName(manageEmpNameStr);
+			//对职工列表进行遍历查询出相应的部门信息
+			for (Employee employee : employeeList) {
+				List<Department> list = departmentService.listByDeptIdManageEmpJobId(Integer.valueOf(deptIdStr), employee.getEmpJobid());
+				for (Department department : list) {
+					departmentList.add(department);
+				}
+			}
+		}else if(StringUtil.isEmpty(deptNameStr) && StringUtil.isEmpty(manageEmpNameStr)) {
+			//根据部门id，部门级别查询
+			departmentList = departmentService.listByDeptIdDlId(Integer.valueOf(deptIdStr), Integer.valueOf(dlIdStr));
+		}else if(StringUtil.isEmpty(deptIdStr) && StringUtil.isEmpty(dlIdStr)) {
+			//根据部门名称，部门主管名称查询
+			List<Employee> employeeList = employeeService.listByEmpName(manageEmpNameStr);
+			//对职工列表进行遍历查询出相应的部门信息
+			for (Employee employee : employeeList) {
+				List<Department> list = departmentService.listByDeptNameManageEmpJobId(deptNameStr, employee.getEmpJobid());
+				for (Department department : list) {
+					departmentList.add(department);
+				}
+			}
+		}else if(StringUtil.isEmpty(deptIdStr) && StringUtil.isEmpty(manageEmpNameStr)) {
+			//根据部门名称，部门级别查询
+			departmentList = departmentService.listByDeptNameDlId(deptNameStr, Integer.valueOf(dlIdStr));
+		}else if(StringUtil.isEmpty(deptIdStr) && StringUtil.isEmpty(deptNameStr)) {
+			//根据部门主管名称，部门级别查询
+			List<Employee> employeeList = employeeService.listByEmpName(manageEmpNameStr);
+			//对职工列表进行遍历查询出相应的部门信息
+			for (Employee employee : employeeList) {
+				List<Department> list = departmentService.listByManageEmpJobIdDlId(employee.getEmpJobid(), Integer.valueOf(dlIdStr));
+				for (Department department : list) {
+					departmentList.add(department);
+				}
+			}
+		}else if(StringUtil.isEmpty(dlIdStr)) {
+			//根据部门id，部门名称，部门主管名称查询
+			List<Employee> employeeList = employeeService.listByEmpName(manageEmpNameStr);
+			//对职工列表进行遍历查询出相应的部门信息
+			for (Employee employee : employeeList) {
+				List<Department> list = departmentService.listByDeptIdNameManageEmpJobId(Integer.valueOf(deptIdStr), deptNameStr, employee.getEmpJobid());
+				for (Department department : list) {
+					departmentList.add(department);
+				}
+			}
+		}else if(StringUtil.isEmpty(manageEmpNameStr)) {
+			//根据部门id，部门名称，部门级别查询
+			departmentList = departmentService.listByDeptIdNameDlId(Integer.valueOf(deptIdStr), deptIdStr, Integer.valueOf(dlIdStr));
+		}else if(StringUtil.isEmpty(deptNameStr)) {
+			//根据部门id，部门主管名称，部门级别查询
+			List<Employee> employeeList = employeeService.listByEmpName(manageEmpNameStr);
+			//对职工列表进行遍历查询出相应的部门信息
+			for (Employee employee : employeeList) {
+				List<Department> list = departmentService.listByDeptIdManageEmpJonIdDlId(Integer.valueOf(deptIdStr), employee.getEmpJobid(), Integer.valueOf(dlIdStr));
+				for (Department department : list) {
+					departmentList.add(department);
+				}
+			}
+		}else if(StringUtil.isEmpty(deptIdStr)) {
+			//根据部门名称，部门主管名称，部门级别查询
+			List<Employee> employeeList = employeeService.listByEmpName(manageEmpNameStr);
+			//对职工列表进行遍历查询出相应的部门信息
+			for (Employee employee : employeeList) {
+				List<Department> list = departmentService.listByDeptNameManageEmpJonIdDlId(deptIdStr, employee.getEmpJobid(), Integer.valueOf(dlIdStr));
+				for (Department department : list) {
+					departmentList.add(department);
+				}
+			}
 		}else {
-			System.out.println("不为空");
+			//根据id，部门名称，部门主管名称，部门级别查询
+			departmentList = departmentService.listByAll(Integer.valueOf(deptIdStr), deptNameStr, manageEmpNameStr, Integer.valueOf(dlIdStr));
 		}
 		if (departmentList == null) {
 			return new JsonPageResult("100", null, "没有数据！");
@@ -128,7 +216,6 @@ public class DepartmentController {
 			} 
 			//设置部门状态名称
 			list.get(i).setStatusName(statusService.get(list.get(i).getStatusId()).getStatusName());
-			System.out.println("操作人工号:" + employeeService.get(list.get(i).getOperatorEmpjobid()).getEmpName());
 			//设置操作人名称
 			if(list.get(i).getOperatorEmpjobid() != null && !list.get(i).getOperatorEmpjobid().isEmpty()) {
 				list.get(i).setOperatorEmpName(employeeService.get(list.get(i).getOperatorEmpjobid()).getEmpName());
