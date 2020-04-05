@@ -11,6 +11,11 @@ import com.lqs.hrm.entity.Employee;
 import com.lqs.hrm.mapper.DepartmentMapper;
 import com.lqs.hrm.service.DepartmentService;
 
+/**
+ * 部门信息Service
+ * @author luckyliuqs
+ *
+ */
 @Service
 public class DepartmentServiceImpl implements DepartmentService{
 	@Autowired
@@ -207,8 +212,7 @@ public class DepartmentServiceImpl implements DepartmentService{
 	 */
 	@Override
 	public int insert(Department department) {
-		// TODO Auto-generated method stub
-		return 0;
+		return departmentMapper.insertSelective(department);
 	}
 	
 	/**

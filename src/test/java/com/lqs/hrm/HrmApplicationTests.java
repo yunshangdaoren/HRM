@@ -63,4 +63,13 @@ class HrmApplicationTests {
 		System.out.println("====================");
 	}
 	
+	@Test
+	void addDept() {
+		Department department = new Department();
+		department.setDlId(2);
+		department.setStatusId(4);
+		int code = departmentService.insert(department);
+		System.out.println("==================================");
+		System.out.println("code:" + code);
+	}
 }

@@ -43,6 +43,7 @@
     						</c:forEach>
 						</select>
   					</div>
+  					<button id="btn-resetSelect" type="button" class="btn btn-danger">重置</button>
   					<button id="btn-selectDept" type="submit" class="btn btn-danger">查询</button>
   					<button id="btn-addDept" type="button" class="btn btn-success">添加部门</button>
 				</form>
@@ -55,7 +56,6 @@
 						<th>部门级别</th>
 						<th>部门主管</th>
 						<th>部门人数</th>
-						<th>部门描述</th>
 						<th>上级部门</th>
 						<th>状态</th>
 						<th>最后一次操作间</th>
@@ -72,9 +72,8 @@
 							<td>${department.dlLeve }级</td>
 							<td><a href="#">${department.manageEmpName }</a></td>
 							<td>${department.deptEmpnum }</td>
-							<td>${department.deptDesc }</td>
 							<td>${department.parentDeptName }</td>
-							<td>${department.statusName }</td>
+							<td class="td-hideContent">${department.statusName }</td>
 							<td><fmt:formatDate value="${department.lastOperatorDate }" type="both"/></td>
 							<td><a href="#">${department.operatorEmpName }</a></td>
 							<td>
@@ -144,8 +143,8 @@
   						<div class="form-group">
     						<label for="firstname" class="col-sm-2 control-label">部门级别</label>
     						<div class="col-sm-8">
-      							<select class="form-control" name="level" id="input-addDeptLevel">
-      								<option value="" disabled selected hidden>请选择</option>
+      							<select class="form-control" name="dlId" id="input-addDeptLevel">
+      								<option value="" disabled selected>请选择</option>
 								</select>
     						</div>
   						</div>
@@ -170,11 +169,8 @@
   						<div class="form-group">
     						<label for="lastname" class="col-sm-2 control-label">部门状态</label>
     						<div class="col-sm-8">
-      							<select class="form-control" name="status" id="input-addDeptStatus">
+      							<select class="form-control" name="statusId" id="input-addDeptStatus">
       								<option value="" disabled selected hidden>请选择</option>
-  									<option>正常</option>
-  									<option>冻结</option>
-  									<option>停用</option>
 								</select>
     						</div>
   						</div>

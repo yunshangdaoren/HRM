@@ -17,7 +17,7 @@ public interface EmployeeService {
 	 * @param deptId
 	 * @return
 	 */
-	List<Employee> listByEmpNameDeptId(String empName, Integer deptId);
+	//List<Employee> listByEmpNameDeptId(String empName, Integer deptId);
 	
 	/**
 	 * 根据职工名称查询

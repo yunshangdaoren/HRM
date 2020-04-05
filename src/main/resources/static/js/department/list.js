@@ -46,23 +46,43 @@ $("#span-jumPageNum").click(function(){
 	}
 });
 
-//显示添加部门弹出层,并给部门级别信息下拉框赋值
+//显示添加部门弹出层,并给部门级别和部门状态信息下拉框赋值
 $("#btn-addDept").click(function(){
 	$(".shadeDiv").show();
 	$(".panel_addDepartment").show();
+	//发送Ajax请求获取部门级别信息
 	$.ajax({
-		url:"/departmentLevel/list.do",
-		data:$("#form-addDept").serialize(),
+		url:"/departmentLevel/getLevel.do",
 		dataType:"json",
+		async:false,
 		success:function(result){
 			if(result.code==200){
-				//先清空值
-				$("#input-addDeptLevel").empty();
+				//先清空值（除了第一个）
+				$("#input-addDeptLevel option:not(:first)").remove();
 				//添加值
-				$("#input-addDeptLevel").append("<option value='' disabled selected hidden>请选择</option>");
 				for(var i =0; i < result.data.length; i++){
-					$("#input-addDeptLevel").append("<option value='"+result.data[i].level+"'>"+result.data[i].levelDesc+"</option>")
+					$("#input-addDeptLevel").append("<option value='"+result.data[i].dlId+"'>"+result.data[i].levelDesc+"</option>")
 				}
+				//alert("开始获取部门状态信息");
+				//发送Ajax请求获取部门状态信息
+				$.ajax({
+					url:"/departmentStatus/getStatus.do",
+					dataType:"json",
+					async:false,
+					success:function(result){
+						//alert("开始获取部门状态信息成功");
+						if(result.code==200){
+							//先清空值（除了第一个）
+							$("#input-addDeptStatus option:not(:first)").remove();
+							//添加值
+							for(var i =0; i < result.data.length; i++){
+								$("#input-addDeptStatus").append("<option value='"+result.data[i].statusId+"'>"+result.data[i].statusName+"</option>")
+							}
+						}else{
+							alert("获取信息失败！");
+						}
+					}
+				});
 			}else{
 				alert("获取信息失败！");
 			}
@@ -78,16 +98,17 @@ $("#btn-hidePanelAddDepartment").click(function(){
 $("#btn-submitEditSC").click(function(){
 	if(addDeptFormEmptyCheck()){
 		$.ajax({
-			url:"/department/addDepartment.do",
+			url:"/department/add.do",
 			data:$("#form-addDept").serialize(),
 			dataType:"json",
 			success:function(result){
 				if(result.code==200){
-					alert(result.message);
+					alert(result.msg);
 					$(".shadeDiv").hide();
 					$(".panel_addDepartment").hide();
+					location.reload();
 				}else{
-					alert(result.message);
+					alert(result.msg);
 				}
 			}
 		});
@@ -95,7 +116,7 @@ $("#btn-submitEditSC").click(function(){
 });
 //监听添加部门信息弹出层中部门名称输入框输入值，并动态查找指定部门信息赋值给下拉选项列表
 $("#input-addParentDeptName").bind("input propertychange", function(event){
-	alert($("#input-addParentDeptName").val());
+	//alert($("#input-addParentDeptName").val());
 });
 //添加部门弹出层非空判断
 function addDeptFormEmptyCheck(){
@@ -117,4 +138,9 @@ function addDeptFormEmptyCheck(){
 	//上面判断无误则返回true
 	return true;
 }
+
+//重置查询条件按钮点击事件
+$("#btn-resetSelect").click(function(){
+	$("#form-queryDept :input").not(":button, :submit, :reset, :hidden").val("").removeAttr("checked").remove("selected");
+});
 

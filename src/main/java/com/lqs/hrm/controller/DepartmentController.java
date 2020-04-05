@@ -1,12 +1,15 @@
 package com.lqs.hrm.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.mail.Session;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,9 +23,15 @@ import com.github.pagehelper.util.StringUtil;
 import com.lqs.hrm.entity.Department;
 import com.lqs.hrm.entity.DepartmentLevel;
 import com.lqs.hrm.entity.Employee;
+import com.lqs.hrm.entity.EmployeeDepartment;
+import com.lqs.hrm.entity.EmployeeDepartmentExample;
+import com.lqs.hrm.entity.Status;
+import com.lqs.hrm.entity.User;
+import com.lqs.hrm.json.JsonCommonResult;
 import com.lqs.hrm.json.JsonPageResult;
 import com.lqs.hrm.service.impl.DepartmentLevelServiceImpl;
 import com.lqs.hrm.service.impl.DepartmentServiceImpl;
+import com.lqs.hrm.service.impl.EmployeeDepartmentServiceImpl;
 import com.lqs.hrm.service.impl.EmployeeServiceImpl;
 import com.lqs.hrm.service.impl.StatusServiceImpl;
 import com.lqs.hrm.util.PageRequest;
@@ -40,10 +49,18 @@ public class DepartmentController {
 	private StatusServiceImpl statusService;
 	@Autowired
 	private EmployeeServiceImpl employeeService;
+	@Autowired
+	private EmployeeDepartmentServiceImpl employeeDepartmentService;
 	
-
+	/**
+	 * 查询部门并跳转至部门详情页面
+	 * @param request
+	 * @param pageRequest
+	 * @param map
+	 * @return
+	 */
 	@RequestMapping("list.do")
-	public String departmentIndex(HttpServletRequest request, PageRequest pageRequest, ModelMap map){
+	public String departmentList(HttpServletRequest request, PageRequest pageRequest, ModelMap map){
 		//查询条件信息
 		String deptIdStr = request.getParameter("deptId");
 		System.out.println("部门编号："+deptIdStr);
@@ -173,6 +190,12 @@ public class DepartmentController {
 		return "department/list";
 	}
 	
+	/**
+	 * 返回查询的指定部门信息
+	 * @param request
+	 * @param pageRequest
+	 * @return
+	 */
 	@RequestMapping("query.do")
 	@ResponseBody
 	public JsonPageResult list(HttpServletRequest request, PageRequest pageRequest) {
@@ -319,30 +342,93 @@ public class DepartmentController {
 		}
 	}
 	
+	/**
+	 * 添加部门信息
+	 * @param request
+	 * @param response
+	 * @return
+	 */
 	@RequestMapping("add.do")
-	public String add(Department department, HttpServletRequest request, HttpServletResponse response) {
+	@ResponseBody
+	public JsonCommonResult<Object> add(HttpServletRequest request, HttpServletResponse response) {
 		Map<String, Object> resultMap = new HashMap<>();
-		//获取部门级别信息
-		String deptLevelStr = request.getParameter("level");
-		//获取部门级别信息
+		//获取部门名称
+		String deptNameStr = request.getParameter("deptName");
+		//获取部门级别id
+		String dlIdStr = request.getParameter("dlId");
+		//获取上级部门名称
 		String parentDeptNameStr = request.getParameter("parentDeptName");
+		//获取部门主管名称
 		String deptManageNameStr = request.getParameter("deptManageName");
-		String deptStatusStr = request.getParameter("status");
-		
-		//部门级别
-		int deptLevel = departmentLevelService.get(Integer.parseInt(deptLevelStr)).getLevel();
+		//获取部门状态id
+		String statusIdStr = request.getParameter("statusId");
+		//获取部门描述
+		String deptDescStr = request.getParameter("deptDesc");
+		System.out.println("=============获取的表单内容==========");
+		System.out.println("部门名称："+deptNameStr);
+		System.out.println("部门级别id："+dlIdStr);
+		System.out.println("上级部门名称："+parentDeptNameStr);
+		System.out.println("部门主管名称："+deptManageNameStr);
+		System.out.println("部门状态id："+statusIdStr);
+		System.out.println("部门描述："+deptDescStr);
+		System.out.println("==================================");
 		//上级部门id
 		int parentId = 0;
-		if (parentDeptNameStr != null || !"".equals(parentDeptNameStr)) {
-			//Department parentDepartment = departmentService.listByDeptName(parentDeptNameStr);
-			//parentId = parentDepartment.getDeptId();
+		if (!StringUtil.isEmpty(parentDeptNameStr)) {
+			Department parentDepartment = departmentService.listByDeptName(parentDeptNameStr).get(0);
+			parentId = parentDepartment.getDeptId();
+			System.out.println("获取到上级部门id:"+parentId);
 		}
 		//部门主管工号
-		int manageEmpjobid = 0;
+		String manageEmpjobid = "";
+		if (!StringUtil.isEmpty(deptManageNameStr)) {
+			Employee employee = employeeService.listByEmpName(deptManageNameStr).get(0);
+			manageEmpjobid = employee.getEmpJobid();
+			System.out.println("获取到部门主管工号:"+manageEmpjobid);
+		}
+		Department department = new Department();
+		//设置部门名称
+		department.setDeptName(deptNameStr);
+		//设置部门级别id
+		department.setDlId(Integer.valueOf(dlIdStr));
+		//设置部门级别
+		//department.setDlLeve(departmentLevelService.get(Integer.valueOf(dlIdStr)).getLevel());
+		//设置部门人数
+		department.setDeptEmpnum(0);
+		//设置部门状态id
+		department.setStatusId(Integer.valueOf(statusIdStr));
+		//设置上级部门id
+		department.setParentId(parentId);
+		//设置部门主管工号
+		department.setManageEmpjobid(manageEmpjobid);
+		//设置最后一次操作时间
+		department.setLastOperatorDate(new Date());
+		//设置操作人工号
+		//获取当前登录系统人工号
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("session_loginUser");
+		//设置工号
+		department.setOperatorEmpjobid(user.getUserAccount());
+		//设置部门描述
+		department.setDeptDesc(deptDescStr);
 		
-		
-		//departmentService.insert(department);
-		return "";
+		//添加职工-部门信息
+		EmployeeDepartment employeeDepartment = new EmployeeDepartment();
+		employeeDepartment.setEmpJobid(manageEmpjobid);
+		//添加部门信息
+		int result1 = departmentService.insert(department);
+		//获取刚刚添加的部门的id
+		int deptId = departmentService.listByDeptName(deptNameStr).get(0).getDeptId();
+		//添加职工-部门信息
+		employeeDepartment.setDeptId(deptId);
+		int result2 = employeeDepartmentService.insert(employeeDepartment);
+		System.out.println("====部门信息如下：");
+		System.out.println(department);
+		if (result1 == 0 || result1 == 0) {
+			return new JsonCommonResult<Object>("100", null, "添加失败");
+		}
+		return new JsonCommonResult<Object>("200", null, "添加成功");
 	}
+	
 }
 

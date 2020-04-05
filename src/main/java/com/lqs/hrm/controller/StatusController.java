@@ -17,6 +17,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.lqs.hrm.entity.Department;
 import com.lqs.hrm.entity.DepartmentLevel;
+import com.lqs.hrm.entity.Status;
 import com.lqs.hrm.json.JsonCommonResult;
 import com.lqs.hrm.json.JsonPageResult;
 import com.lqs.hrm.service.impl.DepartmentLevelServiceImpl;
@@ -28,24 +29,24 @@ import com.lqs.hrm.util.PageResult;
 import com.lqs.hrm.util.PageResultUtil;
 
 @Controller
-@RequestMapping("departmentLevel")
-public class DepartmentLevelController {
+@RequestMapping("departmentStatus")
+public class StatusController {
 	@Autowired
-	private DepartmentLevelServiceImpl departmentLevelService;
+	private StatusServiceImpl statusService;
 	
 	/**
-	 * 返回添加部门要填充的部门级别信息
+	 * 返回添加部门要填充的部门状态信息
 	 * @return
 	 */
-	@RequestMapping("getLevel.do")
+	@RequestMapping("getStatus.do")
 	@ResponseBody
-	public JsonCommonResult<List<DepartmentLevel>> getDeptLvel(){
+	public JsonCommonResult<List<Status>> getStatus(){
 		//查询部门级别信息
-		List<DepartmentLevel> list = departmentLevelService.list();
+		List<Status> list = statusService.list();
 		if (list == null) {
-			return new JsonCommonResult<>("100", null, "没有数据！");
+			return new JsonCommonResult<List<Status>>("100", null, "没有数据！");
 		}
-		return new JsonCommonResult<List<DepartmentLevel>>("200", list, "请求成功");
+		return new JsonCommonResult<List<Status>>("200", list, "请求成功");
 	}
 
 	

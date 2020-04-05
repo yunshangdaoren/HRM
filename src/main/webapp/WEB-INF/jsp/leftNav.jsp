@@ -19,7 +19,7 @@
 <div id="leftNav">
 	<div class="modu">
 		<div class="modu-head">
-			<p>工作台</p>
+			<p>个人工作台</p>
 		</div>
 		<div class="modu-content">
 		</div>

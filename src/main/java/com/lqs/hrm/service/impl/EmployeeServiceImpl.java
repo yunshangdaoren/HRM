@@ -20,6 +20,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 	@Autowired
 	EmployeeMapper employeeMapper;
 	
+	
 	@Override
 	public Employee get(String empJobid) {
 		return employeeMapper.selectByPrimaryKey(empJobid);
@@ -28,12 +29,12 @@ public class EmployeeServiceImpl implements EmployeeService{
 	/**
 	 * 根据职工名称和所属部门id查询
 	 */
-	@Override
-	public List<Employee> listByEmpNameDeptId(String empName, Integer deptId) {
-		EmployeeExample example = new EmployeeExample();
-		example.or().andEmpNameEqualTo(empName).andDeptIdEqualTo(deptId);
-		return employeeMapper.selectByExample(example);
-	}
+//	@Override
+//	public List<Employee> listByEmpNameDeptId(String empName, Integer deptId) {
+//		EmployeeExample example = new EmployeeExample();
+//		example.or().andEmpNameEqualTo(empName).andDeptIdEqualTo(deptId);
+//		return employeeMapper.selectByExample(example);
+//	}
 
 	/**
 	 * 根据职工名称查询
