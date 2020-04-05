@@ -31,6 +31,8 @@ public class DepartmentServiceImpl implements DepartmentService{
 	@Override
 	public List<Department> listByDeptName(String deptName) {
 		DepartmentExample example = new DepartmentExample();
+		//按照日期排序
+		example.setOrderByClause("last_operator_date desc");
 		example.createCriteria().andDeptNameEqualTo(deptName);
 		return departmentMapper.selectByExample(example);
 	}
@@ -40,6 +42,8 @@ public class DepartmentServiceImpl implements DepartmentService{
 	@Override
 	public List<Department> listBymanageEmpjobid(String manageEmpjobid) {
 		DepartmentExample example = new DepartmentExample();
+		//按照日期排序
+		example.setOrderByClause("last_operator_date desc");
 		example.createCriteria().andManageEmpjobidEqualTo(manageEmpjobid);
 		return departmentMapper.selectByExample(example);
 	}
@@ -50,6 +54,8 @@ public class DepartmentServiceImpl implements DepartmentService{
 	@Override
 	public List<Department> listByDlId(Integer dlId) {
 		DepartmentExample example = new DepartmentExample();
+		//按照日期排序
+		example.setOrderByClause("last_operator_date desc");
 		example.or().andDlIdEqualTo(dlId);
 		return departmentMapper.selectByExample(example);
 	}
@@ -60,6 +66,8 @@ public class DepartmentServiceImpl implements DepartmentService{
 	@Override
 	public List<Department> listByDeptIdName(Integer deptId, String deptName) {
 		DepartmentExample example = new DepartmentExample();
+		//按照日期排序
+		example.setOrderByClause("last_operator_date desc");
 		example.createCriteria().andDeptIdEqualTo(deptId).andDeptNameEqualTo(deptName);
 		return departmentMapper.selectByExample(example);
 	}
@@ -70,6 +78,8 @@ public class DepartmentServiceImpl implements DepartmentService{
 	@Override
 	public List<Department> listByDeptIdManageEmpJobId(Integer deptId, String manageEmpjobid) {
 		DepartmentExample example = new DepartmentExample();
+		//按照日期排序
+		example.setOrderByClause("last_operator_date desc");
 		example.createCriteria().andDeptIdEqualTo(deptId).andManageEmpjobidEqualTo(manageEmpjobid);
 		return departmentMapper.selectByExample(example);
 	}
@@ -80,6 +90,8 @@ public class DepartmentServiceImpl implements DepartmentService{
 	@Override
 	public List<Department> listByDeptIdDlId(Integer deptId, Integer dlId) {
 		DepartmentExample example = new DepartmentExample();
+		//按照日期排序
+		example.setOrderByClause("last_operator_date desc");
 		example.createCriteria().andDeptIdEqualTo(deptId).andDlIdEqualTo(dlId);
 		return departmentMapper.selectByExample(example);
 	}
@@ -90,6 +102,8 @@ public class DepartmentServiceImpl implements DepartmentService{
 	@Override
 	public List<Department> listByDeptNameManageEmpJobId(String deptName, String manageEmpjobid) {
 		DepartmentExample example = new DepartmentExample();
+		//按照日期排序
+		example.setOrderByClause("last_operator_date desc");
 		example.createCriteria().andDeptNameEqualTo(deptName).andManageEmpjobidEqualTo(manageEmpjobid);
 		return departmentMapper.selectByExample(example);
 	}
@@ -100,6 +114,8 @@ public class DepartmentServiceImpl implements DepartmentService{
 	@Override
 	public List<Department> listByDeptNameDlId(String deptName, Integer dlId) {
 		DepartmentExample example = new DepartmentExample();
+		//按照日期排序
+		example.setOrderByClause("last_operator_date desc");
 		example.createCriteria().andDeptNameEqualTo(deptName).andDlIdEqualTo(dlId);
 		return departmentMapper.selectByExample(example);
 	}
@@ -110,6 +126,8 @@ public class DepartmentServiceImpl implements DepartmentService{
 	@Override
 	public List<Department> listByManageEmpJobIdDlId(String manageEmpjobid, Integer dlId) {
 		DepartmentExample example = new DepartmentExample();
+		//按照日期排序
+		example.setOrderByClause("last_operator_date desc");
 		example.createCriteria().andManageEmpjobidEqualTo(manageEmpjobid).andDlIdEqualTo(dlId);
 		return departmentMapper.selectByExample(example);
 	}
@@ -120,6 +138,8 @@ public class DepartmentServiceImpl implements DepartmentService{
 	@Override
 	public List<Department> listByDeptIdNameManageEmpJobId(Integer deptId, String deptName, String manageEmpjobid) {
 		DepartmentExample example = new DepartmentExample();
+		//按照日期排序
+		example.setOrderByClause("last_operator_date desc");
 		example.createCriteria().andDeptIdEqualTo(deptId).andDeptNameEqualTo(deptName).andManageEmpjobidEqualTo(manageEmpjobid);
 		return departmentMapper.selectByExample(example);
 	}
@@ -129,6 +149,8 @@ public class DepartmentServiceImpl implements DepartmentService{
 	@Override
 	public List<Department> listByDeptIdNameDlId(Integer deptId, String deptName, Integer dlId) {
 		DepartmentExample example = new DepartmentExample();
+		//按照日期排序
+		example.setOrderByClause("last_operator_date desc");
 		example.createCriteria().andDeptIdEqualTo(deptId).andDeptNameEqualTo(deptName).andDlIdEqualTo(dlId);
 		return departmentMapper.selectByExample(example);
 	}
@@ -138,6 +160,8 @@ public class DepartmentServiceImpl implements DepartmentService{
 	@Override
 	public List<Department> listByDeptIdManageEmpJonIdDlId(Integer deptId, String manageEmpjobid, Integer dlId) {
 		DepartmentExample example = new DepartmentExample();
+		//按照日期排序
+		example.setOrderByClause("last_operator_date desc");
 		example.createCriteria().andDeptIdEqualTo(deptId).andManageEmpjobidEqualTo(manageEmpjobid).andDlIdEqualTo(dlId);
 		return departmentMapper.selectByExample(example);
 	}
@@ -148,6 +172,8 @@ public class DepartmentServiceImpl implements DepartmentService{
 	@Override
 	public List<Department> listByDeptNameManageEmpJonIdDlId(String deptName, String manageEmpjobid, Integer dlId) {
 		DepartmentExample example = new DepartmentExample();
+		//按照日期排序
+		example.setOrderByClause("last_operator_date desc");
 		example.createCriteria().andDeptNameEqualTo(deptName).andManageEmpjobidEqualTo(manageEmpjobid).andDlIdEqualTo(dlId);
 		return departmentMapper.selectByExample(example);
 	}
@@ -158,6 +184,8 @@ public class DepartmentServiceImpl implements DepartmentService{
 	@Override
 	public List<Department> listByAll(Integer deptId, String deptName, String manageEmpjobid, Integer dlId) {
 		DepartmentExample example = new DepartmentExample();
+		//按照日期排序
+		example.setOrderByClause("last_operator_date desc");
 		example.or().andDeptIdEqualTo(deptId).andDeptNameEqualTo(deptName).andManageEmpjobidEqualTo(manageEmpjobid).andDlIdEqualTo(dlId);
 		return departmentMapper.selectByExample(example);
 	}

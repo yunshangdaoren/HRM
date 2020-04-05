@@ -12,33 +12,38 @@
 	<div id="center">
 		<%@ include file="../leftNav.jsp" %>
 		<div id="right">
-			<span class="title">部门详情</span>
+			<span class="title">部门详情${deptIdStr }</span>
 			<div class="div_search">
-				<form class="form-inline" id="form-queryDept">
+				<form class="form-inline" id="form-queryDept" method="get" action="/department/list.do">
 					<div class="form-group">
     					<label for="exampleInputName2">部门id</label>
-    					<input type="text" class="form-control" name="deptId" id="input-selectDeptId">
+    					<input type="text" class="form-control" name="deptId" id="input-selectDeptId" value="${deptIdStr }">
   					</div>
   					<div class="form-group">
     					<label for="exampleInputName2">部门名称</label>
-    					<input type="text" class="form-control"  name="deptName" id="input-selectDeptName">
+    					<input type="text" class="form-control"  name="deptName" id="input-selectDeptName" value="${deptNameStr }">
   					</div>
   					<div class="form-group">
     					<label for="exampleInputEmail2">部门主管名称</label>
-    					<input type="email" class="form-control"  name="manageEmpName" id="input-selectDeptManageName">
+    					<input type="text" class="form-control"  name="manageEmpName" id="input-selectDeptManageName" value="${manageEmpNameStr }">
   					</div>
   					<div class="form-group">
   						<label for="exampleInputEmail2">部门级别</label>
     					<select class="form-control" id="input-selectDeptLevel"  name="dlId">
-    						<option value="" disabled selected hidden>请选择</option>
-  							<option value="1">1</option>
-  							<option value="2">2</option>
-  							<option value="3">3</option>
-  							<option value="4">4</option>
-  							<option value="5">5</option>
+    						<option value="" disabled selected>请选择</option>
+    						<c:forEach items="${departmentLevelList }" var="departmentLevel">
+    							<c:choose>
+    								<c:when test="${dlIdStr == departmentLevel.dlId }">
+    									<option value="${dlIdStr }" selected = "selected">${departmentLevel.level }级</option>
+    								</c:when>
+    								<c:otherwise>
+    								<option value="${departmentLevel.dlId }">${departmentLevel.level }级</option>
+    							</c:otherwise>
+    							</c:choose>
+    						</c:forEach>
 						</select>
   					</div>
-  					<button id="btn-selectDept" type="button" class="btn btn-danger">查询</button>
+  					<button id="btn-selectDept" type="submit" class="btn btn-danger">查询</button>
   					<button id="btn-addDept" type="button" class="btn btn-success">添加部门</button>
 				</form>
 			</div>
@@ -65,7 +70,7 @@
 							<td>${department.deptId }</td>
 							<td>${department.deptName }</td>
 							<td>${department.dlLeve }级</td>
-							<td>${department.manageEmpName }</td>
+							<td><a href="#">${department.manageEmpName }</a></td>
 							<td>${department.deptEmpnum }</td>
 							<td>${department.deptDesc }</td>
 							<td>${department.parentDeptName }</td>
@@ -92,26 +97,21 @@
 			<div class="pageNav">
 				<ul class="pagination">
 					<li>
-						<c:choose>
-    						<c:when test="${pageResult.pageNum == pageResult.totalPages }">
-    							<a href="/department/list.do?pageNum=1" class="a-indexPage">首页</a>
-    						</c:when>
-    						<c:otherwise>
-    							<a href="#" style="cursor: default;" class="a-indexPage">首页</a>
-    						</c:otherwise>
-    					</c:choose>
+    					<a href="#" class="a-indexPage">首页</a>
 					</li>
     				<li>
-    					<a href="/department/list.do?pageNum=${pageResult.pageNum-1}" class="a-prePage">上一页</a>
+    					<a href="#" class="a-prePage">上一页</a>
     				</li>
     				<li>
     					<a href="#" class="a-currentPage">当前第${pageResult.pageNum }页</a>
+    					<i style="display:none;" class="i-pageNum">${pageResult.pageNum }</i>
     				</li>
     				<li>
-    					<a href="/department/list.do?pageNum=${pageResult.pageNum+1}" class="a-nextPage">下一页</a>
+    					<a href=#" class="a-nextPage">下一页</a>
     				</li>
     				<li>
-    					<a href="#" style="cursor: default;" class="a-endPage">尾页</a>
+    					<a href="#" class="a-endPage">尾页</a>
+    					<i style="display:none;" class="i-totalPages">${pageResult.totalPages }</i>
     				</li>
     				<li>
     					<span style="line-height:1.42857143;" class="span-totalPages">共${pageResult.totalPages }页</span>
