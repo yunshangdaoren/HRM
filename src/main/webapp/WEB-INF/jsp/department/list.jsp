@@ -102,7 +102,7 @@
     					<a href="#" class="a-prePage">上一页</a>
     				</li>
     				<li>
-    					<a href="#" class="a-currentPage">当前第${pageResult.pageNum }页</a>
+    					<span style="line-height:1.42857143;" class="span-currentPage">当前第${pageResult.pageNum }页</span>
     					<i style="display:none;" class="i-pageNum">${pageResult.pageNum }</i>
     				</li>
     				<li>
