@@ -104,7 +104,7 @@
     				<li>
     					<span style="line-height:1.42857143;" class="span-currentPage">当前第${pageResult.pageNum }页</span>
     					<i style="display:none;" class="i-pageNum">${pageResult.pageNum }</i>
-    				</li>
+    				</li> 
     				<li>
     					<a href=#" class="a-nextPage">下一页</a>
     				</li>
