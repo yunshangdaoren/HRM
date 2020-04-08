@@ -48,10 +48,14 @@ public class EmployeeDepartmentServiceImpl implements EmployeeDepartmentService{
 	 * 根据职工号、部门id查询
 	 */
 	@Override
-	public List<EmployeeDepartment> get(String empJobid, Integer deptId) {
+	public EmployeeDepartment get(String empJobid, Integer deptId) {
 		EmployeeDepartmentExample example = new EmployeeDepartmentExample();
 		example.or().andEmpJobidEqualTo(empJobid).andDeptIdEqualTo(deptId);
-		return employeeDepartmentMapper.selectByExample(example);
+		List<EmployeeDepartment> list = employeeDepartmentMapper.selectByExample(example);
+		if (list.size() == 0) {
+			return null;
+		}
+		return list.get(0);
 	}
 
 	/**

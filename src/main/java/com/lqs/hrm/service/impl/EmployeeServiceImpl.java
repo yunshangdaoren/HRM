@@ -20,7 +20,6 @@ public class EmployeeServiceImpl implements EmployeeService{
 	@Autowired
 	EmployeeMapper employeeMapper;
 	
-	
 	@Override
 	public Employee get(String empJobid) {
 		return employeeMapper.selectByPrimaryKey(empJobid);

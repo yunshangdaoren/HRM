@@ -24,7 +24,7 @@ public class StatusServiceImpl implements StatusService{
 	 * 返回指定状态id的状态
 	 */
 	@Override
-	public Status get(int statusId) {
+	public Status get(Integer statusId) {
 		return statusMapper.selectByPrimaryKey(statusId);
 	}
 

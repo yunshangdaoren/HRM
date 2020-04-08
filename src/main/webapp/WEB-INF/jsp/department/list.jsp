@@ -70,7 +70,10 @@
 							<td>${department.deptId }</td>
 							<td>${department.deptName }</td>
 							<td>${department.dlLeve }级</td>
-							<td><a href="#">${department.manageEmpName }</a></td>
+							<td>
+								<a href="#" class="a-manageEmpName">${department.manageEmpName }</a>
+								<i style="display:none;">${department.manageEmpjobid }</i>
+							</td>
 							<td>${department.deptEmpnum }</td>
 							<td>${department.parentDeptName }</td>
 							<td class="td-hideContent">${department.statusName }</td>
@@ -127,7 +130,7 @@
 	
 	<!-- 弹出遮罩层，用于添加部门信息 -->
 	<div class="panel_addDepartment">
-			<div class="panel">
+			<div class="div-panel">
     			<div class="panel-heading">
     				<label>添加部门信息</label>
     				<button id="btn-hidePanelAddDepartment" type="button" class="btn btn-success">退出</button>
@@ -189,6 +192,28 @@
     			</div>
 			</div>
 		</div>
+		
+		<!-- 弹出遮罩层，用于显示职工详细信息 -->
+		<div class="panel_employeeDetail" style="display:none;">
+			<div class="div-panel">
+    			<div class="panel-heading">
+    				<label>职工详细信息</label>
+    				<button id="btn-hidePanelEmployeeDetail" type="button" class="btn btn-success">退出</button>
+    			</div>
+    			<div class="panel_body">
+    				<ul class="list-group" style="width:100%;height:100%;overflow:auto;">
+        				<li class="list-group-item"><label>职工工号：</label><span class="span-empJobId"></span></li>
+        				<li class="list-group-item"><label>职工姓名：</label><span class="span-empName"></span></li>
+        				<li class="list-group-item"><label>职工性别：</label><span class="span-empSex"></span></li>
+        				<li class="list-group-item"><label>职工联系电话：</label><span class="span-empPhone"></span></li>
+        				<li class="list-group-item"><label>职工入职时间：</label><span class="span-empEntryTime"></span></li>
+       					<li class="list-group-item"><label>职工所属部门：</label><span class="span-deptName"></span></li>
+       					<li class="list-group-item"><label>职工状态：</label><span class="span-empStatus"></span></li>
+   					</ul>
+    			</div>
+			</div>
+		</div>
+		
 </body>
 	<script type="text/javascript" src="/static/js/department/list.js"></script>
 </html>

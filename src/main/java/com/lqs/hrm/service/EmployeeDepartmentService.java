@@ -24,7 +24,7 @@ public interface EmployeeDepartmentService {
 	 * @param deptId
 	 * @return
 	 */
-	List<EmployeeDepartment> get(String empJobid, Integer deptId);
+	EmployeeDepartment get(String empJobid, Integer deptId);
 	
 	/**
 	 * 添加

@@ -46,8 +46,9 @@ $("#span-jumPageNum").click(function(){
 	}
 });
 
-//显示添加部门弹出层,并给部门级别和部门状态信息下拉框赋值
+//显示添加部门弹出层面板,并给部门级别和部门状态信息下拉框赋值
 $("#btn-addDept").click(function(){
+	//显示弹出层面板
 	$(".shadeDiv").show();
 	$(".panel_addDepartment").show();
 	//发送Ajax请求获取部门级别信息
@@ -89,12 +90,7 @@ $("#btn-addDept").click(function(){
 		}
 	});
 });
-//关闭添加部门弹出层
-$("#btn-hidePanelAddDepartment").click(function(){
-	$(".shadeDiv").hide();
-	$(".panel_addDepartment").hide();
-});
-//添加部门信息弹出层提交按钮点击事件
+//添加部门信息弹出层面板提交按钮点击事件
 $("#btn-submitEditSC").click(function(){
 	if(addDeptFormEmptyCheck()){
 		$.ajax({
@@ -114,11 +110,17 @@ $("#btn-submitEditSC").click(function(){
 		});
 	};
 });
+//关闭添加部门信息弹出层面板
+$("#btn-hidePanelAddDepartment").click(function(){
+	$(".shadeDiv").hide();
+	$(".panel_addDepartment").hide();
+});
+
 //监听添加部门信息弹出层中部门名称输入框输入值，并动态查找指定部门信息赋值给下拉选项列表
 $("#input-addParentDeptName").bind("input propertychange", function(event){
 	//alert($("#input-addParentDeptName").val());
 });
-//添加部门弹出层非空判断
+//添加部门弹出层面板非空判断
 function addDeptFormEmptyCheck(){
 	if($("#input-addDeptName").val()==''){
 		alert("部门名称不能为空！");
@@ -144,3 +146,39 @@ $("#btn-resetSelect").click(function(){
 	$("#form-queryDept :input").not(":button, :submit, :reset, :hidden").val("").removeAttr("checked").remove("selected");
 });
 
+//部门主管人名称点击事件：弹出显示层，显示指定职工的详细信息
+$(".a-manageEmpName").click(function(){
+	//获取到要查看的职工工号
+	var manageEmpjobid = $(this).next().text();
+	//获取到职工所属部门id
+	var deptId = $(this).parent().parent().children().first().text();
+	//显示面板
+	$(".shadeDiv").show();
+	$(".panel_employeeDetail").show();
+	//发送Ajax请求
+	$.ajax({
+		url:"/employee/get.do?empJobid="+manageEmpjobid+"&deptId="+deptId,
+		dataType:"json",
+		method:post,
+		success:function(result){
+			if(result.code==200){
+				alert(result.msg);
+				$(".span-empJobId").text(result.data.empJobid);
+				$(".span-empName").text(result.data.empName);
+				$(".span-empSex").text(result.data.empSex);
+				$(".span-empPhone").text(result.data.empPhone);
+				$(".span-empEntryTime").text(result.data.entryTime);
+				$(".span-deptName").text(result.data.deptName);
+				$(".span-empStatus").text(result.data.statusName);
+			}else{
+				alert(result.msg);
+			}
+		}
+	});
+	
+});
+//关闭职工详细信息弹出层面板
+$("#btn-hidePanelEmployeeDetail").click(function(){
+	$(".shadeDiv").hide();
+	$(".panel_employeeDetail").hide();
+});

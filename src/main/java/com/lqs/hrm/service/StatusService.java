@@ -16,7 +16,7 @@ public interface StatusService {
 	 * @param statusId
 	 * @return
 	 */
-	Status get(int statusId);
+	Status get(Integer statusId);
 	
 	/**
 	 * 返回所有部门状态信息
