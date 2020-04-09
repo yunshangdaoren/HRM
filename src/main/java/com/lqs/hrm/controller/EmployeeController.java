@@ -1,6 +1,8 @@
 package com.lqs.hrm.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,22 +39,32 @@ public class EmployeeController {
 	EmployeeServiceImpl employeeService;
 	@Autowired
 	private DepartmentServiceImpl departmentService;
+	@Autowired
 	private StatusServiceImpl statusService;
+	@Autowired
+	private EmployeeDepartmentServiceImpl employeeDepartmentService;
 	
-	@RequestMapping("get")
+	@RequestMapping("get.do")
 	@ResponseBody
-	public JsonCommonResult<Employee> get(String empJobid, String deptId) {
+	public JsonCommonResult<Employee> get(String empJobid) {
 		Employee employee =  employeeService.get(empJobid);
 		//获取部门信息
-		Department department = departmentService.get(Integer.valueOf(deptId));
+		List<EmployeeDepartment> list = employeeDepartmentService.get(empJobid);
+		//list
+		List<Integer> deptIdList = new ArrayList<Integer>();
+		List<String> deptNameList = new ArrayList<String>();
+		for (EmployeeDepartment employeeDepartment : list) {
+			//设置职工所属部门信息
+			deptIdList.add(employeeDepartment.getDeptId());
+			System.out.println("/////////////////////职工部门名称："+departmentService.get(employeeDepartment.getDeptId()).getDeptName());
+			deptNameList.add(departmentService.get(employeeDepartment.getDeptId()).getDeptName());
+		}
 		//设置职工所属部门信息
-		employee.setDeptId(department.getDeptId());
-		employee.setDeptName(department.getDeptName());
+		employee.setDeptIdList(deptIdList);
+		employee.setDeptNameList(deptNameList);
 		//设置职工状态名称
-		System.out.println("=====================");
-		System.out.println("职工状态id："+employee.getStatusId());
 		Status status = statusService.get(1);
-		//employee.setStatusName(statusService.get(employee.getStatusId()).getStatusName());
+		employee.setStatusName(statusService.get(employee.getStatusId()).getStatusName());
 		return new JsonCommonResult<Employee>("200", employee, "获取成功！");
 	}
 	

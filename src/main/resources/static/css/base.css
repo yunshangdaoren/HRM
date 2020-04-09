@@ -9,7 +9,7 @@ html, body{
 	width:100%;
 	background:black;
 }
-/* ������������ʽ */
+/* 锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷式 */
 #top{
 	height:65px;
 	min-width:1380px;
@@ -67,7 +67,7 @@ html, body{
 	float:right;
 	margin-right:16px;
 }
-/* ��Ϣ��ʾͼƬС��� */
+/* 锟斤拷息锟斤拷示图片小锟斤拷锟� */
 #top .div-news .img-news{
 	width:32px;
 	height:32px;
@@ -78,7 +78,7 @@ html, body{
 	cursor:pointer;
 	src:/static/img/news-dark.png
 }
-/* ��Ϣ��ʾС��� */
+/* 锟斤拷息锟斤拷示小锟斤拷锟� */
 #top .div-news .b-newsAlt{
 	width:12px;
 	height:12px;
@@ -88,7 +88,7 @@ html, body{
 	margin-top:14px;
 	border-radius:10px;
 }
-/* ���ֲ���ʽ  */
+/* 锟斤拷锟街诧拷锟斤拷式  */
 .shadeDiv{
 	display:none;
 	position:absolute;
@@ -100,31 +100,31 @@ html, body{
 	line-height:100%;
 	z-index:2;
 }
-/* �м�����������ʽ */
+/* 锟叫硷拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷式 */
 #center{
 	min-width:1380px;
 	max-width:100%;
-	min-height:620px;
+	min-height:820px;
+	max-height:auto;
 	overflow: hidden;
+	padding:0px;
 }
 #right{
 	min-width:1220px;
 	height:auto;
 	position: relative;
 	left: 10px;
-	right:10px;
 	float:left;
-	padding-top:8px;
 	/*background-color:#FFC0CB;
 	*/
 }
-/* ���� */
+/* 锟斤拷锟斤拷 */
 #right .title{
 	font-size:25px;
 	font-weight:bold;
 	color:#887E77;
 }
-/* ��ҳ */
+/* 锟斤拷页 */
 #right .pageNav{
 	width:610px;
 	margin:auto;
@@ -134,7 +134,7 @@ html, body{
 	margin-top:0px;
 	margin-bottom:0px;
 }
-/* �ײ�����ʽ */
+/* 锟阶诧拷锟斤拷锟斤拷式 */
 #bottom{
 	min-width:1380px;
 	max-width:100%;
@@ -144,7 +144,7 @@ html, body{
 	line-height:80px;
 	position:relative;
 }
-/* �ռ�¼ */
+/* 锟秸硷拷录 */
 .div_prpmptEmpty{
 	width:100%;
 	height:200px;

@@ -137,4 +137,12 @@ public class Status {
     public void setStatusType(Integer statusType) {
         this.statusType = statusType;
     }
+
+	@Override
+	public String toString() {
+		return "Status [statusId=" + statusId + ", statusName=" + statusName + ", statusDesc=" + statusDesc
+				+ ", statusType=" + statusType + "]";
+	}
+    
+    
 }

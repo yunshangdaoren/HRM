@@ -25,7 +25,11 @@ public class StatusServiceImpl implements StatusService{
 	 */
 	@Override
 	public Status get(Integer statusId) {
-		return statusMapper.selectByPrimaryKey(statusId);
+		Status status = statusMapper.selectByPrimaryKey(statusId);
+		if (status == null) {
+			return null;
+		}
+		return status;
 	}
 
 	/**

@@ -12,7 +12,7 @@
 	<div id="center">
 		<%@ include file="../leftNav.jsp" %>
 		<div id="right">
-			<span class="title">部门详情${deptIdStr }</span>
+			<span class="title">部门详情</span>
 			<div class="div_search">
 				<form class="form-inline" id="form-queryDept" method="get" action="/department/list.do">
 					<div class="form-group">
@@ -78,7 +78,10 @@
 							<td>${department.parentDeptName }</td>
 							<td class="td-hideContent">${department.statusName }</td>
 							<td><fmt:formatDate value="${department.lastOperatorDate }" type="both"/></td>
-							<td><a href="#">${department.operatorEmpName }</a></td>
+							<td>
+								<a href="#" class="a-operatorEmpName">${department.operatorEmpName }</a>
+								<i style="display:none;">${department.operatorEmpjobid }</i>
+							</td>
 							<td>
 								<a class="a_deptDetail" href="#">
 					    			<span class="label label-primary">详情</span>

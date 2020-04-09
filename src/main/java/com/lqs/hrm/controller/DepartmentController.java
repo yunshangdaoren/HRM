@@ -407,6 +407,9 @@ public class DepartmentController {
 		//获取当前登录系统人工号
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("session_loginUser");
+		if (user == null) {
+			return new JsonCommonResult<Object>("100", null, "请先登录！");
+		}
 		//设置工号
 		department.setOperatorEmpjobid(user.getUserAccount());
 		//设置部门描述
@@ -417,6 +420,7 @@ public class DepartmentController {
 		employeeDepartment.setEmpJobid(manageEmpjobid);
 		//添加部门信息
 		int result1 = departmentService.insert(department);
+		System.out.println("添加部门返回的result:"+result1);
 		//获取刚刚添加的部门的id
 		int deptId = departmentService.listByDeptName(deptNameStr).get(0).getDeptId();
 		//添加职工-部门信息
