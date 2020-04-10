@@ -364,14 +364,6 @@ public class DepartmentController {
 		String statusIdStr = request.getParameter("statusId");
 		//获取部门描述
 		String deptDescStr = request.getParameter("deptDesc");
-		System.out.println("=============获取的表单内容==========");
-		System.out.println("部门名称："+deptNameStr);
-		System.out.println("部门级别id："+dlIdStr);
-		System.out.println("上级部门名称："+parentDeptNameStr);
-		System.out.println("部门主管名称："+deptManageNameStr);
-		System.out.println("部门状态id："+statusIdStr);
-		System.out.println("部门描述："+deptDescStr);
-		System.out.println("==================================");
 		//上级部门id
 		int parentId = 0;
 		if (!StringUtil.isEmpty(parentDeptNameStr)) {
@@ -420,19 +412,17 @@ public class DepartmentController {
 		employeeDepartment.setEmpJobid(manageEmpjobid);
 		//添加部门信息
 		int result1 = departmentService.insert(department);
-		System.out.println("添加部门返回的result:"+result1);
 		//获取刚刚添加的部门的id
 		int deptId = departmentService.listByDeptName(deptNameStr).get(0).getDeptId();
 		//添加职工-部门信息
 		employeeDepartment.setDeptId(deptId);
 		int result2 = employeeDepartmentService.insert(employeeDepartment);
-		System.out.println("====部门信息如下：");
-		System.out.println(department);
-		if (result1 == 0 || result1 == 0) {
+		if (result1 == 0 || result2 == 0) {
 			return new JsonCommonResult<Object>("100", null, "添加失败");
 		}
 		return new JsonCommonResult<Object>("200", null, "添加成功");
 	}
+	
 	
 }
 

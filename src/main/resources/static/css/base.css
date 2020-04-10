@@ -108,6 +108,7 @@ html, body{
 	max-height:auto;
 	overflow: hidden;
 	padding:0px;
+	background:#EEEEEE;
 }
 #right{
 	min-width:1220px;
@@ -115,8 +116,6 @@ html, body{
 	position: relative;
 	left: 10px;
 	float:left;
-	/*background-color:#FFC0CB;
-	*/
 }
 /* 锟斤拷锟斤拷 */
 #right .title{

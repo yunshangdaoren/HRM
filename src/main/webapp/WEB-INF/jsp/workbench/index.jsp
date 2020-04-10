@@ -18,42 +18,95 @@
 			<div class="div-content">
 				<div class="content-left">
 					<div class="div1">
-						<div class="panel panel-primary" style="width:48%;float:left;">
+						<div class="panel panel-primary" onclick="window.open('')">
   							<div class="panel-heading">
     							<h3 class="panel-title">待入职</h3>
   							</div>
-  							<div class="panel-body">
-    							Panel content
+  							<div class="panel-body" title="待入职">
+    							<div class="div-personNum">
+    								<span class="num" style="line-height:70px;font-size:53px;">0</span>
+    								<span class="ren" style="line-height:70px;font-size:20px;color:#888;">人</span>
+    							</div>
+    							<div class="div-img">
+    								<img src="/static/img/entry.png" style="width:52px;height:52px;">
+    							</div>
   							</div>
 						</div>
-						<div class="panel panel-success" style="width:48%;float:right;">
+						<div class="panel panel-success" onclick="window.open('')">
   							<div class="panel-heading">
     							<h3 class="panel-title">待转正</h3>
   							</div>
-  							<div class="panel-body">
-    							Panel content
+  							<div class="panel-body" title="待转正">
+    							<div class="div-personNum">
+    								<span class="num" style="line-height:70px;font-size:53px;">0</span>
+    								<span class="ren" style="line-height:70px;font-size:20px;color:#888;">人</span>
+    							</div>
+    							<div class="div-img">
+    								<img src="/static/img/regular.png">
+    							</div>
   							</div>
 						</div>
 					</div>
-					<div class="div2"></div>
+					<div class="div2">
+						<div class="panel">
+  							<div class="panel-heading">
+    							<span class="panel-title">待办理事项</span>
+  							</div>
+  							<div class="panel-body">
+    							<div class="div-thing1">
+    								<div class="div-birthday">
+    									<img src="/static/img/birthday.png">
+    								</div>
+    								<div class="">
+    									<span class="num" style="line-height:70px;font-size:53px;">0</span>
+    									<span class="ren" style="line-height:70px;font-size:20px;color:#888;">人</span>
+    								</div>
+    								<div class="">
+    									<p>生日提醒</p>
+    								</div>
+    							</div>
+    							<div class="div-thing2">
+    								<p style="color:white;">hello</p>
+    							</div>
+    							<div class="div-thing3">
+    								
+    							</div>
+    							<div class="div-thing4">
+    								
+    							</div>
+  							</div>
+						</div>
+					</div>
 					<div class="div3"></div>
 				</div>
 				<div class="content-center">
 					<div class="div1">
-						<div class="panel panel-warning" style="width:48%;float:left;">
-  							<div class="panel-heading">
+						<div class="panel panel-warning" onclick="window.open('')">
+  							<div class="panel-heading" >
     							<h3 class="panel-title">待调动</h3>
   							</div>
-  							<div class="panel-body">
-    							Panel content
+  							<div class="panel-body" title="待调动">
+    							<div class="div-personNum">
+    								<span class="num" style="line-height:70px;font-size:53px;">0</span>
+    								<span class="ren" style="line-height:70px;font-size:20px;color:#888;">人</span>
+    							</div>
+    							<div class="div-img">
+    								<img src="/static/img/transfer.png">
+    							</div>
   							</div>
 						</div>
-						<div class="panel panel-danger" style="width:48%;float:right;">
+						<div class="panel panel-danger" onclick="window.open('')">
   							<div class="panel-heading">
     							<h3 class="panel-title">待离职</h3>
   							</div>
-  							<div class="panel-body">
-    							Panel content
+  							<div class="panel-body" title="待离职">
+  								<div class="div-personNum">
+    								<span class="num" style="line-height:70px;font-size:53px;">0</span>
+    								<span class="ren" style="line-height:70px;font-size:20px;color:#888;">人</span>
+    							</div>
+    							<div class="div-img">
+    								<img src="/static/img/quit.png">
+    							</div>
   							</div>
 						</div>
 					</div>

@@ -83,7 +83,7 @@
 								<i style="display:none;">${department.operatorEmpjobid }</i>
 							</td>
 							<td>
-								<a class="a_deptDetail" href="#">
+								<a class="a_deptDetail" href="/department/detail.do">
 					    			<span class="label label-primary">详情</span>
 					    		</a>
 					    	</td>
