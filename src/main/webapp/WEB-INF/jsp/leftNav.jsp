@@ -31,7 +31,7 @@
 		<div class="modu-content">
 			<div class="content-body">
 				<a href="/department/list.do" >部门详情</a>
-				<a href="/department/departmentManage.do" >部门管理</a>
+				<a href="/department/departmentManage.do" >组织架构管理</a>
 				<a href="/saleChance/listNotDisSC.do" >职位管理</a>
 			</div>
 		</div>
@@ -42,7 +42,9 @@
 		</div>
 		<div class="modu-content">
 			<div class="content-body">
-				
+				<a href="/department/list.do" >职工花名册</a>
+				<a href="/department/list.do" >职工入职</a>
+				<a href="/department/list.do" >职工离职</a>
 			</div>
 		</div>
 	</div>
