@@ -12,7 +12,7 @@
 	<div id="center">
 		<%@ include file="../leftNav.jsp" %>
 		<div id="right">
-			<div class="div-title" style="height:50px;">
+			<div class="div-title" style="height:30px;margin-bottom:20px;">
 				<span class="title">工作台</span>
 			</div>
 			<div class="div-content">

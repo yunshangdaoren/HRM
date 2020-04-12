@@ -40,7 +40,7 @@ import com.lqs.hrm.util.PageResultUtil;
 
 @Controller
 @RequestMapping("department")
-public class DepartmentController {
+public class PositionController {
 	@Autowired
 	private DepartmentServiceImpl departmentService;
 	@Autowired
