@@ -13,10 +13,6 @@
 	margin-left:10px;
 	display:inline-block;
 }
-#right .div_search .div-addDept{
-	width:410px;
-	float:right;
-}
 #right .div_search form .form-group{
 	display:blcok-inline;
 }
@@ -29,8 +25,8 @@
 	display:blcok-inline;
 }
 
-/* 锟斤拷硬锟斤拷诺锟斤拷锟斤拷锟斤拷锟绞� */
-.panel_addDepartment{
+/* 弹出遮罩层，用于添加职位信息 */
+.panel_addPosition{
 	width:600px;
 	height:480px;
 	position:absolute;
@@ -40,12 +36,12 @@
 	top:0px; 
 	right:0px; 
 	bottom:0px;
-    margin:auto;    /* 锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷远锟斤拷锟斤拷锟斤拷锟� */
+    margin:auto;    /* 閿熸枻鎷烽敓鏂ゆ嫹閿熸枻鎷烽敓鏂ゆ嫹閿熸枻鎷疯繙閿熸枻鎷烽敓鏂ゆ嫹閿熸枻鎷烽敓锟� */
     border:0px;
     background-color:#fff;
 }
-/* 显示职工详细详细弹出层 */
-.panel_employeeDetail{
+/* 弹出遮罩层，用于显示职位详细信息  */
+.panel_positionDetail{
 	width:500px;
 	height:376px;
 	position:absolute;
@@ -55,11 +51,10 @@
 	top:0px; 
 	right:0px; 
 	bottom:0px;
-    margin:auto;    /* 锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷远锟斤拷锟斤拷锟斤拷锟� */
+    margin:auto;    /* 閿熸枻鎷烽敓鏂ゆ嫹閿熸枻鎷烽敓鏂ゆ嫹閿熸枻鎷疯繙閿熸枻鎷烽敓鏂ゆ嫹閿熸枻鎷烽敓锟� */
     border:0px;
     background-color:#fff;
 }
-
 
 .div-panel{
 	width:100%;
@@ -79,8 +74,8 @@
 	font-weight:500;
 	margin-left:5px;
 }
-/* 关闭添加部门信息弹出层面板 */
-.div-panel .panel-heading #btn-hidePanelAddDepartment{
+/* 添加职位信息遮罩层退出按钮  */
+.div-panel .panel-heading #btn-hidePanelAddPosition{
 	width:80px;
 	float:right;
 	height:38px;
@@ -90,7 +85,7 @@
 	text-align:center;
 	line-height:15px;
 }
-/* 关闭职工详细信息弹出层面板 */
+/* 职位详细信息遮罩层退出按钮  */
 .div-panel .panel-heading #btn-hidePanelEmployeeDetail{
 	width:80px;
 	float:right;

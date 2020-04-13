@@ -32,7 +32,7 @@
 			<div class="content-body">
 				<a href="/department/departmentList.do" >部门详情</a>
 				<a href="/department/departmentManage.do" >组织架构管理</a>
-				<a href="/department/positionList.do" >职位管理</a>
+				<a href="/position/positionList.do" >职位管理</a>
 			</div>
 		</div>
 	</div>

@@ -220,8 +220,7 @@ public class DepartmentServiceImpl implements DepartmentService{
 	 */
 	@Override
 	public int update(Department department) {
-		// TODO Auto-generated method stub
-		return 0;
+		return departmentMapper.updateByPrimaryKeySelective(department);
 	}
 	
 	/**
@@ -229,8 +228,7 @@ public class DepartmentServiceImpl implements DepartmentService{
 	 */
 	@Override
 	public int delte(Integer deptId) {
-		// TODO Auto-generated method stub
-		return 0;
+		return departmentMapper.deleteByPrimaryKey(deptId);
 	}
 
 }

@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 	<title>职位详情</title>
-	<link href="/static/css/department/list.css" rel="stylesheet" />
+	<link href="/static/css/department/positionList.css" rel="stylesheet" />
 </head>
 <body>
 	<%@ include file="../top.jsp" %>
@@ -14,85 +14,79 @@
 		<div id="right">
 			<span class="title">职位详情</span>
 			<div class="div_search">
-				<form class="form-inline" id="form-queryDept" method="get" action="/department/list.do">
+				<form class="form-inline" id="form-queryPosition" method="get" action="/position/positionList.do">
 					<div class="form-group">
-    					<label for="exampleInputName2">职位id</label>
-    					<input type="text" class="form-control" name="deptId" id="input-selectDeptId" value="${deptIdStr }">
+    					<label for="exampleInputName2">职位ID</label>
+    					<input type="text" class="form-control" name="positionId" id="input-selectDeptId" value="${positionIdStr }">
   					</div>
   					<div class="form-group">
     					<label for="exampleInputName2">职位名称</label>
-    					<input type="text" class="form-control"  name="deptName" id="input-selectDeptName" value="${deptNameStr }">
+    					<input type="text" class="form-control"  name="positionName" id="input-selectDeptName" value="${dpositionNameStr }">
   					</div>
   					<div class="form-group">
     					<label for="exampleInputName2">所属部门名称</label>
     					<input type="text" class="form-control"  name="deptName" id="input-selectDeptName" value="${deptNameStr }">
   					</div>
   					<div class="form-group">
-    					<label for="exampleInputEmail2">职工名称</label>
-    					<input type="text" class="form-control"  name="manageEmpName" id="input-selectDeptManageName" value="${manageEmpNameStr }">
-  					</div>
-  					<div class="form-group">
   						<label for="exampleInputEmail2">职位级别</label>
-    					<select class="form-control" id="input-selectDeptLevel"  name="dlId">
+    					<select class="form-control" id="input-selectPositionLevel"  name="plId">
     						<option value="" disabled selected>请选择</option>
-    						<c:forEach items="${departmentLevelList }" var="departmentLevel">
+    						<c:forEach items="${positionLevelList }" var="positionLevel">
     							<c:choose>
-    								<c:when test="${dlIdStr == departmentLevel.dlId }">
-    									<option value="${dlIdStr }" selected = "selected">${departmentLevel.level }级</option>
+    								<c:when test="${plIdStr == positionLevel.plId }">
+    									<option value="${positionIdStr }" selected = "selected">${positionLevel.level }级</option>
     								</c:when>
     								<c:otherwise>
-    								<option value="${departmentLevel.dlId }">${departmentLevel.level }级</option>
+    								<option value="${positionLevel.plId }">${positionLevel.level }级</option>
     							</c:otherwise>
     							</c:choose>
     						</c:forEach>
 						</select>
   					</div>
   					<button id="btn-resetSelect" type="button" class="btn btn-danger">重置</button>
-  					<button id="btn-selectDept" type="submit" class="btn btn-danger">查询</button>
-  					<button id="btn-addDept" type="button" class="btn btn-success">添加职位</button>
+  					<button id="btn-selectPosition" type="submit" class="btn btn-danger">查询</button>
+  					<button id="btn-addPosition" type="button" class="btn btn-success">添加职位</button>
 				</form>
 			</div>
-			<table class="table table-hover" id="table-deptDtail">
+			<table class="table table-hover" id="table-positionDtail">
 				<thead>
 					<tr>
-						<th>部门ID</th>
-						<th>部门名称</th>
-						<th>部门级别</th>
-						<th>部门主管</th>
-						<th>部门人数</th>
-						<th>上级部门</th>
+						<th>职位ID</th>
+						<th>职位名称</th>
+						<th>职位级别</th>
+						<th>职位所属部门</th>
+						<th>上级职位</th>
 						<th>状态</th>
-						<th>最后一次操作间</th>
+						<th>最后一次操作时间</th>
 						<th>操作人</th>
 						<th>详情</th>
 						<th style="width:150px;">操作</th>
 					</tr>
 				</thead>
 				<tbody>
-					<c:forEach items="${pageResult.content }" var="department">
+					<c:forEach items="${pageResult.content }" var="position">
 						<tr>
-							<td>${department.deptId }</td>
-							<td>${department.deptName }</td>
-							<td>${department.dlLeve }级</td>
+							<td>${position.positionId }</td>
+							<td>${position.positionName }</td>
+							<td>${position.plLeve }级</td>
 							<td>
-								<a href="#" class="a-manageEmpName">${department.manageEmpName }</a>
-								<i style="display:none;">${department.manageEmpjobid }</i>
+								<a href="#" class="a-manageEmpName">${position.deptName }</a>
+								<i style="display:none;">${position.deptId }</i>
 							</td>
-							<td>${department.deptEmpnum }</td>
-							<td>${department.parentDeptName }</td>
-							<td class="td-hideContent">${department.statusName }</td>
-							<td><fmt:formatDate value="${department.lastOperatorDate }" type="both"/></td>
+							<td>${position.parentPositionName }</td>
+							<td class="td-hideContent">${position.statusName }</td>
+							<td><fmt:formatDate value="${position.lastOperatorDate }" type="both"/></td>
 							<td>
-								<a href="#" class="a-operatorEmpName">${department.operatorEmpName }</a>
-								<i style="display:none;">${department.operatorEmpjobid }</i>
+								<a href="#" class="a-operatorEmpName">${position.operatorEmpName }</a>
+								<i style="display:none;">${position.operatorEmpjobid }</i>
 							</td>
 							<td>
-								<a class="a_deptDetail" href="/department/detail.do">
+								<a class="a_positionDetail" href="/position/detail.do">
 					    			<span class="label label-primary">详情</span>
 					    		</a>
 					    	</td>
 					    	<td>
-								<a class="a_deptStatus" href="#" style="text-decoration:none;">
+								<a class="a_positionStatus" href="#" style="text-decoration:none;">
 					    			<span class="label label-primary">状态管理</span>
 					    		</a>
 					    	</td>
@@ -135,64 +129,64 @@
 	</div>
 	<%@ include file="../bottom.jsp" %>
 	
-	<!-- 弹出遮罩层，用于添加部门信息 -->
-	<div class="panel_addDepartment">
+	<!-- 弹出遮罩层，用于添加职位信息 -->
+	<div class="panel_addPosition">
 			<div class="div-panel">
     			<div class="panel-heading">
-    				<label>添加部门信息</label>
-    				<button id="btn-hidePanelAddDepartment" type="button" class="btn btn-success">退出</button>
+    				<label>添加职位信息</label>
+    				<button id="btn-hidePanelAddPosition" type="button" class="btn btn-success">退出</button>
     			</div>
     			<div class="panel_body">
-    				<form style="width:100%;" id="form-addDept" class="form-horizontal" role="form">
+    				<form style="width:100%;" id="form-addPosition" class="form-horizontal" role="form">
   						<div class="form-group" style="margin-top:10px;">
-    						<label for="firstname" class="col-sm-2 control-label">部门名称</label>
+    						<label for="firstname" class="col-sm-2 control-label">职位名称</label>
     						<div class="col-sm-8">
-      							<input type="text" class="form-control" name="deptName" id="input-addDeptName">
+      							<input type="text" class="form-control" name="positionName" id="input-addPositionName">
     						</div>
   						</div>
   						<div class="form-group">
-    						<label for="firstname" class="col-sm-2 control-label">部门级别</label>
+    						<label for="firstname" class="col-sm-2 control-label">职位级别</label>
     						<div class="col-sm-8">
-      							<select class="form-control" name="dlId" id="input-addDeptLevel">
+      							<select class="form-control" name="plId" id="input-addPositionLevel">
       								<option value="" disabled selected>请选择</option>
 								</select>
     						</div>
   						</div>
   						<div class="form-group">
-    						<label for="lastname" class="col-sm-2 control-label">上级部门</label>
+    						<label for="lastname" class="col-sm-2 control-label">职位所属部门</label>
     						<div class="col-sm-8">
-      							<input type="text" list="list-parentDeptName" class="form-control" name="parentDeptName" id="input-addParentDeptName" placeholder="请输入上级部门名称或id">
-    							<datalist id="list-parentDeptName" style="height:50px;overflow:auto;">
+      							<input type="text" list="list-deptName" class="form-control" name="deptName" id="input-addDeptName" placeholder="请输入部门名称或id">
+    							<datalist id="list-deptName" style="height:50px;overflow:auto;">
   									<option value="BMW">
 								</datalist>
     						</div>
   						</div>
   						<div class="form-group">
-    						<label for="lastname" class="col-sm-2 control-label">部门主管</label>
+    						<label for="lastname" class="col-sm-2 control-label">上级职位</label>
     						<div class="col-sm-8">
-      							<input type="text" list="list-deptManageName" class="form-control" name="deptManageName" id="input-addDeptManageName" placeholder="请输入员工工号进行查询">
-    							<datalist id="list-deptManageName" style="height:50px;overflow:auto;">
+      							<input type="text" list="list-parentPositionName" class="form-control" name="parentPositionName" id="input-addParentPositionName" placeholder="请输入上级职位名称或id">
+    							<datalist id="list-parentPositionName" style="height:50px;overflow:auto;">
   									<option value="BMW">
 								</datalist>
     						</div>
   						</div>
   						<div class="form-group">
-    						<label for="lastname" class="col-sm-2 control-label">部门状态</label>
+    						<label for="lastname" class="col-sm-2 control-label">职位状态</label>
     						<div class="col-sm-8">
-      							<select class="form-control" name="statusId" id="input-addDeptStatus">
+      							<select class="form-control" name="statusId" id="input-addPositionStatus">
       								<option value="" disabled selected hidden>请选择</option>
 								</select>
     						</div>
   						</div>
   						<div class="form-group">
-    						<label for="lastname" class="col-sm-2 control-label">部门描述</label>
+    						<label for="lastname" class="col-sm-2 control-label">职位描述</label>
     						<div class="col-sm-8">
-      							<textarea class="form-control" name="deptDesc" id="input-addDeptDesc" rows="5"></textarea>
+      							<textarea class="form-control" name="positionDesc" id="input-addPositionDesc" rows="5"></textarea>
     						</div>
   						</div>
   						<div class="form-group">
     						<div class="col-sm-offset-2 col-sm-10">
-      							<button id="btn-submitEditSC" type="button" class="btn btn-primary">提交</button>
+      							<button id="btn-submitEditPosition" type="button" class="btn btn-primary">提交</button>
     						</div>
  	 					</div>
 					</form>
@@ -200,7 +194,7 @@
 			</div>
 		</div>
 		
-		<!-- 弹出遮罩层，用于显示职工详细信息 -->
+		<!-- 弹出遮罩层，用于显示职位详细信息 -->
 		<div class="panel_employeeDetail" style="display:none;">
 			<div class="div-panel">
     			<div class="panel-heading">
@@ -222,5 +216,5 @@
 		</div>
 		
 </body>
-	<script type="text/javascript" src="/static/js/department/list.js"></script>
+	<script type="text/javascript" src="/static/js/department/departmentList.js"></script>
 </html>

@@ -33,36 +33,39 @@ import com.lqs.hrm.service.impl.DepartmentLevelServiceImpl;
 import com.lqs.hrm.service.impl.DepartmentServiceImpl;
 import com.lqs.hrm.service.impl.EmployeeDepartmentServiceImpl;
 import com.lqs.hrm.service.impl.EmployeeServiceImpl;
+import com.lqs.hrm.service.impl.PositionLevelServiceImpl;
+import com.lqs.hrm.service.impl.PositionServiceImpl;
 import com.lqs.hrm.service.impl.StatusServiceImpl;
 import com.lqs.hrm.util.PageRequest;
 import com.lqs.hrm.util.PageResult;
 import com.lqs.hrm.util.PageResultUtil;
 
+/**
+ * 职位Controller
+ * @author Administrator
+ *
+ */
 @Controller
-@RequestMapping("department")
+@RequestMapping("position")
 public class PositionController {
 	@Autowired
-	private DepartmentServiceImpl departmentService;
+	private PositionServiceImpl positionService;
 	@Autowired
-	private DepartmentLevelServiceImpl departmentLevelService;
+	private PositionLevelServiceImpl positionLevelService;
 	@Autowired
 	private StatusServiceImpl statusService;
-	@Autowired
-	private EmployeeServiceImpl employeeService;
-	@Autowired
-	private EmployeeDepartmentServiceImpl employeeDepartmentService;
 	
 	/**
-	 * 查询部门并跳转至部门详情页面
+	 * 查询职位信息并跳转至职位详情页面
 	 * @param request
 	 * @param pageRequest
 	 * @param map
 	 * @return
 	 */
-	@RequestMapping("departmentList.do")
-	public String departmentList(HttpServletRequest request, PageRequest pageRequest, ModelMap map){
+	@RequestMapping("positionList.do")
+	public String positionList(HttpServletRequest request, PageRequest pageRequest, ModelMap map){
 		//查询条件信息
-		String deptIdStr = request.getParameter("deptId");
+		String positionIdStr = request.getParameter("positionId");
 		System.out.println("部门编号："+deptIdStr);
 		String deptNameStr = request.getParameter("deptName");
 		String manageEmpNameStr = request.getParameter("manageEmpName");

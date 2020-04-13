@@ -14,9 +14,9 @@
 		<div id="right">
 			<span class="title">部门详情</span>
 			<div class="div_search">
-				<form class="form-inline" id="form-queryDept" method="get" action="/department/list.do">
+				<form class="form-inline" id="form-queryDept" method="get" action="/department/departmentList.do">
 					<div class="form-group">
-    					<label for="exampleInputName2">部门id</label>
+    					<label for="exampleInputName2">部门ID</label>
     					<input type="text" class="form-control" name="deptId" id="input-selectDeptId" value="${deptIdStr }">
   					</div>
   					<div class="form-group">
@@ -58,7 +58,7 @@
 						<th>部门人数</th>
 						<th>上级部门</th>
 						<th>状态</th>
-						<th>最后一次操作间</th>
+						<th>最后一次操作时间</th>
 						<th>操作人</th>
 						<th>详情</th>
 						<th style="width:150px;">操作</th>

@@ -38,6 +38,11 @@ import com.lqs.hrm.util.PageRequest;
 import com.lqs.hrm.util.PageResult;
 import com.lqs.hrm.util.PageResultUtil;
 
+/**
+ * 部门Controller
+ * @author Administrator
+ *
+ */
 @Controller
 @RequestMapping("department")
 public class DepartmentController {

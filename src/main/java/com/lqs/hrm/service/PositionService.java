@@ -27,103 +27,97 @@ public interface PositionService {
 	 * @param deptName
 	 * @return
 	 */
-	List<Position> listBymanageEmpjobid(String manageEmpjobid);
+	List<Position> listByDeptId(Integer deptId);
 	/**
 	 * 根据职位级别查询
 	 * @param dlId
 	 * @return
 	 */
 	List<Position> listByPlId(Integer plId);
-	/**
-	 * 根据部门id，部门名称查询
-	 * @param deptId
-	 * @param deptName
-	 * @return
-	 */
-	List<Position> listByDeptIdName(Integer deptId, String deptName);
-	/**
-	 * 根据id，部门主管id查询
-	 * @param deptId
-	 * @param manageEmpjobid
-	 * @return
-	 */
-	List<Position> listByDeptIdManageEmpJobId(Integer deptId, String manageEmpjobid);
-	/**
-	 * 根据部门id，部门级别查询
-	 * @param deptId
-	 * @param dlId
-	 * @return
-	 */
-	List<Position> listByDeptIdDlId(Integer deptId, Integer dlId);
-	/**
-	 * 根据部门名称，部门主管id查询
-	 * @param deptName
-	 * @param manageEmpjobid
-	 * @return
-	 */
-	List<Position> listByDeptNameManageEmpJobId(String deptName, String manageEmpjobid);
-	/**
-	 * 根据部门名称，部门级别查询
-	 * @param deptName
-	 * @param dlId
-	 * @return
-	 */
-	List<Position> listByDeptNameDlId(String deptName, Integer dlId);
-	/**
-	 * 根据部门主管id，部门级别查询
-	 * @param manageEmpjobid
-	 * @param dlId
-	 * @return
-	 */
-	List<Position> listByManageEmpJobIdDlId(String manageEmpjobid, Integer dlId);
-	/**
-	 * 根据部门id，部门名称，部门主管id查询
-	 * @param deptId
-	 * @param deptName
-	 * @param manageEmpjobid
-	 * @return
-	 */
-	List<Position> listByDeptIdNameManageEmpJobId(Integer deptId, String deptName, String manageEmpjobid);
 	
 	/**
-	 * 根据部门id，部门名称，部门级别查询
-	 * @param deptId
+	 * 根据职位id、职位名称查询
+	 * @param positionId
+	 * @param positionName
+	 * @return
+	 */
+	List<Position> listByPositionIdName(Integer positionId, String positionName);
+	
+	/**
+	 * 根据职位id、所属部门id查询
+	 * @param positionId
 	 * @param deptName
-	 * @param manageEmpjobid
 	 * @return
 	 */
-	List<Position> listByDeptIdNameDlId(Integer deptId, String deptName, Integer dlId);
+	List<Position> listByPositionIdDeptId(Integer positionId, Integer deptId);
 	/**
-	 * 根据部门id，部门主管id，部门级别查询
-	 * @param deptId
-	 * @param manageEmpjobid
-	 * @param dlId
+	 * 根据职位id、职位级别id查询
+	 * @param positionId
+	 * @param plId
 	 * @return
 	 */
-	List<Position> listByDeptIdManageEmpJonIdDlId(Integer deptId, String manageEmpjobid, Integer dlId);
+	List<Position> listByPositionIdPlId(Integer positionId, Integer plId);
 	/**
-	 * 根据部门名称，部门主管id，部门级别查询
+	 * 根据职位名称、所属部门id查询
+	 * @param positionName
 	 * @param deptName
-	 * @param manageEmpjobid
-	 * @param dlId
 	 * @return
 	 */
-	List<Position> listByDeptNameManageEmpJonIdDlId(String deptName, String manageEmpjobid, Integer dlId);
+	List<Position> listByPositionNameDeptId(String positionName, Integer deptId);
 	/**
-	 * 根据id，部门名称，部门主管id，部门级别查询
-	 * @param deptId
+	 * 根据职位名称、职位级别id查询
+	 * @param positionName
+	 * @param plId
+	 * @return
+	 */
+	List<Position> listByPositionNamePlId(String positionName, Integer plId);
+	/**
+	 * 根据职位所属部门id、职位级别id查询
 	 * @param deptName
-	 * @param manageEmpjobid
-	 * @param dlId
+	 * @param plId
 	 * @return
 	 */
-	List<Position> listByAll(Integer deptId, String deptName, String manageEmpjobid, Integer dlId);
+	List<Position> listByDeptIdPlId(Integer deptId, Integer plId);
 	/**
-	 * @return 查询出所有部门信息
+	 * 根据职位id、职位名称、职位所属部门id查询
+	 * @param positionId
+	 * @param positionName
+	 * @param deptName
+	 * @return
+	 */
+	List<Position> listByPositionIdNameDeptId(Integer positionId, String positionName, Integer deptId);
+	/**
+	 * 根据职位id、职位名称、职位级别id查询
+	 * @param positionId
+	 * @param positionName
+	 * @param plId
+	 * @return
+	 */
+	List<Position> listByPositionIdNamePlId(Integer positionId, String positionName, Integer plId);
+	/**
+	 * 根据职位名称、职位所属部门id、职位级别id查询
+	 * @param positionName
+	 * @param deptName
+	 * @param plId
+	 * @return
+	 */
+	List<Position> listByPositionNameDeptIdPlId(String positionName, Integer deptId, Integer plId);
+	/**
+	 * 根据职位id、职位名称、职位所属部门id、职位级别id查询
+	 * @param positionId
+	 * @param positionName
+	 * @param deptName
+	 * @param plId
+	 * @return
+	 */
+	List<Position> listByAll(Integer positionId, String positionName, Integer deptId, Integer plId);
+	
+	/**
+	 * @return 查询出所有职位信息
 	 */
 	List<Position> listByNo();
 	
-	int insert(Position department);
-	int update(Position department);
+	int insert(Position position);
+	int update(Position position);
 	int delte(Integer positionId);
 }
