@@ -25,6 +25,8 @@ import com.lqs.hrm.entity.DepartmentLevel;
 import com.lqs.hrm.entity.Employee;
 import com.lqs.hrm.entity.EmployeeDepartment;
 import com.lqs.hrm.entity.EmployeeDepartmentExample;
+import com.lqs.hrm.entity.Position;
+import com.lqs.hrm.entity.PositionLevel;
 import com.lqs.hrm.entity.Status;
 import com.lqs.hrm.entity.User;
 import com.lqs.hrm.json.JsonCommonResult;
@@ -66,25 +68,23 @@ public class PositionController {
 	public String positionList(HttpServletRequest request, PageRequest pageRequest, ModelMap map){
 		//查询条件信息
 		String positionIdStr = request.getParameter("positionId");
-		System.out.println("部门编号："+deptIdStr);
+		String positionNameStr = request.getParameter("positionName");
 		String deptNameStr = request.getParameter("deptName");
-		String manageEmpNameStr = request.getParameter("manageEmpName");
-		String dlIdStr = request.getParameter("dlId");
+		String plIdStr = request.getParameter("plId");
 		//分页
 		PageHelper.startPage(pageRequest.getPageNum(), pageRequest.getPageSize());
-		List<Department> departmentList = new ArrayList<>();
+		List<Position> positionList = new ArrayList<>();
 		//查询条件判断
-		if (StringUtil.isEmpty(deptIdStr) && StringUtil.isEmpty(deptNameStr) && StringUtil.isEmpty(manageEmpNameStr) && StringUtil.isEmpty(dlIdStr)) {
-			System.out.println("查询条件都为空");
+		if (StringUtil.isEmpty(positionIdStr) && StringUtil.isEmpty(positionNameStr) && StringUtil.isEmpty(deptNameStr) && StringUtil.isEmpty(plIdStr)) {
 			//如果查询的条件全部为空，则查询出所有部门信息
-			departmentList = departmentService.listByNo();
+			positionList = positionService.listByNo();
 		}else if(StringUtil.isEmpty(deptNameStr) && StringUtil.isEmpty(manageEmpNameStr) && StringUtil.isEmpty(dlIdStr)) {
 			//则根据部门id查询
 			Department department = departmentService.get(Integer.valueOf(deptIdStr));
-			departmentList.add(department);
+			positionList.add(department);
 		}else if(StringUtil.isEmpty(deptIdStr) && StringUtil.isEmpty(manageEmpNameStr) && StringUtil.isEmpty(dlIdStr)){
 			//则根据部门名称查询
-			departmentList = departmentService.listByDeptName(deptNameStr);
+			positionList = departmentService.listByDeptName(deptNameStr);
 		}else if(StringUtil.isEmpty(deptIdStr) && StringUtil.isEmpty(deptNameStr) && StringUtil.isEmpty(dlIdStr)) {
 			//根据部门主管名称查询
 			//查询指定职工名称的职工信息
@@ -93,15 +93,15 @@ public class PositionController {
 			for (Employee employee : employeeList) {
 				List<Department> list = departmentService.listBymanageEmpjobid(employee.getEmpJobid());
 				for (Department department : list) {
-					departmentList.add(department);
+					positionList.add(department);
 				}
 			}
 		}else if(StringUtil.isEmpty(deptIdStr) && StringUtil.isEmpty(deptNameStr) && StringUtil.isEmpty(manageEmpNameStr)) {
 			//根据部门级别查询
-			departmentList = departmentService.listByDlId(Integer.valueOf(dlIdStr));
+			positionList = departmentService.listByDlId(Integer.valueOf(dlIdStr));
 		}else if(StringUtil.isEmpty(manageEmpNameStr) && StringUtil.isEmpty(dlIdStr)) {
 			//根据部门id，部门名称查询
-			departmentList = departmentService.listByDeptIdName(Integer.valueOf(deptIdStr), deptNameStr);
+			positionList = departmentService.listByDeptIdName(Integer.valueOf(deptIdStr), deptNameStr);
 		}else if(StringUtil.isEmpty(deptNameStr) && StringUtil.isEmpty(dlIdStr)) {
 			//根据部门id，部门主管名称查询
 			//查询指定职工名称的职工信息
@@ -110,12 +110,12 @@ public class PositionController {
 			for (Employee employee : employeeList) {
 				List<Department> list = departmentService.listByDeptIdManageEmpJobId(Integer.valueOf(deptIdStr), employee.getEmpJobid());
 				for (Department department : list) {
-					departmentList.add(department);
+					positionList.add(department);
 				}
 			}
 		}else if(StringUtil.isEmpty(deptNameStr) && StringUtil.isEmpty(manageEmpNameStr)) {
 			//根据部门id，部门级别查询
-			departmentList = departmentService.listByDeptIdDlId(Integer.valueOf(deptIdStr), Integer.valueOf(dlIdStr));
+			positionList = departmentService.listByDeptIdDlId(Integer.valueOf(deptIdStr), Integer.valueOf(dlIdStr));
 		}else if(StringUtil.isEmpty(deptIdStr) && StringUtil.isEmpty(dlIdStr)) {
 			//根据部门名称，部门主管名称查询
 			List<Employee> employeeList = employeeService.listByEmpName(manageEmpNameStr);
@@ -123,12 +123,12 @@ public class PositionController {
 			for (Employee employee : employeeList) {
 				List<Department> list = departmentService.listByDeptNameManageEmpJobId(deptNameStr, employee.getEmpJobid());
 				for (Department department : list) {
-					departmentList.add(department);
+					positionList.add(department);
 				}
 			}
 		}else if(StringUtil.isEmpty(deptIdStr) && StringUtil.isEmpty(manageEmpNameStr)) {
 			//根据部门名称，部门级别查询
-			departmentList = departmentService.listByDeptNameDlId(deptNameStr, Integer.valueOf(dlIdStr));
+			positionList = departmentService.listByDeptNameDlId(deptNameStr, Integer.valueOf(dlIdStr));
 		}else if(StringUtil.isEmpty(deptIdStr) && StringUtil.isEmpty(deptNameStr)) {
 			//根据部门主管名称，部门级别查询
 			List<Employee> employeeList = employeeService.listByEmpName(manageEmpNameStr);
@@ -136,7 +136,7 @@ public class PositionController {
 			for (Employee employee : employeeList) {
 				List<Department> list = departmentService.listByManageEmpJobIdDlId(employee.getEmpJobid(), Integer.valueOf(dlIdStr));
 				for (Department department : list) {
-					departmentList.add(department);
+					positionList.add(department);
 				}
 			}
 		}else if(StringUtil.isEmpty(dlIdStr)) {
@@ -146,12 +146,12 @@ public class PositionController {
 			for (Employee employee : employeeList) {
 				List<Department> list = departmentService.listByDeptIdNameManageEmpJobId(Integer.valueOf(deptIdStr), deptNameStr, employee.getEmpJobid());
 				for (Department department : list) {
-					departmentList.add(department);
+					positionList.add(department);
 				}
 			}
 		}else if(StringUtil.isEmpty(manageEmpNameStr)) {
 			//根据部门id，部门名称，部门级别查询
-			departmentList = departmentService.listByDeptIdNameDlId(Integer.valueOf(deptIdStr), deptIdStr, Integer.valueOf(dlIdStr));
+			positionList = departmentService.listByDeptIdNameDlId(Integer.valueOf(deptIdStr), deptIdStr, Integer.valueOf(dlIdStr));
 		}else if(StringUtil.isEmpty(deptNameStr)) {
 			//根据部门id，部门主管名称，部门级别查询
 			List<Employee> employeeList = employeeService.listByEmpName(manageEmpNameStr);
@@ -159,7 +159,7 @@ public class PositionController {
 			for (Employee employee : employeeList) {
 				List<Department> list = departmentService.listByDeptIdManageEmpJonIdDlId(Integer.valueOf(deptIdStr), employee.getEmpJobid(), Integer.valueOf(dlIdStr));
 				for (Department department : list) {
-					departmentList.add(department);
+					positionList.add(department);
 				}
 			}
 		}else if(StringUtil.isEmpty(deptIdStr)) {
@@ -169,28 +169,28 @@ public class PositionController {
 			for (Employee employee : employeeList) {
 				List<Department> list = departmentService.listByDeptNameManageEmpJonIdDlId(deptIdStr, employee.getEmpJobid(), Integer.valueOf(dlIdStr));
 				for (Department department : list) {
-					departmentList.add(department);
+					positionList.add(department);
 				}
 			}
 		}else {
 			//根据id，部门名称，部门主管名称，部门级别查询
-			departmentList = departmentService.listByAll(Integer.valueOf(deptIdStr), deptNameStr, manageEmpNameStr, Integer.valueOf(dlIdStr));
+			positionList = departmentService.listByAll(Integer.valueOf(deptIdStr), deptNameStr, manageEmpNameStr, Integer.valueOf(dlIdStr));
 		}
-		setDeptInfo(departmentList);
-		PageResult pageResult = PageResultUtil.getPageResult(new PageInfo<>(departmentList));
+		setDeptInfo(positionList);
+		PageResult pageResult = PageResultUtil.getPageResult(new PageInfo<>(positionList));
 		//返回查询的部门信息
 		map.put("pageResult", pageResult);
 		//回显查询条件
-		map.put("deptIdStr", deptIdStr);
+		map.put("deptIdStr", positionIdStr);
 		map.put("deptNameStr", deptNameStr);
 		map.put("manageEmpNameStr", manageEmpNameStr);
 		map.put("dlIdStr", dlIdStr);
 		
 		//部门级别信息
-		List<DepartmentLevel> departmentLevelList = departmentLevelService.list();
+		List<PositionLevel> positionLevelList = positionLevelService.list();
 		//返回查询的部门级别信息
-		map.put("departmentLevelList", departmentLevelList);
-		return "department/departmentList";
+		map.put("positionLevelList", positionLevelList);
+		return "/department/positionList";
 	}
 	
 	/**
