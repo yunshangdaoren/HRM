@@ -78,6 +78,7 @@ public interface PositionService {
 	 * @return
 	 */
 	List<Position> listByDeptIdPlId(Integer deptId, Integer plId);
+	
 	/**
 	 * 根据职位id、职位名称、职位所属部门id查询
 	 * @param positionId
@@ -86,6 +87,7 @@ public interface PositionService {
 	 * @return
 	 */
 	List<Position> listByPositionIdNameDeptId(Integer positionId, String positionName, Integer deptId);
+	
 	/**
 	 * 根据职位id、职位名称、职位级别id查询
 	 * @param positionId
@@ -94,6 +96,16 @@ public interface PositionService {
 	 * @return
 	 */
 	List<Position> listByPositionIdNamePlId(Integer positionId, String positionName, Integer plId);
+	
+	/**
+	 * 根据职位id、职位所属部门id、职位级别id查询
+	 * @param positionId
+	 * @param positionName
+	 * @param plId
+	 * @return
+	 */
+	List<Position> listByPositionIdDeptIdPlId(Integer positionId, Integer deptId, Integer plId);
+	
 	/**
 	 * 根据职位名称、职位所属部门id、职位级别id查询
 	 * @param positionName

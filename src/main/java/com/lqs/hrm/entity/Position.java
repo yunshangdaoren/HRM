@@ -61,7 +61,7 @@ public class Position {
     /**
      * 职位所属部门名称
      */
-    private String deptName;
+    private String deptName = "";
 
     /**
      *

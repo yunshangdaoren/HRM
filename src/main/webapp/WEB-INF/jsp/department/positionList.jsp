@@ -139,13 +139,13 @@
     			<div class="panel_body">
     				<form style="width:100%;" id="form-addPosition" class="form-horizontal" role="form">
   						<div class="form-group" style="margin-top:10px;">
-    						<label for="firstname" class="col-sm-2 control-label">职位名称</label>
+    						<label for="firstname" class="col-sm-3 control-label">职位名称</label>
     						<div class="col-sm-8">
       							<input type="text" class="form-control" name="positionName" id="input-addPositionName">
     						</div>
   						</div>
   						<div class="form-group">
-    						<label for="firstname" class="col-sm-2 control-label">职位级别</label>
+    						<label for="firstname" class="col-sm-3 control-label">职位级别</label>
     						<div class="col-sm-8">
       							<select class="form-control" name="plId" id="input-addPositionLevel">
       								<option value="" disabled selected>请选择</option>
@@ -153,7 +153,7 @@
     						</div>
   						</div>
   						<div class="form-group">
-    						<label for="lastname" class="col-sm-2 control-label">职位所属部门</label>
+    						<label for="lastname" class="col-sm-3 control-label">职位所属部门</label>
     						<div class="col-sm-8">
       							<input type="text" list="list-deptName" class="form-control" name="deptName" id="input-addDeptName" placeholder="请输入部门名称或id">
     							<datalist id="list-deptName" style="height:50px;overflow:auto;">
@@ -162,7 +162,7 @@
     						</div>
   						</div>
   						<div class="form-group">
-    						<label for="lastname" class="col-sm-2 control-label">上级职位</label>
+    						<label for="lastname" class="col-sm-3 control-label">上级职位</label>
     						<div class="col-sm-8">
       							<input type="text" list="list-parentPositionName" class="form-control" name="parentPositionName" id="input-addParentPositionName" placeholder="请输入上级职位名称或id">
     							<datalist id="list-parentPositionName" style="height:50px;overflow:auto;">
@@ -171,7 +171,7 @@
     						</div>
   						</div>
   						<div class="form-group">
-    						<label for="lastname" class="col-sm-2 control-label">职位状态</label>
+    						<label for="lastname" class="col-sm-3 control-label">职位状态</label>
     						<div class="col-sm-8">
       							<select class="form-control" name="statusId" id="input-addPositionStatus">
       								<option value="" disabled selected hidden>请选择</option>
@@ -179,13 +179,13 @@
     						</div>
   						</div>
   						<div class="form-group">
-    						<label for="lastname" class="col-sm-2 control-label">职位描述</label>
+    						<label for="lastname" class="col-sm-3 control-label">职位描述</label>
     						<div class="col-sm-8">
       							<textarea class="form-control" name="positionDesc" id="input-addPositionDesc" rows="5"></textarea>
     						</div>
   						</div>
   						<div class="form-group">
-    						<div class="col-sm-offset-2 col-sm-10">
+    						<div class="col-sm-offset-3 col-sm-9">
       							<button id="btn-submitEditPosition" type="button" class="btn btn-primary">提交</button>
     						</div>
  	 					</div>
@@ -216,5 +216,5 @@
 		</div>
 		
 </body>
-	<script type="text/javascript" src="/static/js/department/departmentList.js"></script>
+	<script type="text/javascript" src="/static/js/department/positionList.js"></script>
 </html>

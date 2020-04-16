@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 	<title>组织架构</title>
-	<link href="/static/css/department/list.css" rel="stylesheet" />
+	<link href="/static/css/department/departmentList.css" rel="stylesheet" />
 </head>
 <body>
 	<%@ include file="../top.jsp" %>
@@ -205,18 +205,18 @@
     			</div>
     			<div class="panel_body">
     				<ul class="list-group" style="width:100%;height:100%;overflow:auto;">
-        				<li class="list-group-item"><label>职工工号：</label><span class="span-empJobId"></span></li>
-        				<li class="list-group-item"><label>职工姓名：</label><span class="span-empName"></span></li>
-        				<li class="list-group-item"><label>职工性别：</label><span class="span-empSex"></span></li>
-        				<li class="list-group-item"><label>职工联系电话：</label><span class="span-empPhone"></span></li>
-        				<li class="list-group-item"><label>职工入职时间：</label><span class="span-empEntryTime"></span></li>
-       					<li class="list-group-item"><label>职工所属部门：</label><span class="span-deptName"></span></li>
-       					<li class="list-group-item"><label>职工状态：</label><span class="span-empStatus"></span></li>
+        				<li class="list-group-item"><label>工号：</label><span class="span-empJobId"></span></li>
+        				<li class="list-group-item"><label>姓名：</label><span class="span-empName"></span></li>
+        				<li class="list-group-item"><label>性别：</label><span class="span-empSex"></span></li>
+        				<li class="list-group-item"><label>联系电话：</label><span class="span-empPhone"></span></li>
+        				<li class="list-group-item"><label>入职时间：</label><span class="span-empEntryTime"></span></li>
+       					<li class="list-group-item"><label>所属部门：</label><span class="span-deptName"></span></li>
+       					<li class="list-group-item"><label>状态：</label><span class="span-empStatus"></span></li>
    					</ul>
     			</div>
 			</div>
 		</div>
 		
 </body>
-	<script type="text/javascript" src="/static/js/department/list.js"></script>
+	<script type="text/javascript" src="/static/js/department/departmentList.js"></script>
 </html>

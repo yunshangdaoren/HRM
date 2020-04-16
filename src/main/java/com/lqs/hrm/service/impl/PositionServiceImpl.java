@@ -103,11 +103,19 @@ public class PositionServiceImpl implements PositionService{
 
 	@Override
 	public List<Position> listByPositionIdNamePlId(Integer positionId, String positionName, Integer plId) {
-		 PositionExample example  = new PositionExample();
-		 example.or().andPositionIdEqualTo(positionId).andPositionNameEqualTo(positionName).andPlIdEqualTo(plId);
+		PositionExample example  = new PositionExample();
+		example.or().andPositionIdEqualTo(positionId).andPositionNameEqualTo(positionName).andPlIdEqualTo(plId);
 		return positionMapper.selectByExample(example);
 	}
-
+	
+	@Override
+	public List<Position> listByPositionIdDeptIdPlId(Integer positionId, Integer deptId, Integer plId) {
+		PositionExample example  = new PositionExample();
+		example.or().andPositionIdEqualTo(positionId).andDeptIdEqualTo(deptId).andPlIdEqualTo(plId);
+		return positionMapper.selectByExample(example);
+	}
+	
+	
 	@Override
 	public List<Position> listByPositionNameDeptIdPlId(String positionName, Integer deptId, Integer plId) {
 		 PositionExample example  = new PositionExample();
@@ -143,7 +151,6 @@ public class PositionServiceImpl implements PositionService{
 	public int delte(Integer positionId) {
 		return positionMapper.deleteByPrimaryKey(positionId);
 	}
-	
-	
+
 
 }
