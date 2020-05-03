@@ -384,49 +384,51 @@ public class PositionController {
 	@ResponseBody
 	public JsonCommonResult<Object> add(HttpServletRequest request, HttpServletResponse response) {
 		Map<String, Object> resultMap = new HashMap<>();
-		//获取部门名称
+		//获取职位名称
+		String positionNameStr = request.getParameter("positionName");
+		//获取职位级别id
+		String plIdStr = request.getParameter("plId");
+		//获取职位所属部门名称
 		String deptNameStr = request.getParameter("deptName");
-		//获取部门级别id
-		String dlIdStr = request.getParameter("dlId");
-		//获取上级部门名称
-		String parentDeptNameStr = request.getParameter("parentDeptName");
-		//获取部门主管名称
-		String deptManageNameStr = request.getParameter("deptManageName");
-		//获取部门状态id
+		//获取上级职位名称
+		String parentPositionNameStr = request.getParameter("parentPositionName");
+		//获取职位状态id
 		String statusIdStr = request.getParameter("statusId");
-		//获取部门描述
-		String deptDescStr = request.getParameter("deptDesc");
-		//上级部门id
-		int parentId = 0;
-		if (!StringUtil.isEmpty(parentDeptNameStr)) {
-			Department parentDepartment = departmentService.listByDeptName(parentDeptNameStr).get(0);
-			parentId = parentDepartment.getDeptId();
-			System.out.println("获取到上级部门id:"+parentId);
+		//获取职位描述
+		String positionDescStr = request.getParameter("positionDesc");
+		//上级职位id
+		int parentPositionId = 0;
+		if (!StringUtil.isEmpty(parentPositionNameStr)) {
+			List<Position> parentPositionList = positionService.listByPositionName(parentPositionNameStr);
+			for (Position position : parentPositionList) {
+				if (deptNameStr.equals(position.getDeptName())) {
+					parentPositionId = position.getPositionId();
+				}
+			}
+			System.out.println("获取到上级部门id:"+parentPositionId);
 		}
-		//部门主管工号
-		String manageEmpjobid = "";
-		if (!StringUtil.isEmpty(deptManageNameStr)) {
-			Employee employee = employeeService.listByEmpName(deptManageNameStr).get(0);
-			manageEmpjobid = employee.getEmpJobid();
-			System.out.println("获取到部门主管工号:"+manageEmpjobid);
+		//职位所属部门id
+		int deptId = 0;
+		if (!StringUtil.isEmpty(deptNameStr)) {
+			Department department = departmentService.listByDeptName(deptNameStr).get(0);
+			deptId = department.getDeptId();
+			System.out.println("获取到职位所属部门id:"+deptId);
 		}
-		Department department = new Department();
-		//设置部门名称
-		department.setDeptName(deptNameStr);
-		//设置部门级别id
-		department.setDlId(Integer.valueOf(dlIdStr));
-		//设置部门级别
-		//department.setDlLeve(departmentLevelService.get(Integer.valueOf(dlIdStr)).getLevel());
-		//设置部门人数
-		department.setDeptEmpnum(0);
-		//设置部门状态id
-		department.setStatusId(Integer.valueOf(statusIdStr));
-		//设置上级部门id
-		department.setParentId(parentId);
-		//设置部门主管工号
-		department.setManageEmpjobid(manageEmpjobid);
+		Position position = new Position();
+		//设置职位名称
+		position.setPositionName(positionNameStr);
+		//设置职位描述
+		position.setPositionDesc(positionDescStr);
+		//设置职位级别id
+		position.setPlId(Integer.valueOf(plIdStr));
+		//设置职位所属部门id
+		position.setDeptId(deptId);
+		//设置上级职位id
+		position.setParentPositionid(parentPositionId);
+		//设置职位状态id
+		position.setStatusId(Integer.valueOf(statusIdStr));
 		//设置最后一次操作时间
-		department.setLastOperatorDate(new Date());
+		position.setLastOperatorDate(new Date());
 		//设置操作人工号
 		//获取当前登录系统人工号
 		HttpSession session = request.getSession();
@@ -435,21 +437,11 @@ public class PositionController {
 			return new JsonCommonResult<Object>("100", null, "请先登录！");
 		}
 		//设置工号
-		department.setOperatorEmpjobid(user.getUserAccount());
-		//设置部门描述
-		department.setDeptDesc(deptDescStr);
+		position.setOperatorEmpjobid(user.getUserAccount());
 		
-		//添加职工-部门信息
-		EmployeeDepartment employeeDepartment = new EmployeeDepartment();
-		employeeDepartment.setEmpJobid(manageEmpjobid);
-		//添加部门信息
-		int result1 = departmentService.insert(department);
-		//获取刚刚添加的部门的id
-		int deptId = departmentService.listByDeptName(deptNameStr).get(0).getDeptId();
-		//添加职工-部门信息
-		employeeDepartment.setDeptId(deptId);
-		int result2 = 0;
-		if (result1 == 0 || result2 == 0) {
+		//添加职位部门信息
+		int result = positionService.insert(position);
+		if (result == 0) {
 			return new JsonCommonResult<Object>("100", null, "添加失败");
 		}
 		return new JsonCommonResult<Object>("200", null, "添加成功");

@@ -197,13 +197,14 @@ public class DepartmentController {
 	
 	/**
 	 * 返回查询的指定部门信息
+	 * 根据部门id、部门名称、主管人名称、部门级别id查询
 	 * @param request
 	 * @param pageRequest
 	 * @return
 	 */
 	@RequestMapping("query.do")
 	@ResponseBody
-	public JsonPageResult list(HttpServletRequest request, PageRequest pageRequest) {
+	public JsonPageResult query(HttpServletRequest request, PageRequest pageRequest) {
 		//查询条件信息
 		String deptIdStr = request.getParameter("deptId");
 		String deptNameStr = request.getParameter("deptName");
@@ -314,6 +315,37 @@ public class DepartmentController {
 		}else {
 			//根据id，部门名称，部门主管名称，部门级别查询
 			departmentList = departmentService.listByAll(Integer.valueOf(deptIdStr), deptNameStr, manageEmpNameStr, Integer.valueOf(dlIdStr));
+		}
+		if (departmentList == null) {
+			return new JsonPageResult("100", null, "没有数据！");
+		}
+		setDeptInfo(departmentList);
+		return new JsonPageResult("200", PageResultUtil.getPageResult(new PageInfo<>(departmentList)), "请求成功！");
+	}
+	
+	/**
+	 * 模糊查询、返回查询的指定部门信息
+	 * 根据部门名称模糊查询
+	 * @param request
+	 * @param pageRequest
+	 * @return
+	 */
+	@RequestMapping("queryLikeDeptName.do")
+	@ResponseBody
+	public JsonPageResult queryLikeDeptName(HttpServletRequest request, PageRequest pageRequest) {
+		//查询条件信息
+		String deptNameStr = request.getParameter("deptName");
+		//分页
+		PageHelper.startPage(pageRequest.getPageNum(), pageRequest.getPageSize());
+		List<Department> departmentList = new ArrayList<>();
+		//查询条件判断
+		if (StringUtil.isEmpty(deptNameStr)) {
+			//如果查询的条件全部为空，则查询出所有部门信息
+			departmentList = departmentService.listByNo();
+		}else {
+			//根据部门名称模糊查询
+			departmentList = departmentService.listLikeDeptName(deptNameStr);
+			
 		}
 		if (departmentList == null) {
 			return new JsonPageResult("100", null, "没有数据！");

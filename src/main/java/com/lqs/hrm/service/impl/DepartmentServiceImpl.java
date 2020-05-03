@@ -231,4 +231,14 @@ public class DepartmentServiceImpl implements DepartmentService{
 		return departmentMapper.deleteByPrimaryKey(deptId);
 	}
 
+	/**
+	 * 根据部门名称模糊查询
+	 */
+	@Override
+	public List<Department> listLikeDeptName(String deptName) {
+		DepartmentExample example = new DepartmentExample();
+		example.or().andDeptNameLike("%"+deptName+"%");
+		return departmentMapper.selectByExample(example);
+	}
+
 }

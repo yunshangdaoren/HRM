@@ -115,8 +115,21 @@ $("#btn-hidePanelAddPosition").click(function(){
 });
 
 //监听添加职位信息弹出层中职位所属部门名称输入框输入值，并动态查找指定部门信息赋值给下拉选项列表
-$("#input-addDeptName").bind("input propertychange", function(event){
-	//alert($("#input-addParentDeptName").val());
+$("#input-addDeptName").bind("input propertychange", function(){
+	//部门名称
+	var deptName = $("#input-addDeptName").val();
+	$.ajax({
+		url:"/department/queryLikeDeptName.do?deptName="+deptName,
+		dataType:"json",
+		success:function(result){
+			if(result.code==200){
+				$.each(result.pageResult.content, function(i, item){
+					$("#list-deptName").append("<option value='销售部'></option>");
+				});
+			}
+		}
+	});
+	
 });
 //添加职位信息弹出层面板非空判断
 function addPositionFormEmptyCheck(){

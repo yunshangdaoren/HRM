@@ -126,4 +126,11 @@ public interface DepartmentService {
 	int insert(Department department);
 	int update(Department department);
 	int delte(Integer deptId);
+	
+	/**
+	 * 根据部门名称模糊查询
+	 * @param deptName
+	 * @return
+	 */
+	List<Department> listLikeDeptName(String deptName);
 }
