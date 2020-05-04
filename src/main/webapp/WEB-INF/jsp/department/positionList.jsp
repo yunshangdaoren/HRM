@@ -154,23 +154,18 @@
   						</div>
   						<div class="form-group">
     						<label for="lastname" class="col-sm-3 control-label">职位所属部门</label>
-    						<div class="col-sm-8">
+    						<div class="col-sm-8" id="div-infoDeptName">
       							<input type="text" list="list-deptName" class="form-control" name="deptName" id="input-addDeptName" placeholder="请输入部门名称或id">
-    							
+    							<select multiple class="form-control" id="select-infoDeptName">
+								</select>
     						</div>
   						</div>
   						<div class="form-group">
     						<label for="lastname" class="col-sm-3 control-label">上级职位</label>
-    						<div class="col-sm-8">
+    						<div class="col-sm-8" id="div-parentPositionName">
       							<input type="text" list="list-parentPositionName" class="form-control" name="parentPositionName" id="input-addParentPositionName" placeholder="请输入上级职位名称或id">
-    							<datalist id="list-parentPositionName" style="height:50px;overflow:auto;">
-  									<option value="1" />
-  									<option value="1" />
-  									<option value="1" />
-  									<option value="1" />
-  									<option value="1" />
-  									<option value="1" />
-								</datalist>
+    							<select multiple class="form-control" id="select-parentPositionName">
+								</select>
     						</div>
   						</div>
   						<div class="form-group">

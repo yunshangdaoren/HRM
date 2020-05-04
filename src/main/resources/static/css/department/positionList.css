@@ -98,14 +98,14 @@
 }
 
 /* 添加职位信息下拉面板信息样式 */
-.panel_addPosition .div-panel .panel_body .form-group .div-InfoList{
+.panel_addPosition .div-panel .panel_body .form-group #select-infoDeptName{
 	width:356px;
 	height:auto;
-	min-height:50px;
+	min-height:100px;
 	max-height:200px;
 	background-color:#fff;
 	position:absolute;
 	z-index:50;
-	border:1px solid black;
+	display:none;
 }
 

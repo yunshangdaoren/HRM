@@ -345,11 +345,12 @@ public class DepartmentController {
 		}else {
 			//根据部门名称模糊查询
 			departmentList = departmentService.listLikeDeptName(deptNameStr);
-			
 		}
 		if (departmentList == null) {
 			return new JsonPageResult("100", null, "没有数据！");
 		}
+		System.out.println("查询的部门名称："+deptNameStr);
+		System.out.println("部门信息："+departmentList.get(0).toString());
 		setDeptInfo(departmentList);
 		return new JsonPageResult("200", PageResultUtil.getPageResult(new PageInfo<>(departmentList)), "请求成功！");
 	}

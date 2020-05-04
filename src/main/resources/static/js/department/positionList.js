@@ -118,19 +118,44 @@ $("#btn-hidePanelAddPosition").click(function(){
 $("#input-addDeptName").bind("input propertychange", function(){
 	//部门名称
 	var deptName = $("#input-addDeptName").val();
+	$("#select-infoDeptName").empty();
+	$("#select-infoDeptName").show();
 	$.ajax({
 		url:"/department/queryLikeDeptName.do?deptName="+deptName,
 		dataType:"json",
 		success:function(result){
 			if(result.code==200){
 				$.each(result.pageResult.content, function(i, item){
-					$("#list-deptName").append("<option value='销售部'></option>");
+					$("#select-infoDeptName").append("<option>"+item.deptName+"</option>");
 				});
 			}
+			$("#list-deptName").show();
 		}
 	});
-	
 });
+//监听职位信息输入框鼠标光标移除事件
+$("#input-addDeptName").focus(function(){
+	$("#select-infoDeptName").show();
+})
+
+//添加职位信息弹出层：职位所属部门输入鼠标移出
+$("#div-infoDeptName").mouseover(function(){
+	//鼠标移入
+	$("#select-infoDeptName").show();
+}).mouseout(function(){
+	//鼠标移出
+	$("#select-infoDeptName").hide();
+});
+
+//添加职位信息弹出层的下拉列表部门信息双击事件
+$("#select-infoDeptName").dblclick(function(){
+	//获取到选择的下拉列表的值
+	var options = $("#select-infoDeptName option:selected");
+	$("#select-infoDeptName").hide();
+	$("#input-addDeptName").empty();
+	$("#input-addDeptName").val(options.val());
+});
+
 //添加职位信息弹出层面板非空判断
 function addPositionFormEmptyCheck(){
 	if($("#input-addPositionName").val()==''){

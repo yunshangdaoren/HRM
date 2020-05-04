@@ -349,6 +349,8 @@ public class PositionController {
 		return new JsonPageResult("200", PageResultUtil.getPageResult(new PageInfo<>(positionList)), "请求成功！");
 	}
 	
+	
+	
 	/**
 	 * 设置查询出来的职位实体类信息
 	 * @param departmentList
