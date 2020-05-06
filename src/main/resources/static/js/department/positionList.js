@@ -62,7 +62,7 @@ $("#btn-addPosition").click(function(){
 				$("#input-addPositionLevel option:not(:first)").remove();
 				//添加值
 				for(var i =0; i < result.data.length; i++){
-					$("#input-addPositionLevel").append("<option value='"+result.data[i].dlId+"'>"+result.data[i].levelDesc+"</option>")
+					$("#select-addPositionLevel").append("<option value='"+result.data[i].plId+"'>"+result.data[i].levelDesc+"</option>")
 				}
 				//发送Ajax请求获取职位状态信息
 				$.ajax({
@@ -75,7 +75,7 @@ $("#btn-addPosition").click(function(){
 							$("#input-addPositionStatus option:not(:first)").remove();
 							//添加值
 							for(var i =0; i < result.data.length; i++){
-								$("#input-addPositionStatus").append("<option value='"+result.data[i].statusId+"'>"+result.data[i].statusName+"</option>")
+								$("#select-addPositionStatus").append("<option value='"+result.data[i].statusId+"'>"+result.data[i].statusName+"</option>")
 							}
 						}else{
 							alert("获取信息失败！");
@@ -90,10 +90,10 @@ $("#btn-addPosition").click(function(){
 });
 //添加职位信息弹出层面板提交按钮点击事件
 $("#btn-submitEditPosition").click(function(){
-	if(addDeptFormEmptyCheck()){
+	if(addPositionFormEmptyCheck()){
 		$.ajax({
 			url:"/position/add.do",
-			data:$("#form-addDept").serialize(),
+			data:$("#form-addPosition").serialize(),
 			dataType:"json",
 			success:function(result){
 				if(result.code==200){
@@ -187,14 +187,14 @@ function addPositionFormEmptyCheck(){
 		$("#addPositionName").focus();
 		return false;
 	}
-	if($("#input-addPositionLevel").val()==null){
+	if($("#select-addPositionLevel").val()==null){
 		alert("职位级别不能为空！");
-		$("#input-addPositionLevel").focus();
+		$("#selec-addPositionLevel").focus();
 		return false;
 	}
-	if($("#input-addPositionStatus").val()==null){
+	if($("#select-addPositionStatus").val()==null){
 		alert("职位状态不能为空！");
-		$("#input-addPositionStatus").focus();
+		$("#select-addPositionStatus").focus();
 		return false;
 	}
 	//上面判断无误则返回true
@@ -203,7 +203,7 @@ function addPositionFormEmptyCheck(){
 
 //重置查询条件按钮点击事件
 $("#btn-resetSelect").click(function(){
-	$("#form-queryDept :input").not(":button, :submit, :reset, :hidden").val("").removeAttr("checked").remove("selected");
+	$("#form-queryPosition :input").not(":button, :submit, :reset, :hidden").val("").removeAttr("checked").remove("selected");
 });
 
 //职位信息操作人名称点击事件：弹出显示层，显示指定职工的详细信息

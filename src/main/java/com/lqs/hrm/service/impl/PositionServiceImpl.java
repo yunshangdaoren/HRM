@@ -133,7 +133,7 @@ public class PositionServiceImpl implements PositionService{
 	@Override
 	public List<Position> listByNo() {
 		 PositionExample example  = new PositionExample();
-		 example.or().andPositionIdIsNull();
+		 example.or().andPositionIdIsNotNull();
 		return positionMapper.selectByExample(example);
 	}
 

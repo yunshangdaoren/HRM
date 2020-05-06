@@ -34,10 +34,10 @@
     						<c:forEach items="${positionLevelList }" var="positionLevel">
     							<c:choose>
     								<c:when test="${plIdStr == positionLevel.plId }">
-    									<option value="${positionIdStr }" selected = "selected">${positionLevel.level }级</option>
+    									<option value="${positionIdStr }" selected = "selected">${positionLevel.levelDesc }</option>
     								</c:when>
     								<c:otherwise>
-    								<option value="${positionLevel.plId }">${positionLevel.level }级</option>
+    								<option value="${positionLevel.plId }">${positionLevel.levelDesc }</option>
     							</c:otherwise>
     							</c:choose>
     						</c:forEach>
@@ -68,7 +68,7 @@
 						<tr>
 							<td>${position.positionId }</td>
 							<td>${position.positionName }</td>
-							<td>${position.plLeve }级</td>
+							<td>${position.plLevelDesc }</td>
 							<td>
 								<a href="#" class="a-manageEmpName">${position.deptName }</a>
 								<i style="display:none;">${position.deptId }</i>
@@ -147,7 +147,7 @@
   						<div class="form-group">
     						<label for="firstname" class="col-sm-3 control-label">职位级别</label>
     						<div class="col-sm-8">
-      							<select class="form-control" name="plId" id="input-addPositionLevel">
+      							<select class="form-control" name="plId" id="select-addPositionLevel">
       								<option value="" disabled selected hidden>请选择</option>
 								</select>
     						</div>
@@ -171,7 +171,7 @@
   						<div class="form-group">
     						<label for="lastname" class="col-sm-3 control-label">职位状态</label>
     						<div class="col-sm-8">
-      							<select class="form-control" name="statusId" id="input-addPositionStatus">
+      							<select class="form-control" name="statusId" id="select-addPositionStatus">
       								<option value="" disabled selected hidden>请选择</option>
 								</select>
     						</div>
@@ -192,8 +192,8 @@
 			</div>
 		</div>
 		
-		<!-- 弹出遮罩层，用于显示职位详细信息 -->
-		<div class="panel_employeeDetail" style="display:none;">
+		<!-- 弹出遮罩层，用于显示职职工详细信息 -->
+		<div class="panel_employeeDetail">
 			<div class="div-panel">
     			<div class="panel-heading">
     				<label>职工详细信息</label>

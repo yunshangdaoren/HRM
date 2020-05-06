@@ -149,7 +149,7 @@
   						<div class="form-group">
     						<label for="firstname" class="col-sm-2 control-label">部门级别</label>
     						<div class="col-sm-8">
-      							<select class="form-control" name="dlId" id="input-addDeptLevel">
+      							<select class="form-control" name="dlId" id="select-addDeptLevel">
       								<option value="" disabled selected>请选择</option>
 								</select>
     						</div>
@@ -175,7 +175,7 @@
   						<div class="form-group">
     						<label for="lastname" class="col-sm-2 control-label">部门状态</label>
     						<div class="col-sm-8">
-      							<select class="form-control" name="statusId" id="input-addDeptStatus">
+      							<select class="form-control" name="statusId" id="select-addDeptStatus">
       								<option value="" disabled selected hidden>请选择</option>
 								</select>
     						</div>

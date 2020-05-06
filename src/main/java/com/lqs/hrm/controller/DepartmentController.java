@@ -83,7 +83,9 @@ public class DepartmentController {
 		}else if(StringUtil.isEmpty(deptNameStr) && StringUtil.isEmpty(manageEmpNameStr) && StringUtil.isEmpty(dlIdStr)) {
 			//则根据部门id查询
 			Department department = departmentService.get(Integer.valueOf(deptIdStr));
-			departmentList.add(department);
+			if (department != null) {
+				departmentList.add(department);
+			}
 		}else if(StringUtil.isEmpty(deptIdStr) && StringUtil.isEmpty(manageEmpNameStr) && StringUtil.isEmpty(dlIdStr)){
 			//则根据部门名称查询
 			departmentList = departmentService.listByDeptName(deptNameStr);
@@ -221,7 +223,9 @@ public class DepartmentController {
 		}else if(StringUtil.isEmpty(deptNameStr) && StringUtil.isEmpty(manageEmpNameStr) && StringUtil.isEmpty(dlIdStr)) {
 			//则根据部门id查询
 			Department department = departmentService.get(Integer.valueOf(deptIdStr));
-			departmentList.add(department);
+			if (department != null) {
+				departmentList.add(department);
+			}
 		}else if(StringUtil.isEmpty(deptIdStr) && StringUtil.isEmpty(manageEmpNameStr) && StringUtil.isEmpty(dlIdStr)){
 			//则根据部门名称查询
 			departmentList = departmentService.listByDeptName(deptNameStr);
@@ -358,22 +362,24 @@ public class DepartmentController {
 	 * @param departmentList
 	 */
 	public void setDeptInfo(List<Department> list) {
-		for (int i = 0; i < list.size(); i++) {
-			//设置部门级别
-			list.get(i).setDlLeve(departmentLevelService.get(list.get(i).getDlId()).getLevel());
-			//设置部门主管名称
-			if(list.get(i).getManageEmpjobid() != null && !list.get(i).getManageEmpjobid().isEmpty()) {
-				list.get(i).setManageEmpName(employeeService.get(list.get(i).getManageEmpjobid()).getEmpName());
-			}
-			//设置上级部门名称
-			if (list.get(i).getParentId() != null) {
-				list.get(i).setParentDeptName(departmentService.get(list.get(i).getParentId()).getDeptName());
-			} 
-			//设置部门状态名称
-			list.get(i).setStatusName(statusService.get(list.get(i).getStatusId()).getStatusName());
-			//设置操作人名称
-			if(list.get(i).getOperatorEmpjobid() != null && !list.get(i).getOperatorEmpjobid().isEmpty()) {
-				list.get(i).setOperatorEmpName(employeeService.get(list.get(i).getOperatorEmpjobid()).getEmpName());
+		if (list.size() != 0 || list != null) {
+			for (int i = 0; i < list.size(); i++) {
+				//设置部门级别
+				list.get(i).setDlLeve(departmentLevelService.get(list.get(i).getDlId()).getLevel());
+				//设置部门主管名称
+				if(list.get(i).getManageEmpjobid() != null && !list.get(i).getManageEmpjobid().isEmpty()) {
+					list.get(i).setManageEmpName(employeeService.get(list.get(i).getManageEmpjobid()).getEmpName());
+				}
+				//设置上级部门名称
+				if (list.get(i).getParentId() != null) {
+					list.get(i).setParentDeptName(departmentService.get(list.get(i).getParentId()).getDeptName());
+				} 
+				//设置部门状态名称
+				list.get(i).setStatusName(statusService.get(list.get(i).getStatusId()).getStatusName());
+				//设置操作人名称
+				if(list.get(i).getOperatorEmpjobid() != null && !list.get(i).getOperatorEmpjobid().isEmpty()) {
+					list.get(i).setOperatorEmpName(employeeService.get(list.get(i).getOperatorEmpjobid()).getEmpName());
+				}
 			}
 		}
 	}

@@ -59,10 +59,10 @@ $("#btn-addDept").click(function(){
 		success:function(result){
 			if(result.code==200){
 				//先清空值（除了第一个）
-				$("#input-addDeptLevel option:not(:first)").remove();
+				$("#select-addDeptLevel option:not(:first)").remove();
 				//添加值
 				for(var i =0; i < result.data.length; i++){
-					$("#input-addDeptLevel").append("<option value='"+result.data[i].dlId+"'>"+result.data[i].levelDesc+"</option>")
+					$("#select-addDeptLevel").append("<option value='"+result.data[i].dlId+"'>"+result.data[i].levelDesc+"</option>")
 				}
 				//alert("开始获取部门状态信息");
 				//发送Ajax请求获取部门状态信息
@@ -74,10 +74,10 @@ $("#btn-addDept").click(function(){
 						//alert("开始获取部门状态信息成功");
 						if(result.code==200){
 							//先清空值（除了第一个）
-							$("#input-addDeptStatus option:not(:first)").remove();
+							$("#select-addDeptStatus option:not(:first)").remove();
 							//添加值
 							for(var i =0; i < result.data.length; i++){
-								$("#input-addDeptStatus").append("<option value='"+result.data[i].statusId+"'>"+result.data[i].statusName+"</option>")
+								$("#select-addDeptStatus").append("<option value='"+result.data[i].statusId+"'>"+result.data[i].statusName+"</option>")
 							}
 						}else{
 							alert("获取信息失败！");
@@ -127,14 +127,14 @@ function addDeptFormEmptyCheck(){
 		$("#addDeptName").focus();
 		return false;
 	}
-	if($("#input-addDeptLevel").val()==null){
+	if($("#select-addDeptLevel").val()==null){
 		alert("部门级别不能为空！");
-		$("#input-addDeptLevel").focus();
+		$("#select-addDeptLevel").focus();
 		return false;
 	}
-	if($("#input-addDeptStatus").val()==null){
+	if($("#select-addDeptStatus").val()==null){
 		alert("部门状态不能为空！");
-		$("#input-addDeptStatus").focus();
+		$("#select-addDeptStatus").focus();
 		return false;
 	}
 	//上面判断无误则返回true

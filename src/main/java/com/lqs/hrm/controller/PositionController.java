@@ -85,7 +85,9 @@ public class PositionController {
 		}else if(StringUtil.isEmpty(positionNameStr) && StringUtil.isEmpty(deptNameStr) && StringUtil.isEmpty(plIdStr)) {
 			//则根据职位id查询
 			Position position = positionService.get(Integer.valueOf(positionIdStr));
-			positionList.add(position);
+			if (position != null) {
+				positionList.add(position);
+			}
 		}else if(StringUtil.isEmpty(positionIdStr) && StringUtil.isEmpty(deptNameStr) && StringUtil.isEmpty(plIdStr)){
 			//则根据职位名称查询
 			positionList = positionService.listByPositionName(positionNameStr);
@@ -220,128 +222,130 @@ public class PositionController {
 	@ResponseBody
 	public JsonPageResult list(HttpServletRequest request, PageRequest pageRequest) {
 		//查询条件信息
-				String positionIdStr = request.getParameter("positionId");
-				String positionNameStr = request.getParameter("positionName");
-				String deptNameStr = request.getParameter("deptName");
-				String plIdStr = request.getParameter("plId");
-				//分页
-				PageHelper.startPage(pageRequest.getPageNum(), pageRequest.getPageSize());
-				List<Position> positionList = new ArrayList<>();
-				//查询条件判断
-				if (StringUtil.isEmpty(positionIdStr) && StringUtil.isEmpty(positionNameStr) && StringUtil.isEmpty(deptNameStr) && StringUtil.isEmpty(plIdStr)) {
-					//如果查询的条件全部为空，则查询出所有职位信息
-					positionList = positionService.listByNo();
-				}else if(StringUtil.isEmpty(positionNameStr) && StringUtil.isEmpty(deptNameStr) && StringUtil.isEmpty(plIdStr)) {
-					//则根据职位id查询
-					Position position = positionService.get(Integer.valueOf(positionIdStr));
+		String positionIdStr = request.getParameter("positionId");
+		String positionNameStr = request.getParameter("positionName");
+		String deptNameStr = request.getParameter("deptName");
+		String plIdStr = request.getParameter("plId");
+		//分页
+		PageHelper.startPage(pageRequest.getPageNum(), pageRequest.getPageSize());
+		List<Position> positionList = new ArrayList<>();
+		//查询条件判断
+		if (StringUtil.isEmpty(positionIdStr) && StringUtil.isEmpty(positionNameStr) && StringUtil.isEmpty(deptNameStr) && StringUtil.isEmpty(plIdStr)) {
+			//如果查询的条件全部为空，则查询出所有职位信息
+			positionList = positionService.listByNo();
+		}else if(StringUtil.isEmpty(positionNameStr) && StringUtil.isEmpty(deptNameStr) && StringUtil.isEmpty(plIdStr)) {
+			//则根据职位id查询
+			Position position = positionService.get(Integer.valueOf(positionIdStr));
+			if (position != null) {
+				positionList.add(position);
+			}
+		}else if(StringUtil.isEmpty(positionIdStr) && StringUtil.isEmpty(deptNameStr) && StringUtil.isEmpty(plIdStr)){
+			//则根据职位名称查询
+			positionList = positionService.listByPositionName(positionNameStr);
+		}else if(StringUtil.isEmpty(positionIdStr) && StringUtil.isEmpty(positionNameStr) && StringUtil.isEmpty(plIdStr)) {
+			//根据部门名称查询，查询某个部门下所有的职位
+			//查询指定部门名称的部门信息
+			List<Department> departmentList = departmentService.listByDeptName(deptNameStr);
+			//对部门列表进行遍历查询出相应的职位信息
+			for (Department department : departmentList) {
+				List<Position> positions = positionService.listByDeptId(department.getDeptId());
+				for (Position position : positions) {
 					positionList.add(position);
-				}else if(StringUtil.isEmpty(positionIdStr) && StringUtil.isEmpty(deptNameStr) && StringUtil.isEmpty(plIdStr)){
-					//则根据职位名称查询
-					positionList = positionService.listByPositionName(positionNameStr);
-				}else if(StringUtil.isEmpty(positionIdStr) && StringUtil.isEmpty(positionNameStr) && StringUtil.isEmpty(plIdStr)) {
-					//根据部门名称查询，查询某个部门下所有的职位
-					//查询指定部门名称的部门信息
-					List<Department> departmentList = departmentService.listByDeptName(deptNameStr);
-					//对部门列表进行遍历查询出相应的职位信息
-					for (Department department : departmentList) {
-						List<Position> positions = positionService.listByDeptId(department.getDeptId());
-						for (Position position : positions) {
-							positionList.add(position);
-						}
-					}
-				}else if(StringUtil.isEmpty(positionIdStr) && StringUtil.isEmpty(positionNameStr) && StringUtil.isEmpty(deptNameStr)) {
-					//根据职位级别查询
-					positionList = positionService.listByPlId(Integer.valueOf(plIdStr));
-				}else if(StringUtil.isEmpty(deptNameStr) && StringUtil.isEmpty(plIdStr)) {
-					//根据职位id，职位名称查询
-					positionList = positionService.listByPositionIdName(Integer.valueOf(positionIdStr), positionNameStr);
-				}else if(StringUtil.isEmpty(positionNameStr) && StringUtil.isEmpty(plIdStr)) {
-					//根据职位id，部门名称查询
-					//查询指定部门名称的部门信息
-					List<Department> departmentList = departmentService.listByDeptName(deptNameStr);
-					//对部门列表进行遍历查询出相应的职位信息
-					for (Department department : departmentList) {
-						List<Position> positions = positionService.listByPositionIdDeptId(Integer.valueOf(positionIdStr), department.getDeptId());
-						for (Position position : positions) {
-							positionList.add(position);
-						}
-					}
-				}else if(StringUtil.isEmpty(positionNameStr) && StringUtil.isEmpty(deptNameStr)) {
-					//根据职位id，职位级别查询
-					positionList = positionService.listByPositionIdPlId(Integer.valueOf(positionIdStr), Integer.valueOf(plIdStr));
-				}else if(StringUtil.isEmpty(positionIdStr) && StringUtil.isEmpty(plIdStr)) {
-					//根据职位名称，部门名称查询
-					//查询指定部门名称的部门信息
-					List<Department> departmentList = departmentService.listByDeptName(deptNameStr);
-					//对部门列表进行遍历查询出相应的职位信息
-					for (Department department : departmentList) {
-						List<Position> positions = positionService.listByPositionNameDeptId(positionNameStr, department.getDeptId());
-						for (Position position : positions) {
-							positionList.add(position);
-						}
-					}
-				}else if(StringUtil.isEmpty(positionIdStr) && StringUtil.isEmpty(deptNameStr)) {
-					//根据职位名称，职位级别查询
-					positionList = positionService.listByPositionNamePlId(positionNameStr, Integer.valueOf(plIdStr));
-				}else if(StringUtil.isEmpty(positionIdStr) && StringUtil.isEmpty(positionNameStr)) {
-					//根据部门名称，职位级别查询
-					//查询指定部门名称的部门信息
-					List<Department> departmentList = departmentService.listByDeptName(deptNameStr);
-					//对部门列表进行遍历查询出相应的职位信息
-					for (Department department : departmentList) {
-						List<Position> positions = positionService.listByDeptIdPlId(department.getDeptId(), Integer.valueOf(plIdStr));
-						for (Position position : positions) {
-							positionList.add(position);
-						}
-					}
-				}else if(StringUtil.isEmpty(plIdStr)) {
-					//根据职位id，职位名称，部门名称查询
-					//查询指定部门名称的部门信息
-					List<Department> departmentList = departmentService.listByDeptName(deptNameStr);
-					//对部门列表进行遍历查询出相应的职位信息
-					for (Department department : departmentList) {
-						List<Position> positions = positionService.listByPositionIdNameDeptId(Integer.valueOf(positionIdStr), positionNameStr, department.getDeptId());
-						for (Position position : positions) {
-							positionList.add(position);
-						}
-					}
-				}else if(StringUtil.isEmpty(deptNameStr)) {
-					//根据职位id，职位名称，职位级别查询
-					positionList = positionService.listByPositionIdNamePlId(Integer.valueOf(positionIdStr), positionNameStr, Integer.valueOf(plIdStr));
-				}else if(StringUtil.isEmpty(positionNameStr)) {
-					//根据职位id，部门名称，职位级别查询
-					//查询指定部门名称的部门信息
-					List<Department> departmentList = departmentService.listByDeptName(deptNameStr);
-					//对部门列表进行遍历查询出相应的职位信息
-					for (Department department : departmentList) {
-						List<Position> positions = positionService.listByPositionIdDeptIdPlId(Integer.valueOf(positionIdStr), department.getDeptId(), Integer.valueOf(plIdStr));
-						for (Position position : positions) {
-							positionList.add(position);
-						}
-					}
-				}else if(StringUtil.isEmpty(positionIdStr)) {
-					//根据职位名称，部门名称，职位级别查询
-					//查询指定部门名称的部门信息
-					List<Department> departmentList = departmentService.listByDeptName(deptNameStr);
-					//对部门列表进行遍历查询出相应的职位信息
-					for (Department department : departmentList) {
-						List<Position> positions = positionService.listByPositionNameDeptIdPlId(positionNameStr, department.getDeptId(), Integer.valueOf(plIdStr));
-						for (Position position : positions) {
-							positionList.add(position);
-						}
-					}
-				}else {
-					//根据职位id，职位名称，部门名称，职位级别查询
-					//查询指定部门名称的部门信息
-					List<Department> departmentList = departmentService.listByDeptName(deptNameStr);
-					//对部门列表进行遍历查询出相应的职位信息
-					for (Department department : departmentList) {
-						List<Position> positions = positionService.listByAll(Integer.valueOf(positionIdStr), positionNameStr, department.getDeptId(), Integer.valueOf(plIdStr));
-						for (Position position : positions) {
-							positionList.add(position);
-						}
-					}
 				}
+			}
+		}else if(StringUtil.isEmpty(positionIdStr) && StringUtil.isEmpty(positionNameStr) && StringUtil.isEmpty(deptNameStr)) {
+			//根据职位级别查询
+			positionList = positionService.listByPlId(Integer.valueOf(plIdStr));
+		}else if(StringUtil.isEmpty(deptNameStr) && StringUtil.isEmpty(plIdStr)) {
+			//根据职位id，职位名称查询
+			positionList = positionService.listByPositionIdName(Integer.valueOf(positionIdStr), positionNameStr);
+		}else if(StringUtil.isEmpty(positionNameStr) && StringUtil.isEmpty(plIdStr)) {
+			//根据职位id，部门名称查询
+			//查询指定部门名称的部门信息
+			List<Department> departmentList = departmentService.listByDeptName(deptNameStr);
+			//对部门列表进行遍历查询出相应的职位信息
+			for (Department department : departmentList) {
+				List<Position> positions = positionService.listByPositionIdDeptId(Integer.valueOf(positionIdStr), department.getDeptId());
+				for (Position position : positions) {
+					positionList.add(position);
+				}
+			}
+		}else if(StringUtil.isEmpty(positionNameStr) && StringUtil.isEmpty(deptNameStr)) {
+			//根据职位id，职位级别查询
+			positionList = positionService.listByPositionIdPlId(Integer.valueOf(positionIdStr), Integer.valueOf(plIdStr));
+		}else if(StringUtil.isEmpty(positionIdStr) && StringUtil.isEmpty(plIdStr)) {
+			//根据职位名称，部门名称查询
+			//查询指定部门名称的部门信息
+			List<Department> departmentList = departmentService.listByDeptName(deptNameStr);
+			//对部门列表进行遍历查询出相应的职位信息
+			for (Department department : departmentList) {
+				List<Position> positions = positionService.listByPositionNameDeptId(positionNameStr, department.getDeptId());
+				for (Position position : positions) {
+					positionList.add(position);
+				}
+			}
+		}else if(StringUtil.isEmpty(positionIdStr) && StringUtil.isEmpty(deptNameStr)) {
+			//根据职位名称，职位级别查询
+			positionList = positionService.listByPositionNamePlId(positionNameStr, Integer.valueOf(plIdStr));
+		}else if(StringUtil.isEmpty(positionIdStr) && StringUtil.isEmpty(positionNameStr)) {
+			//根据部门名称，职位级别查询
+			//查询指定部门名称的部门信息
+			List<Department> departmentList = departmentService.listByDeptName(deptNameStr);
+			//对部门列表进行遍历查询出相应的职位信息
+			for (Department department : departmentList) {
+				List<Position> positions = positionService.listByDeptIdPlId(department.getDeptId(), Integer.valueOf(plIdStr));
+				for (Position position : positions) {
+					positionList.add(position);
+				}
+			}
+		}else if(StringUtil.isEmpty(plIdStr)) {
+			//根据职位id，职位名称，部门名称查询
+			//查询指定部门名称的部门信息
+			List<Department> departmentList = departmentService.listByDeptName(deptNameStr);
+			//对部门列表进行遍历查询出相应的职位信息
+			for (Department department : departmentList) {
+				List<Position> positions = positionService.listByPositionIdNameDeptId(Integer.valueOf(positionIdStr), positionNameStr, department.getDeptId());
+				for (Position position : positions) {
+					positionList.add(position);
+				}
+			}
+		}else if(StringUtil.isEmpty(deptNameStr)) {
+			//根据职位id，职位名称，职位级别查询
+			positionList = positionService.listByPositionIdNamePlId(Integer.valueOf(positionIdStr), positionNameStr, Integer.valueOf(plIdStr));
+		}else if(StringUtil.isEmpty(positionNameStr)) {
+			//根据职位id，部门名称，职位级别查询
+			//查询指定部门名称的部门信息
+			List<Department> departmentList = departmentService.listByDeptName(deptNameStr);
+			//对部门列表进行遍历查询出相应的职位信息
+			for (Department department : departmentList) {
+				List<Position> positions = positionService.listByPositionIdDeptIdPlId(Integer.valueOf(positionIdStr), department.getDeptId(), Integer.valueOf(plIdStr));
+				for (Position position : positions) {
+					positionList.add(position);
+				}
+			}
+		}else if(StringUtil.isEmpty(positionIdStr)) {
+			//根据职位名称，部门名称，职位级别查询
+			//查询指定部门名称的部门信息
+			List<Department> departmentList = departmentService.listByDeptName(deptNameStr);
+			//对部门列表进行遍历查询出相应的职位信息
+			for (Department department : departmentList) {
+				List<Position> positions = positionService.listByPositionNameDeptIdPlId(positionNameStr, department.getDeptId(), Integer.valueOf(plIdStr));
+				for (Position position : positions) {
+					positionList.add(position);
+				}
+			}
+		}else {
+			//根据职位id，职位名称，部门名称，职位级别查询
+			//查询指定部门名称的部门信息
+			List<Department> departmentList = departmentService.listByDeptName(deptNameStr);
+			//对部门列表进行遍历查询出相应的职位信息
+			for (Department department : departmentList) {
+				List<Position> positions = positionService.listByAll(Integer.valueOf(positionIdStr), positionNameStr, department.getDeptId(), Integer.valueOf(plIdStr));
+				for (Position position : positions) {
+					positionList.add(position);
+				}
+			}
+		}
 		if (positionList == null) {
 			return new JsonPageResult("100", null, "没有数据！");
 		}
@@ -384,22 +388,26 @@ public class PositionController {
 	 * @param departmentList
 	 */
 	public void setPositionInfo(List<Position> list) {
-		for (int i = 0; i < list.size(); i++) {
-			//设置职位级别
-			list.get(i).setPlLeve(positionLevelService.get(list.get(i).getPlId()).getLevel());
-			//设置职位上级职位名称
-			if(list.get(i).getParentPositionid() != 0) {
-				list.get(i).setParentPositionName(positionService.get(list.get(i).getParentPositionid()).getPositionName());
-			}
-			//设置职位所属部门名称
-			if (list.get(i).getDeptId() != null) {
-				list.get(i).setDeptName(departmentService.get(list.get(i).getDeptId()).getDeptName());
-			} 
-			//设置职位状态名称
-			list.get(i).setStatusName(statusService.get(list.get(i).getStatusId()).getStatusName());
-			//设置操作人名称
-			if(list.get(i).getOperatorEmpjobid() != null && !list.get(i).getOperatorEmpjobid().isEmpty()) {
-				list.get(i).setOperatorEmpName(employeeService.get(list.get(i).getOperatorEmpjobid()).getEmpName());
+		if (list.size() != 0 || list != null) {
+			for (int i = 0; i < list.size(); i++) {
+				//设置职位级别
+				list.get(i).setPlLeve(positionLevelService.get(list.get(i).getPlId()).getLevel());
+				//设置职位级别描述
+				list.get(i).setPlLevelDesc(positionLevelService.get(list.get(i).getPlId()).getLevelDesc());
+				//设置职位上级职位名称
+				if(list.get(i).getParentPositionid() != 0) {
+					list.get(i).setParentPositionName(positionService.get(list.get(i).getParentPositionid()).getPositionName());
+				}
+				//设置职位所属部门名称
+				if (list.get(i).getDeptId() != null) {
+					list.get(i).setDeptName(departmentService.get(list.get(i).getDeptId()).getDeptName());
+				} 
+				//设置职位状态名称
+				list.get(i).setStatusName(statusService.get(list.get(i).getStatusId()).getStatusName());
+				//设置操作人名称
+				if(list.get(i).getOperatorEmpjobid() != null && !list.get(i).getOperatorEmpjobid().isEmpty()) {
+					list.get(i).setOperatorEmpName(employeeService.get(list.get(i).getOperatorEmpjobid()).getEmpName());
+				}
 			}
 		}
 	}
@@ -426,6 +434,14 @@ public class PositionController {
 		String statusIdStr = request.getParameter("statusId");
 		//获取职位描述
 		String positionDescStr = request.getParameter("positionDesc");
+		
+//		System.out.println("职位名称："+positionNameStr);
+//		System.out.println("职位级别id："+plIdStr);
+//		System.out.println("职位所属部门名称："+deptNameStr);
+//		System.out.println("上级职位名称："+parentPositionNameStr);
+//		System.out.println("职位状态id："+statusIdStr);
+//		System.out.println("职位描述："+positionDescStr);
+		
 		//上级职位id
 		int parentPositionId = 0;
 		if (!StringUtil.isEmpty(parentPositionNameStr)) {

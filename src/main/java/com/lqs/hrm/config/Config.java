@@ -24,7 +24,6 @@ import com.lqs.hrm.interceptor.ApiInterceptor;
  */
 @Configuration
 public class Config implements WebMvcConfigurer{
-	
 	/**
 	 * 注册拦截器
 	 */
