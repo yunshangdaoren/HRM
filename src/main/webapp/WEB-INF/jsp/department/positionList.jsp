@@ -148,14 +148,14 @@
     						<label for="firstname" class="col-sm-3 control-label">职位级别</label>
     						<div class="col-sm-8">
       							<select class="form-control" name="plId" id="input-addPositionLevel">
-      								<option value="" disabled selected>请选择</option>
+      								<option value="" disabled selected hidden>请选择</option>
 								</select>
     						</div>
   						</div>
   						<div class="form-group">
     						<label for="lastname" class="col-sm-3 control-label">职位所属部门</label>
     						<div class="col-sm-8" id="div-infoDeptName">
-      							<input type="text" list="list-deptName" class="form-control" name="deptName" id="input-addDeptName" placeholder="请输入部门名称或id">
+      							<input type="text" class="form-control" name="deptName" id="input-addDeptName" placeholder="请输入部门名称">
     							<select multiple class="form-control" id="select-infoDeptName">
 								</select>
     						</div>
@@ -163,7 +163,7 @@
   						<div class="form-group">
     						<label for="lastname" class="col-sm-3 control-label">上级职位</label>
     						<div class="col-sm-8" id="div-parentPositionName">
-      							<input type="text" list="list-parentPositionName" class="form-control" name="parentPositionName" id="input-addParentPositionName" placeholder="请输入上级职位名称或id">
+      							<input type="text" class="form-control" name="parentPositionName" id="input-addParentPositionName" placeholder="请输入上级职位名称">
     							<select multiple class="form-control" id="select-parentPositionName">
 								</select>
     						</div>

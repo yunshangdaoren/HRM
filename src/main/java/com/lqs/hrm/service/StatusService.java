@@ -19,8 +19,9 @@ public interface StatusService {
 	Status get(Integer statusId);
 	
 	/**
-	 * 返回所有部门状态信息
+	 * 返回指定状态类型的所有状态信息
 	 * @return
 	 */
-	List<Status> list();
+	List<Status> list(int statusType);
+	
 }

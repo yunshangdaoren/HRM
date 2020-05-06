@@ -53,7 +53,7 @@ $("#btn-addPosition").click(function(){
 	$(".panel_addPosition").show();
 	//发送Ajax请求获取职位级别信息
 	$.ajax({
-		url:"/positionLevel/getLevel.do",
+		url:"/positionLevel/list.do",
 		dataType:"json",
 		async:false,
 		success:function(result){
@@ -66,7 +66,7 @@ $("#btn-addPosition").click(function(){
 				}
 				//发送Ajax请求获取职位状态信息
 				$.ajax({
-					url:"/positionStatus/getStatus.do",
+					url:"/status/listPosition.do",
 					dataType:"json",
 					async:false,
 					success:function(result){
@@ -125,20 +125,36 @@ $("#input-addDeptName").bind("input propertychange", function(){
 		dataType:"json",
 		success:function(result){
 			if(result.code==200){
-				$.each(result.pageResult.content, function(i, item){
+				$.each(result.data, function(i, item){
 					$("#select-infoDeptName").append("<option>"+item.deptName+"</option>");
 				});
 			}
-			$("#list-deptName").show();
 		}
 	});
 });
-//监听职位信息输入框鼠标光标移除事件
+//监听添加职位信息弹出层中职位的上级职位信息输入框输入值，并动态查找指定上级职位信息赋值给下拉选项列表
+$("#input-addParentPositionName").bind("input propertychange", function(){
+	//部门名称
+	var parentPositionName = $("#input-addParentPositionName").val();
+	$("#select-parentPositionName").empty();
+	$("#select-parentPositionName").show();
+	$.ajax({
+		url:"/position/queryLikePosition.do?parentPositionName="+parentPositionName,
+		dataType:"json",
+		success:function(result){
+			if(result.code==200){
+				$.each(result.data, function(i, item){
+					$("#select-parentPositionName").append("<option>"+item.positionName+"</option>");
+				});
+			}
+		}
+	});
+});
+//监听职位所属部门、上级职位信息输入框鼠标光标移除事件
 $("#input-addDeptName").focus(function(){
 	$("#select-infoDeptName").show();
 })
-
-//添加职位信息弹出层：职位所属部门输入鼠标移出
+//添加职位信息弹出层：职位所属部门、上级职位信息输入框鼠标移出
 $("#div-infoDeptName").mouseover(function(){
 	//鼠标移入
 	$("#select-infoDeptName").show();
@@ -146,6 +162,14 @@ $("#div-infoDeptName").mouseover(function(){
 	//鼠标移出
 	$("#select-infoDeptName").hide();
 });
+$("#div-parentPositionName").mouseover(function(){
+	//鼠标移入
+	$("#select-parentPositionName").show();
+}).mouseout(function(){
+	//鼠标移出
+	$("#select-parentPositionName").hide();
+});
+
 
 //添加职位信息弹出层的下拉列表部门信息双击事件
 $("#select-infoDeptName").dblclick(function(){

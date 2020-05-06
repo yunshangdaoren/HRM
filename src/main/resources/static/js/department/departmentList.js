@@ -53,7 +53,7 @@ $("#btn-addDept").click(function(){
 	$(".panel_addDepartment").show();
 	//发送Ajax请求获取部门级别信息
 	$.ajax({
-		url:"/departmentLevel/getLevel.do",
+		url:"/departmentLevel/list.do",
 		dataType:"json",
 		async:false,
 		success:function(result){
@@ -67,7 +67,7 @@ $("#btn-addDept").click(function(){
 				//alert("开始获取部门状态信息");
 				//发送Ajax请求获取部门状态信息
 				$.ajax({
-					url:"/departmentStatus/getStatus.do",
+					url:"/status/listDepartment.do",
 					dataType:"json",
 					async:false,
 					success:function(result){

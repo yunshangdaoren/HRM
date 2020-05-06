@@ -36,10 +36,10 @@ public class StatusServiceImpl implements StatusService{
 	 * 返回所有部门状态信息
 	 */
 	@Override
-	public List<Status> list() {
+	public List<Status> list(int statusType) {
 		StatusExample example = new StatusExample();
 		//部门状态类型为4
-		example.or().andStatusTypeEqualTo(4);
+		example.or().andStatusTypeEqualTo(statusType);
 		return statusMapper.selectByExample(example);
 	}
 

@@ -349,7 +349,35 @@ public class PositionController {
 		return new JsonPageResult("200", PageResultUtil.getPageResult(new PageInfo<>(positionList)), "请求成功！");
 	}
 	
-	
+	/**
+	 * 模糊查询、返回查询的指定部门信息
+	 * 根据部门名称模糊查询
+	 * @param request
+	 * @param pageRequest
+	 * @return
+	 */
+	@RequestMapping("queryLikePositionName.do")
+	@ResponseBody
+	public JsonCommonResult<List<Position>> queryLikePositionName(HttpServletRequest request, PageRequest pageRequest) {
+		//查询条件信息
+		String parentPositionNameStr = request.getParameter("parentPositionName");
+		//分页
+		//PageHelper.startPage(pageRequest.getPageNum(), pageRequest.getPageSize());
+		List<Position> positionList = new ArrayList<>();
+		//查询条件判断
+		if (StringUtil.isEmpty(parentPositionNameStr)) {
+			//如果查询的条件全部为空，则查询出所有部门信息
+			positionList = positionService.listByNo();
+		}else {
+			//根据部门名称模糊查询
+			positionList = positionService.listByPositionName(parentPositionNameStr);
+		}
+		if (positionList == null || positionList.size() == 0) {
+			return new JsonCommonResult<List<Position>>("100", null, "没有数据！");
+		}
+		setPositionInfo(positionList);
+		return new JsonCommonResult<List<Position>>("200",positionList, "请求成功！");
+	}
 	
 	/**
 	 * 设置查询出来的职位实体类信息
@@ -440,7 +468,6 @@ public class PositionController {
 		}
 		//设置工号
 		position.setOperatorEmpjobid(user.getUserAccount());
-		
 		//添加职位部门信息
 		int result = positionService.insert(position);
 		if (result == 0) {

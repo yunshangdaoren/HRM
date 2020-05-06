@@ -34,15 +34,15 @@ public class DepartmentLevelController {
 	private DepartmentLevelServiceImpl departmentLevelService;
 	
 	/**
-	 * 返回添加部门要填充的部门级别信息
+	 * 返回部门级别信息
 	 * @return
 	 */
-	@RequestMapping("getLevel.do")
+	@RequestMapping("list.do")
 	@ResponseBody
-	public JsonCommonResult<List<DepartmentLevel>> getDeptLvel(){
+	public JsonCommonResult<List<DepartmentLevel>> list(){
 		//查询部门级别信息
 		List<DepartmentLevel> list = departmentLevelService.list();
-		if (list == null) {
+		if (list.size() == 0 ||list == null) {
 			return new JsonCommonResult<>("100", null, "没有数据！");
 		}
 		return new JsonCommonResult<List<DepartmentLevel>>("200", list, "请求成功");

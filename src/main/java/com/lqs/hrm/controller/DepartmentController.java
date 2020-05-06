@@ -332,11 +332,11 @@ public class DepartmentController {
 	 */
 	@RequestMapping("queryLikeDeptName.do")
 	@ResponseBody
-	public JsonPageResult queryLikeDeptName(HttpServletRequest request, PageRequest pageRequest) {
+	public JsonCommonResult<List<Department>> queryLikeDeptName(HttpServletRequest request, PageRequest pageRequest) {
 		//查询条件信息
 		String deptNameStr = request.getParameter("deptName");
 		//分页
-		PageHelper.startPage(pageRequest.getPageNum(), pageRequest.getPageSize());
+		//PageHelper.startPage(pageRequest.getPageNum(), pageRequest.getPageSize());
 		List<Department> departmentList = new ArrayList<>();
 		//查询条件判断
 		if (StringUtil.isEmpty(deptNameStr)) {
@@ -346,13 +346,11 @@ public class DepartmentController {
 			//根据部门名称模糊查询
 			departmentList = departmentService.listLikeDeptName(deptNameStr);
 		}
-		if (departmentList == null) {
-			return new JsonPageResult("100", null, "没有数据！");
+		if (departmentList == null || departmentList.size() == 0) {
+			return new JsonCommonResult<List<Department>>("100", null, "没有数据！");
 		}
-		System.out.println("查询的部门名称："+deptNameStr);
-		System.out.println("部门信息："+departmentList.get(0).toString());
 		setDeptInfo(departmentList);
-		return new JsonPageResult("200", PageResultUtil.getPageResult(new PageInfo<>(departmentList)), "请求成功！");
+		return new JsonCommonResult<List<Department>>("200",departmentList, "请求成功！");
 	}
 	
 	/**
