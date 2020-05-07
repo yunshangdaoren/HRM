@@ -52,7 +52,7 @@ public class UserController {
 		//密码一致，则修改密码
 		//更新Session里面的用户密码信息
 		sessionLoginUser.setUserPwd(newUserPwd);
-		int statusCode = userService.updateUserPwd(sessionLoginUser.getUserAccount(), newUserPwd);
+		int statusCode = userService.update(sessionLoginUser.getUserAccount(), newUserPwd);
 		if(statusCode == 1) {
 			resultMap.put("statusCode", statusCode);
 			resultMap.put("message", "修改成功！");
@@ -66,7 +66,7 @@ public class UserController {
 	@RequestMapping("get")
 	@ResponseBody
 	public User get(String userAccount) {
-		return userService.getUser(userAccount);
+		return userService.get(userAccount);
 	}
 	
 	

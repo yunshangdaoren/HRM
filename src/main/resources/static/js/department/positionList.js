@@ -59,7 +59,7 @@ $("#btn-addPosition").click(function(){
 		success:function(result){
 			if(result.code==200){
 				//先清空值（除了第一个）
-				$("#input-addPositionLevel option:not(:first)").remove();
+				$("#select-addPositionLevel option:not(:first)").remove();
 				//添加值
 				for(var i =0; i < result.data.length; i++){
 					$("#select-addPositionLevel").append("<option value='"+result.data[i].plId+"'>"+result.data[i].levelDesc+"</option>")
@@ -72,7 +72,7 @@ $("#btn-addPosition").click(function(){
 					success:function(result){
 						if(result.code==200){
 							//先清空值（除了第一个）
-							$("#input-addPositionStatus option:not(:first)").remove();
+							$("#select-addPositionStatus option:not(:first)").remove();
 							//添加值
 							for(var i =0; i < result.data.length; i++){
 								$("#select-addPositionStatus").append("<option value='"+result.data[i].statusId+"'>"+result.data[i].statusName+"</option>")

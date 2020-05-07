@@ -47,6 +47,7 @@ public class EmployeeController {
 	@RequestMapping("get.do")
 	@ResponseBody
 	public JsonCommonResult<Employee> get(String empJobid) {
+		System.out.println("职工工号为："+empJobid);
 		Employee employee =  employeeService.get(empJobid);
 		//获取部门信息
 		List<EmployeeDepartment> list = employeeDepartmentService.get(empJobid);

@@ -527,6 +527,15 @@ public class Employee {
 	public void setEmpSexName(String empSexName) {
 		this.empSexName = empSexName;
 	}
-    
+
+	@Override
+	public String toString() {
+		return "Employee [empJobid=" + empJobid + ", empName=" + empName + ", empSex=" + empSex + ", empSexName="
+				+ empSexName + ", empBirthday=" + empBirthday + ", empIdcard=" + empIdcard + ", empPhone=" + empPhone
+				+ ", empEmail=" + empEmail + ", empEducation=" + empEducation + ", empAddress=" + empAddress
+				+ ", entryTime=" + entryTime + ", statusId=" + statusId + ", statusName=" + statusName + ", empNote="
+				+ empNote + ", lastOperatorDate=" + lastOperatorDate + ", operatorEmpjobid=" + operatorEmpjobid
+				+ ", deptIdList=" + deptIdList + ", deptNameList=" + deptNameList + "]";
+	}
 
 }

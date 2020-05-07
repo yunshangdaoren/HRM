@@ -26,4 +26,10 @@ public interface EmployeeService {
 	 * @return
 	 */
 	List<Employee> listByEmpName(String empName);
+	
+	/**
+	 * 查询出所有职工信息
+	 * @return
+	 */
+	List<Employee> list();
 }

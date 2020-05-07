@@ -148,7 +148,7 @@ public class LoginController {
 			resultMap.put("message", "验证码不正确");
 		}else {
 			//验证码正确,修改账户密码
-			int status = userService.updateUserPwd(userAccount, newUserPwd);
+			int status = userService.update(userAccount, newUserPwd);
 			if (status == 1) {
 				//修改成功
 				session.removeAttribute(userAccount);

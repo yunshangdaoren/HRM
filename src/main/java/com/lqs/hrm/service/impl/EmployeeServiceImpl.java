@@ -22,6 +22,9 @@ public class EmployeeServiceImpl implements EmployeeService{
 	
 	@Override
 	public Employee get(String empJobid) {
+//		EmployeeExample example = new EmployeeExample();
+//		example.or().andEmpIdcardEqualTo(empJobid);
+		System.out.println("==============职工工号为："+empJobid);
 		return employeeMapper.selectByPrimaryKey(empJobid);
 	}
 
@@ -42,6 +45,15 @@ public class EmployeeServiceImpl implements EmployeeService{
 	public List<Employee> listByEmpName(String empName) {
 		EmployeeExample example = new EmployeeExample();
 		example.or().andEmpNameEqualTo(empName);
+		return employeeMapper.selectByExample(example);
+	}
+	
+	/**
+	 * 查询出所有职工信息
+	 */
+	public List<Employee> list(){
+		EmployeeExample example = new EmployeeExample();
+		example.or().andEmpIdcardIsNotNull();
 		return employeeMapper.selectByExample(example);
 	}
 

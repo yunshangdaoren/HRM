@@ -15,7 +15,7 @@ public class LoginServiceImpl {
 	private UserServiceImpl userService;
 	
 	public User getUser(String userAccount, String userPwd) {
-		return userService.getUser(userAccount, userPwd);
+		return userService.get(userAccount, userPwd);
 	}
 	
 	

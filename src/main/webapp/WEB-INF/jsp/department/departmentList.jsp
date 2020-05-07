@@ -150,7 +150,7 @@
     						<label for="firstname" class="col-sm-2 control-label">部门级别</label>
     						<div class="col-sm-8">
       							<select class="form-control" name="dlId" id="select-addDeptLevel">
-      								<option value="" disabled selected>请选择</option>
+      								<option value="" disabled selected hidden>请选择</option>
 								</select>
     						</div>
   						</div>

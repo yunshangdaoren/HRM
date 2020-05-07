@@ -42,6 +42,7 @@ public class DepartmentLevelController {
 	public JsonCommonResult<List<DepartmentLevel>> list(){
 		//查询部门级别信息
 		List<DepartmentLevel> list = departmentLevelService.list();
+		System.out.println("获取到部门级别列表信息："+list);
 		if (list.size() == 0 ||list == null) {
 			return new JsonCommonResult<>("100", null, "没有数据！");
 		}

@@ -38,6 +38,7 @@ import com.lqs.hrm.service.impl.EmployeeServiceImpl;
 import com.lqs.hrm.service.impl.PositionLevelServiceImpl;
 import com.lqs.hrm.service.impl.PositionServiceImpl;
 import com.lqs.hrm.service.impl.StatusServiceImpl;
+import com.lqs.hrm.service.impl.UserServiceImpl;
 import com.lqs.hrm.util.PageRequest;
 import com.lqs.hrm.util.PageResult;
 import com.lqs.hrm.util.PageResultUtil;
@@ -60,6 +61,8 @@ public class PositionController {
 	private DepartmentServiceImpl departmentService;
 	@Autowired
 	private EmployeeServiceImpl employeeService;
+	@Autowired
+	private UserServiceImpl userService;
 	
 	/**
 	 * 查询职位信息并跳转至职位详情页面
@@ -387,26 +390,30 @@ public class PositionController {
 	 * 设置查询出来的职位实体类信息
 	 * @param departmentList
 	 */
-	public void setPositionInfo(List<Position> list) {
-		if (list.size() != 0 || list != null) {
-			for (int i = 0; i < list.size(); i++) {
+	public void setPositionInfo(List<Position> positionList) {
+		System.out.println("=================");
+		for (Position position : positionList) {
+			System.out.println(position);
+		}
+		if (positionList.size() != 0 || positionList != null) {
+			for (int i = 0; i < positionList.size(); i++) {
 				//设置职位级别
-				list.get(i).setPlLeve(positionLevelService.get(list.get(i).getPlId()).getLevel());
+				positionList.get(i).setPlLeve(positionLevelService.get(positionList.get(i).getPlId()).getLevel());
 				//设置职位级别描述
-				list.get(i).setPlLevelDesc(positionLevelService.get(list.get(i).getPlId()).getLevelDesc());
+				positionList.get(i).setPlLevelDesc(positionLevelService.get(positionList.get(i).getPlId()).getLevelDesc());
 				//设置职位上级职位名称
-				if(list.get(i).getParentPositionid() != 0) {
-					list.get(i).setParentPositionName(positionService.get(list.get(i).getParentPositionid()).getPositionName());
+				if(positionList.get(i).getParentPositionid() != 0) {
+					positionList.get(i).setParentPositionName(positionService.get(positionList.get(i).getParentPositionid()).getPositionName());
 				}
 				//设置职位所属部门名称
-				if (list.get(i).getDeptId() != null) {
-					list.get(i).setDeptName(departmentService.get(list.get(i).getDeptId()).getDeptName());
+				if (positionList.get(i).getDeptId() != null) {
+					positionList.get(i).setDeptName(departmentService.get(positionList.get(i).getDeptId()).getDeptName());
 				} 
 				//设置职位状态名称
-				list.get(i).setStatusName(statusService.get(list.get(i).getStatusId()).getStatusName());
+				positionList.get(i).setStatusName(statusService.get(positionList.get(i).getStatusId()).getStatusName());
 				//设置操作人名称
-				if(list.get(i).getOperatorEmpjobid() != null && !list.get(i).getOperatorEmpjobid().isEmpty()) {
-					list.get(i).setOperatorEmpName(employeeService.get(list.get(i).getOperatorEmpjobid()).getEmpName());
+				if(positionList.get(i).getOperatorEmpjobid() != null && !positionList.get(i).getOperatorEmpjobid().isEmpty()) {
+					positionList.get(i).setOperatorEmpName(employeeService.get(positionList.get(i).getOperatorEmpjobid()).getEmpName());
 				}
 			}
 		}

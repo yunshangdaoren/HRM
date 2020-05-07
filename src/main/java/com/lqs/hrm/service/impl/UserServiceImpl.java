@@ -8,9 +8,10 @@ import org.springframework.stereotype.Service;
 import com.lqs.hrm.entity.User;
 import com.lqs.hrm.entity.UserExample;
 import com.lqs.hrm.mapper.UserMapper;
+import com.lqs.hrm.service.UserService;
 
 @Service
-public class UserServiceImpl {
+public class UserServiceImpl implements UserService{
 	@Autowired
 	private UserMapper userMapper;
 	
@@ -20,7 +21,7 @@ public class UserServiceImpl {
 	 * @param newUserPwd
 	 * @return
 	 */
-	public int updateUserPwd(String userAccount, String newUserPwd) {
+	public int update(String userAccount, String newUserPwd) {
 		UserExample example = new UserExample();
 		example.createCriteria().andUserAccountEqualTo(userAccount);
 		User user = new User();
@@ -28,7 +29,13 @@ public class UserServiceImpl {
 		return userMapper.updateByExampleSelective(user, example);
 	}
 	
-	public User getUser(String userAccount, String userPwd) {
+	/**
+	 * 通过用户账户和密码获取用户信息
+	 * @param userAccount
+	 * @param userPwd
+	 * @return
+	 */
+	public User get(String userAccount, String userPwd) {
 		UserExample userExample = new UserExample();
 		userExample.createCriteria().andUserAccountEqualTo(userAccount).andUserPwdEqualTo(userPwd);
 		List<User> users = userMapper.selectByExample(userExample);
@@ -38,7 +45,12 @@ public class UserServiceImpl {
 		return users.get(0);
 	}
 	
-	public User getUser(String userAccount) {
+	/**
+	 * 通过用户账户获取用户信息
+	 * @param userAccount
+	 * @return
+	 */
+	public User get(String userAccount) {
 		UserExample userExample = new UserExample();
 		userExample.createCriteria().andUserAccountEqualTo(userAccount);
 		List<User> users = userMapper.selectByExample(userExample);

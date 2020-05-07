@@ -58,7 +58,7 @@ public class StatusController {
 	@ResponseBody
 	public JsonCommonResult<List<Status>> listPosition(){
 		//查询部门级别信息
-		List<Status> list = statusService.list(6);
+		List<Status> list = statusService.list(5);
 		if (list == null) {
 			return new JsonCommonResult<List<Status>>("100", null, "没有数据！");
 		}

@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.lqs.hrm.entity.Department;
+import com.lqs.hrm.entity.Employee;
 import com.lqs.hrm.entity.User;
 import com.lqs.hrm.service.impl.DepartmentServiceImpl;
+import com.lqs.hrm.service.impl.EmployeeServiceImpl;
 import com.lqs.hrm.service.impl.LoginServiceImpl;
 import com.lqs.hrm.service.impl.MailServiceImpl;
 import com.lqs.hrm.service.impl.UserServiceImpl;
@@ -23,6 +25,8 @@ class HrmApplicationTests {
 	private DepartmentServiceImpl departmentService;
 	@Autowired
 	private UserServiceImpl userService;
+	@Autowired
+	private EmployeeServiceImpl employeeService;
 	
 	@Test
 	void contextLoads() {
@@ -57,7 +61,7 @@ class HrmApplicationTests {
 	
 	@Test
 	void userTest() {
-		User user = userService.getUser("1");
+		User user = userService.get("1");
 		System.out.println("====================");
 		System.out.println("创建日期:"+user.getCreateDate());
 		System.out.println("====================");
@@ -71,5 +75,16 @@ class HrmApplicationTests {
 		int code = departmentService.insert(department);
 		System.out.println("==================================");
 		System.out.println("code:" + code);
+	}
+	
+	@Test
+	void selectEmployee() {
+		Employee employee = employeeService.get("1");
+		System.out.println("查询工号为1的职工："+employee);
+		List<Employee> list = employeeService.list();
+		System.out.println("查询出所有职工信息：");
+		for (Employee e : list) {
+			System.out.println("工号:"+e.getEmpIdcard());
+		}
 	}
 }
