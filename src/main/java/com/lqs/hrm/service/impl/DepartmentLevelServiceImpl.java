@@ -21,20 +21,38 @@ public class DepartmentLevelServiceImpl implements DepartmentLevelService{
 	private DepartmentLevelMapper departmentLevelMapper;
 
 	/**
-	 * 指定的部门级别信息
+	 * 返回指定的部门id的部门级别信息
 	 */
 	@Override
 	public DepartmentLevel get(Integer dlId) {
 		return departmentLevelMapper.selectByPrimaryKey(dlId);
 	}
+	
+	/**
+	 * 返回指定的部门级别的部门级别信息
+	 */
+	@Override
+	public DepartmentLevel getByLevel(Integer level) {
+		return departmentLevelMapper.selectByPrimaryKey(level);
+	}
 
 	/**
-	 * 部门级别列表
+	 * 返回所有部门级别列表
 	 */
 	@Override
 	public List<DepartmentLevel> list() {
 		DepartmentLevelExample example = new DepartmentLevelExample();
 		example.createCriteria().andDlIdIsNotNull();
+		return departmentLevelMapper.selectByExample(example);
+	}
+
+	/**
+	 * 返回指定部门级别的所有部门列表
+	 */
+	@Override
+	public List<DepartmentLevel> list(Integer level) {
+		DepartmentLevelExample example = new DepartmentLevelExample();
+		example.createCriteria().andDlIdEqualTo(level);
 		return departmentLevelMapper.selectByExample(example);
 	}
 

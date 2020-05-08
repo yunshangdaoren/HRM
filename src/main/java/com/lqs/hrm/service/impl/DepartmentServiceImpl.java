@@ -54,7 +54,7 @@ public class DepartmentServiceImpl implements DepartmentService{
 	}
 	
 	/**
-	 * 根据部门级别查询
+	 * 根据部门级别id查询
 	 */
 	@Override
 	public List<Department> listByDlId(Integer dlId) {
@@ -90,7 +90,7 @@ public class DepartmentServiceImpl implements DepartmentService{
 	}
 	
 	/**
-	 * 根据部门id，部门级别查询
+	 * 根据部门id，部门级别id查询
 	 */
 	@Override
 	public List<Department> listByDeptIdDlId(Integer deptId, Integer dlId) {
@@ -114,7 +114,7 @@ public class DepartmentServiceImpl implements DepartmentService{
 	}
 	
 	/**
-	 * 根据部门名称，部门级别查询
+	 * 根据部门名称，部门级别id查询
 	 */
 	@Override
 	public List<Department> listByDeptNameDlId(String deptName, Integer dlId) {
@@ -184,7 +184,7 @@ public class DepartmentServiceImpl implements DepartmentService{
 	}
 	
 	/**
-	 * 根据id，部门名称，部门主管id，部门级别查询
+	 * 根据id，部门名称，部门主管id，部门级别id查询
 	 */
 	@Override
 	public List<Department> listByAll(Integer deptId, String deptName, String manageEmpjobid, Integer dlId) {

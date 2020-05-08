@@ -26,12 +26,12 @@
 	</div>
 	<div class="modu">
 		<div class="modu-head">
-			<p>组织架构管理</p>
+			<p>组织管理</p>
 		</div>
 		<div class="modu-content">
 			<div class="content-body">
 				<a href="/department/departmentList.do" >部门详情</a>
-				<a href="/department/departmentManage.do" >部门架构管理</a>
+				<a href="/departmentLevel/departmentLevelList.do" >部门架构管理</a>
 				<a href="/position/positionList.do" >职位管理</a>
 			</div>
 		</div>

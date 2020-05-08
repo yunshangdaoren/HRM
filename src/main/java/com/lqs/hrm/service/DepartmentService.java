@@ -29,7 +29,7 @@ public interface DepartmentService {
 	 */
 	List<Department> listBymanageEmpjobid(String manageEmpjobid);
 	/**
-	 * 根据部门级别查询
+	 * 根据部门级别id查询
 	 * @param dlId
 	 * @return
 	 */
@@ -49,7 +49,7 @@ public interface DepartmentService {
 	 */
 	List<Department> listByDeptIdManageEmpJobId(Integer deptId, String manageEmpjobid);
 	/**
-	 * 根据部门id，部门级别查询
+	 * 根据部门id，部门级别id查询
 	 * @param deptId
 	 * @param dlId
 	 * @return
@@ -63,14 +63,14 @@ public interface DepartmentService {
 	 */
 	List<Department> listByDeptNameManageEmpJobId(String deptName, String manageEmpjobid);
 	/**
-	 * 根据部门名称，部门级别查询
+	 * 根据部门名称，部门级别id查询
 	 * @param deptName
 	 * @param dlId
 	 * @return
 	 */
 	List<Department> listByDeptNameDlId(String deptName, Integer dlId);
 	/**
-	 * 根据部门主管id，部门级别查询
+	 * 根据部门主管id，部门级别id查询
 	 * @param manageEmpjobid
 	 * @param dlId
 	 * @return
@@ -86,7 +86,7 @@ public interface DepartmentService {
 	List<Department> listByDeptIdNameManageEmpJobId(Integer deptId, String deptName, String manageEmpjobid);
 	
 	/**
-	 * 根据部门id，部门名称，部门级别查询
+	 * 根据部门id，部门名称，部门级别id查询
 	 * @param deptId
 	 * @param deptName
 	 * @param manageEmpjobid
@@ -94,7 +94,7 @@ public interface DepartmentService {
 	 */
 	List<Department> listByDeptIdNameDlId(Integer deptId, String deptName, Integer dlId);
 	/**
-	 * 根据部门id，部门主管id，部门级别查询
+	 * 根据部门id，部门主管id，部门级别id查询
 	 * @param deptId
 	 * @param manageEmpjobid
 	 * @param dlId
@@ -102,7 +102,7 @@ public interface DepartmentService {
 	 */
 	List<Department> listByDeptIdManageEmpJonIdDlId(Integer deptId, String manageEmpjobid, Integer dlId);
 	/**
-	 * 根据部门名称，部门主管id，部门级别查询
+	 * 根据部门名称，部门主管id，部门级别id查询
 	 * @param deptName
 	 * @param manageEmpjobid
 	 * @param dlId
@@ -110,7 +110,7 @@ public interface DepartmentService {
 	 */
 	List<Department> listByDeptNameManageEmpJonIdDlId(String deptName, String manageEmpjobid, Integer dlId);
 	/**
-	 * 根据id，部门名称，部门主管id，部门级别查询
+	 * 根据id，部门名称，部门主管id，部门级别id查询
 	 * @param deptId
 	 * @param deptName
 	 * @param manageEmpjobid

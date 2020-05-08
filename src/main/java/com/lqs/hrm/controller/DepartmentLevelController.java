@@ -1,5 +1,6 @@
 package com.lqs.hrm.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,8 +16,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.github.pagehelper.util.StringUtil;
 import com.lqs.hrm.entity.Department;
 import com.lqs.hrm.entity.DepartmentLevel;
+import com.lqs.hrm.entity.Employee;
 import com.lqs.hrm.json.JsonCommonResult;
 import com.lqs.hrm.json.JsonPageResult;
 import com.lqs.hrm.service.impl.DepartmentLevelServiceImpl;
@@ -31,10 +34,36 @@ import com.lqs.hrm.util.PageResultUtil;
 @RequestMapping("departmentLevel")
 public class DepartmentLevelController {
 	@Autowired
+	private DepartmentServiceImpl departmentService;
+	@Autowired
 	private DepartmentLevelServiceImpl departmentLevelService;
 	
 	/**
-	 * 返回部门级别信息
+	 * 查询部门并跳转至部门详情页面
+	 * @param request
+	 * @param pageRequest
+	 * @param map
+	 * @return
+	 */
+	@RequestMapping("departmentLevelList.do")
+	public String departmentLevelList(HttpServletRequest request, PageRequest pageRequest, ModelMap map){
+		
+		
+		//所有部门级别信息
+		List<DepartmentLevel> departmentLevelList = departmentLevelService.list();
+		//返回查询的所有部门级别信息
+		map.put("departmentLevelList", departmentLevelList);
+		//查询一级部门的部门级别信息
+		DepartmentLevel departmentLevel = departmentLevelService.getByLevel(1);
+		//返回所有一级部门信息
+		List<Department> firstDepartmentList = departmentService.listByDlId(departmentLevel.getDlId());
+		//返回所有一级部门信息
+		map.put("firstDepartmentList", firstDepartmentList);
+		return "department/departmentLevelList";
+	}
+	
+	/**
+	 * 返回所有部门级别信息
 	 * @return
 	 */
 	@RequestMapping("list.do")
@@ -42,7 +71,6 @@ public class DepartmentLevelController {
 	public JsonCommonResult<List<DepartmentLevel>> list(){
 		//查询部门级别信息
 		List<DepartmentLevel> list = departmentLevelService.list();
-		System.out.println("获取到部门级别列表信息："+list);
 		if (list.size() == 0 ||list == null) {
 			return new JsonCommonResult<>("100", null, "没有数据！");
 		}

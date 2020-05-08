@@ -68,7 +68,6 @@ public class DepartmentController {
 	public String departmentList(HttpServletRequest request, PageRequest pageRequest, ModelMap map){
 		//查询条件信息
 		String deptIdStr = request.getParameter("deptId");
-		System.out.println("部门编号："+deptIdStr);
 		String deptNameStr = request.getParameter("deptName");
 		String manageEmpNameStr = request.getParameter("manageEmpName");
 		String dlIdStr = request.getParameter("dlId");
