@@ -24,6 +24,7 @@ import com.lqs.hrm.json.JsonCommonResult;
 import com.lqs.hrm.json.JsonPageResult;
 import com.lqs.hrm.service.impl.DepartmentLevelServiceImpl;
 import com.lqs.hrm.service.impl.DepartmentServiceImpl;
+import com.lqs.hrm.service.impl.EmployeeServiceImpl;
 import com.lqs.hrm.service.impl.StatusServiceImpl;
 import com.lqs.hrm.service.impl.UserServiceImpl;
 import com.lqs.hrm.util.PageRequest;
@@ -37,16 +38,18 @@ public class DepartmentLevelController {
 	private DepartmentServiceImpl departmentService;
 	@Autowired
 	private DepartmentLevelServiceImpl departmentLevelService;
+	@Autowired
+	private EmployeeServiceImpl employeeService;
 	
 	/**
-	 * 查询部门并跳转至部门详情页面
+	 * 查询部门并跳转至部门架构管理页面
 	 * @param request
 	 * @param pageRequest
 	 * @param map
 	 * @return
 	 */
-	@RequestMapping("departmentLevelList.do")
-	public String departmentLevelList(HttpServletRequest request, PageRequest pageRequest, ModelMap map){
+	@RequestMapping("departmentStructureManage.do")
+	public String departmentStructureManage(HttpServletRequest request, PageRequest pageRequest, ModelMap map){
 		
 		
 		//所有部门级别信息
@@ -59,7 +62,40 @@ public class DepartmentLevelController {
 		List<Department> firstDepartmentList = departmentService.listByDlId(departmentLevel.getDlId());
 		//返回所有一级部门信息
 		map.put("firstDepartmentList", firstDepartmentList);
-		return "department/departmentLevelList";
+		return "department/departmentStructureManage";
+	}
+	
+	/**
+	 * 查询部门级别并跳转至级别架构管理页面
+	 * @param request
+	 * @param pageRequest
+	 * @param map
+	 * @return
+	 */
+	@RequestMapping("levelStructureManage.do")
+	public String levelStructureManage(HttpServletRequest request, PageRequest pageRequest, ModelMap map){
+		//所有部门级别信息
+		List<DepartmentLevel> departmentLevelList = departmentLevelService.list();
+		setDepartmentLevelInfo(departmentLevelList);
+		PageResult pageResult = PageResultUtil.getPageResult(new PageInfo<>(departmentLevelList));
+		//返回查询的部门级别信息
+		map.put("pageResult", pageResult);
+		return "department/levelStructureManage";
+	}
+	
+	/**
+	 * 设置查询出来的部门实体类信息
+	 * @param departmentList
+	 */
+	public void setDepartmentLevelInfo(List<DepartmentLevel> list) {
+		if (list.size() != 0 || list != null) {
+			for (int i = 0; i < list.size(); i++) {
+				//设置操作人名称
+				if(list.get(i).getOperatorEmpjobid() != null && !list.get(i).getOperatorEmpjobid().isEmpty()) {
+					list.get(i).setOperatorEmpName(employeeService.get(list.get(i).getOperatorEmpjobid()).getEmpName());
+				}
+			}
+		}
 	}
 	
 	/**

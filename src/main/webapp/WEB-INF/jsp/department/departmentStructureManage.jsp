@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 	<title>部门架构管理</title>
-	<link href="/static/css/department/departmentDetail.css" rel="stylesheet" />
+	<link href="/static/css/department/departmentStructureManage.css" rel="stylesheet" />
 </head>
 <body>
 	<%@ include file="../top.jsp" %>
@@ -13,8 +13,8 @@
 		<%@ include file="../leftNav.jsp" %>
 		<div id="right">
 			<ul class="nav nav-tabs">
-  				<li role="presentation" class="active"><a href="#">部门架构</a></li>
-  				<li role="presentation"><a href="#">级别架构</a></li>
+  				<li role="presentation" class="active"><a href="/departmentLevel/departmentStructureManage.do">部门架构管理</a></li>
+  				<li role="presentation"><a href="/departmentLevel/levelStructureManage.do">级别架构管理</a></li>
 			</ul>
 			<div class="div_search">
 				<form class="form-inline" id="form-queryDept" method="get" action="/department/departmentList.do">
