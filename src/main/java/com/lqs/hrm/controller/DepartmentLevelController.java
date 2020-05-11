@@ -50,8 +50,6 @@ public class DepartmentLevelController {
 	 */
 	@RequestMapping("departmentStructureManage.do")
 	public String departmentStructureManage(HttpServletRequest request, PageRequest pageRequest, ModelMap map){
-		
-		
 		//所有部门级别信息
 		List<DepartmentLevel> departmentLevelList = departmentLevelService.list();
 		//返回查询的所有部门级别信息
@@ -84,7 +82,7 @@ public class DepartmentLevelController {
 	}
 	
 	/**
-	 * 设置查询出来的部门实体类信息
+	 * 设置查询出来的部门级别实体类信息
 	 * @param departmentList
 	 */
 	public void setDepartmentLevelInfo(List<DepartmentLevel> list) {
@@ -113,6 +111,29 @@ public class DepartmentLevelController {
 		return new JsonCommonResult<List<DepartmentLevel>>("200", list, "请求成功");
 	}
 
+	/**
+	 * 添加部门级别信息
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping("add.do")
+	@ResponseBody
+	public JsonCommonResult<Object> add(HttpServletRequest request, HttpServletResponse response) {
+		Map<String, Object> resultMap = new HashMap<>();
+		//获取级别值
+		String levelStr = request.getParameter("level");
+		//获取级别描述
+		String levelDescStr = request.getParameter("levelDesc");
+		//获取备注
+		String levelNoteStr = request.getParameter("levelNote");
+		if (!StringUtil.isEmpty(parentDeptNameStr)) {
+			Department parentDepartment = departmentService.listByDeptName(parentDeptNameStr).get(0);
+			parentId = parentDepartment.getDeptId();
+			System.out.println("获取到上级部门id:"+parentId);
+		}
+		return new JsonCommonResult<>();
+	}
 	
 }
 

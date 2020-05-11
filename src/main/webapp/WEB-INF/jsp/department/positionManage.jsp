@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 	<title>职位详情</title>
-	<link href="/static/css/department/positionList.css" rel="stylesheet" />
+	<link href="/static/css/department/positionManage.css" rel="stylesheet" />
 </head>
 <body>
 	<%@ include file="../top.jsp" %>
@@ -214,5 +214,5 @@
 		</div>
 		
 </body>
-	<script type="text/javascript" src="/static/js/department/positionList.js"></script>
+	<script type="text/javascript" src="/static/js/department/positionManage.js"></script>
 </html>

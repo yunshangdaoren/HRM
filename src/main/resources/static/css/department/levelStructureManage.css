@@ -39,10 +39,10 @@
 	display:blcok-inline;
 }
 
-/* 閿熸枻鎷风‖閿熸枻鎷疯閿熸枻鎷烽敓鏂ゆ嫹閿熸枻鎷烽敓缁烇拷 */
-.panel_addDepartment{
+/* 弹出遮罩层，用于添加部门级别信息 */
+.panel_addDepartmentLevel{
 	width:600px;
-	height:480px;
+	height:430px;
 	position:absolute;
 	display:none;
 	z-index:7;
@@ -54,7 +54,7 @@
     border:0px;
     background-color:#fff;
 }
-/* 鏄剧ず鑱屽伐璇︾粏淇℃伅寮瑰嚭灞� */
+/* 弹出遮罩层，用于显示职位详细信息  */
 .panel_employeeDetail{
 	width:500px;
 	height:376px;
@@ -89,7 +89,7 @@
 	margin-left:5px;
 }
 /* 鍏抽棴娣诲姞閮ㄩ棬淇℃伅寮瑰嚭灞傞潰鏉� */
-.div-panel .panel-heading #btn-hidePanelAddDepartment{
+.div-panel .panel-heading #btn-hidePanelAddDepartmentLevel{
 	width:80px;
 	float:right;
 	height:38px;
