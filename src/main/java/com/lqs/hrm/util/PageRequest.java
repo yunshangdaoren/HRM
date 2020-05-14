@@ -14,7 +14,7 @@ public class PageRequest {
 	/**
 	 * 每页数量，默认为13
 	 */
-	private int pageSize = 6;
+	private int pageSize = 13;
 
 	public int getPageNum() {
 		return pageNum;

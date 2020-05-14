@@ -28,4 +28,25 @@ public interface DepartmentLevelService {
 	 * @return 返回指定部门级别的所有部门列表
 	 */
 	List<DepartmentLevel> list(Integer level);
+	
+	/**
+	 * 添加部门级别信息
+	 * @param departmentLevel
+	 * @return
+	 */
+	int add(DepartmentLevel departmentLevel);
+	
+	/**
+	 * 修改指定部门级别信息
+	 * @param departmentLevel
+	 * @return
+	 */
+	int update(DepartmentLevel departmentLevel);
+	
+	/**
+	 * 删除指定id的部门级别信息
+	 * @param dlId
+	 * @return
+	 */
+	int delete(Integer dlId);
 }

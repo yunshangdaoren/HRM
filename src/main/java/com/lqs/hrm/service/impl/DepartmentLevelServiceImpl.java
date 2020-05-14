@@ -56,4 +56,25 @@ public class DepartmentLevelServiceImpl implements DepartmentLevelService{
 		return departmentLevelMapper.selectByExample(example);
 	}
 
+	@Override
+	public int add(DepartmentLevel departmentLevel) {
+		return departmentLevelMapper.insertSelective(departmentLevel);
+	}
+
+	/**
+	 * 修改指定部门级别信息
+	 */
+	@Override
+	public int update(DepartmentLevel departmentLevel) {
+		return departmentLevelMapper.updateByPrimaryKeySelective(departmentLevel);
+	}
+
+	/**
+	 * 删除指定id的部门级别信息
+	 */
+	@Override
+	public int delete(Integer dlId) {
+		return departmentLevelMapper.deleteByPrimaryKey(dlId);
+	}
+
 }

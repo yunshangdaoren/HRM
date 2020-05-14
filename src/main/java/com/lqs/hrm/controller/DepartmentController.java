@@ -410,14 +410,12 @@ public class DepartmentController {
 		if (!StringUtil.isEmpty(parentDeptNameStr)) {
 			Department parentDepartment = departmentService.listByDeptName(parentDeptNameStr).get(0);
 			parentId = parentDepartment.getDeptId();
-			System.out.println("获取到上级部门id:"+parentId);
 		}
 		//部门主管工号
 		String manageEmpjobid = "";
 		if (!StringUtil.isEmpty(deptManageNameStr)) {
 			Employee employee = employeeService.listByEmpName(deptManageNameStr).get(0);
 			manageEmpjobid = employee.getEmpJobid();
-			System.out.println("获取到部门主管工号:"+manageEmpjobid);
 		}
 		Department department = new Department();
 		//设置部门名称

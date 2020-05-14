@@ -1,12 +1,14 @@
 package com.lqs.hrm.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +22,7 @@ import com.github.pagehelper.util.StringUtil;
 import com.lqs.hrm.entity.Department;
 import com.lqs.hrm.entity.DepartmentLevel;
 import com.lqs.hrm.entity.Employee;
+import com.lqs.hrm.entity.User;
 import com.lqs.hrm.json.JsonCommonResult;
 import com.lqs.hrm.json.JsonPageResult;
 import com.lqs.hrm.service.impl.DepartmentLevelServiceImpl;
@@ -72,6 +75,8 @@ public class DepartmentLevelController {
 	 */
 	@RequestMapping("levelStructureManage.do")
 	public String levelStructureManage(HttpServletRequest request, PageRequest pageRequest, ModelMap map){
+		//分页
+		PageHelper.startPage(pageRequest.getPageNum(), pageRequest.getPageSize());
 		//所有部门级别信息
 		List<DepartmentLevel> departmentLevelList = departmentLevelService.list();
 		setDepartmentLevelInfo(departmentLevelList);
@@ -112,6 +117,23 @@ public class DepartmentLevelController {
 	}
 
 	/**
+	 * 查询指定id的部门级别信息
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("get.do")
+	@ResponseBody
+	public JsonCommonResult<DepartmentLevel> get(HttpServletRequest request) {
+		//部门级别id
+		String dlIdStr = request.getParameter("dlId");
+		DepartmentLevel departmentLevel = departmentLevelService.get(Integer.valueOf(dlIdStr));
+		if(departmentLevel == null) {
+			return new JsonCommonResult<DepartmentLevel>("100",null, "请求失败！");
+		}
+		return new JsonCommonResult<DepartmentLevel>("200",departmentLevel, "请求成功！");
+	}
+	
+	/**
 	 * 添加部门级别信息
 	 * @param request
 	 * @param response
@@ -119,7 +141,7 @@ public class DepartmentLevelController {
 	 */
 	@RequestMapping("add.do")
 	@ResponseBody
-	public JsonCommonResult<Object> add(HttpServletRequest request, HttpServletResponse response) {
+	public JsonCommonResult<Object> add(HttpServletRequest request) {
 		Map<String, Object> resultMap = new HashMap<>();
 		//获取级别值
 		String levelStr = request.getParameter("level");
@@ -127,12 +149,84 @@ public class DepartmentLevelController {
 		String levelDescStr = request.getParameter("levelDesc");
 		//获取备注
 		String levelNoteStr = request.getParameter("levelNote");
-		if (!StringUtil.isEmpty(parentDeptNameStr)) {
-			Department parentDepartment = departmentService.listByDeptName(parentDeptNameStr).get(0);
-			parentId = parentDepartment.getDeptId();
-			System.out.println("获取到上级部门id:"+parentId);
+		DepartmentLevel departmentLevel = new DepartmentLevel();
+		departmentLevel.setLevel(Integer.valueOf(levelStr));
+		departmentLevel.setLevelDesc(levelDescStr);
+		departmentLevel.setLevelNote(levelNoteStr);
+		//设置最后一次操作时间
+		departmentLevel.setLastOperatorDate(new Date());
+		//设置操作人工号
+		//获取当前登录系统人工号
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("session_loginUser");
+		if (user == null) {
+			return new JsonCommonResult<Object>("100", null, "请先登录！");
 		}
-		return new JsonCommonResult<>();
+		//设置工号
+		departmentLevel.setOperatorEmpjobid(user.getUserAccount());
+		int result = departmentLevelService.add(departmentLevel);
+		if (result == 0) {
+			return new JsonCommonResult<>("100", null, "添加失败");
+		}
+		return new JsonCommonResult<>("200", null, "添加成功");
+	}
+	
+	/**
+	 * 添加部门级别信息
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping("update.do")
+	@ResponseBody
+	public JsonCommonResult<Object> update(HttpServletRequest request) {
+		Map<String, Object> resultMap = new HashMap<>();
+		//获取级别Id 
+		String dlIdStr = request.getParameter("dlId");
+		//获取级别值
+		String levelStr = request.getParameter("level");
+		//获取级别描述
+		String levelDescStr = request.getParameter("levelDesc");
+		//获取备注
+		String levelNoteStr = request.getParameter("levelNote");
+		
+		DepartmentLevel departmentLevel = departmentLevelService.get(Integer.valueOf(dlIdStr));
+		departmentLevel.setLevel(Integer.valueOf(levelStr));
+		departmentLevel.setLevelDesc(levelDescStr);
+		departmentLevel.setLevelNote(levelNoteStr);
+		//设置最后一次操作时间
+		departmentLevel.setLastOperatorDate(new Date());
+		//设置操作人工号
+		//获取当前登录系统人工号
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("session_loginUser");
+		if (user == null) {
+			return new JsonCommonResult<Object>("100", null, "请先登录！");
+		}
+		//设置工号
+		departmentLevel.setOperatorEmpjobid(user.getUserAccount());
+		int result = departmentLevelService.update(departmentLevel);
+		if (result == 0) {
+			return new JsonCommonResult<>("100", null, "修改失败");
+		}
+		return new JsonCommonResult<>("200", null, "修改成功");
+	}
+	
+	/**
+	 * 删除指定id的部门级别信息
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("delete.do")
+	@ResponseBody
+	public JsonCommonResult<Object> delete(HttpServletRequest request) {
+		//获取级别Id 
+		String dlIdStr = request.getParameter("dlId");		
+		int result = departmentLevelService.delete(Integer.valueOf(dlIdStr));
+		if (result == 0) {
+			return new JsonCommonResult<>("100", null, "删除失败");
+		}
+		return new JsonCommonResult<>("200", null, "删除成功");
 	}
 	
 }

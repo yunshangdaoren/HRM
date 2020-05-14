@@ -1,3 +1,6 @@
+a{
+	text-decoration:none;
+}
 #right table{
 	width:100%;
 	border-top:1px solid black;
@@ -40,7 +43,7 @@
 }
 
 /* 弹出遮罩层，用于添加部门级别信息 */
-.panel_addDepartmentLevel{
+.panel_addDepartmentLevel, .panel_updateDepartmentLevel{
 	width:600px;
 	height:430px;
 	position:absolute;
@@ -89,7 +92,7 @@
 	margin-left:5px;
 }
 /* 鍏抽棴娣诲姞閮ㄩ棬淇℃伅寮瑰嚭灞傞潰鏉� */
-.div-panel .panel-heading #btn-hidePanelAddDepartmentLevel{
+.div-panel .panel-heading #btn-hidePanelAddDepartmentLevel, #btn-hidePanelUpdateDepartmentLevel{
 	width:80px;
 	float:right;
 	height:38px;
