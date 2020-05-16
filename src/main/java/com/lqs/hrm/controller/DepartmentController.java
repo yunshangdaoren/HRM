@@ -76,7 +76,7 @@ public class DepartmentController {
 		List<Department> departmentList = new ArrayList<>();
 		//查询条件判断
 		if (StringUtil.isEmpty(deptIdStr) && StringUtil.isEmpty(deptNameStr) && StringUtil.isEmpty(manageEmpNameStr) && StringUtil.isEmpty(dlIdStr)) {
-			System.out.println("查询条件都为空");
+			//System.out.println("查询条件都为空");
 			//如果查询的条件全部为空，则查询出所有部门信息
 			departmentList = departmentService.listByNo();
 		}else if(StringUtil.isEmpty(deptNameStr) && StringUtil.isEmpty(manageEmpNameStr) && StringUtil.isEmpty(dlIdStr)) {
@@ -406,7 +406,7 @@ public class DepartmentController {
 		//获取部门描述
 		String deptDescStr = request.getParameter("deptDesc");
 		//上级部门id
-		int parentId = 0;
+		Integer parentId = null;
 		if (!StringUtil.isEmpty(parentDeptNameStr)) {
 			Department parentDepartment = departmentService.listByDeptName(parentDeptNameStr).get(0);
 			parentId = parentDepartment.getDeptId();
@@ -448,20 +448,41 @@ public class DepartmentController {
 		
 		//添加职工-部门信息
 		EmployeeDepartment employeeDepartment = new EmployeeDepartment();
-		employeeDepartment.setEmpJobid(manageEmpjobid);
+		if (StringUtil.isNotEmpty(manageEmpjobid)) {
+			employeeDepartment.setEmpJobid(manageEmpjobid);
+			//获取刚刚添加的部门的id
+			int deptId = departmentService.listByDeptName(deptNameStr).get(0).getDeptId();
+			//添加职工-部门信息
+			employeeDepartment.setDeptId(deptId);
+			int result1 = employeeDepartmentService.insert(employeeDepartment);
+			if (result1 == 0) {
+				return new JsonCommonResult<Object>("100", null, "添加失败");
+			}
+		}
 		//添加部门信息
-		int result1 = departmentService.insert(department);
-		//获取刚刚添加的部门的id
-		int deptId = departmentService.listByDeptName(deptNameStr).get(0).getDeptId();
-		//添加职工-部门信息
-		employeeDepartment.setDeptId(deptId);
-		int result2 = employeeDepartmentService.insert(employeeDepartment);
-		if (result1 == 0 || result2 == 0) {
+		int result2 = departmentService.insert(department);
+		if (result2 == 0) {
 			return new JsonCommonResult<Object>("100", null, "添加失败");
 		}
 		return new JsonCommonResult<Object>("200", null, "添加成功");
 	}
-	
+	/**
+	 * 查询指定部门级别id的部门信息
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("get.do")
+	@ResponseBody
+	public JsonCommonResult<List<Department>> get(HttpServletRequest request) {
+		//部门级别id
+		String dlIdStr = request.getParameter("dlId");
+		List<Department> departmentList = departmentService.listByDlId(Integer.valueOf(dlIdStr));
+		
+		if(departmentList.size() == 0 || departmentList == null) {
+			return new JsonCommonResult<List<Department>>("100",null, "请求失败！");
+		}
+		return new JsonCommonResult<List<Department>>("200",departmentList, "请求成功！");
+	}
 	
 }
 

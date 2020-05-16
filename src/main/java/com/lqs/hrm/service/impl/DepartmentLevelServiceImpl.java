@@ -42,6 +42,7 @@ public class DepartmentLevelServiceImpl implements DepartmentLevelService{
 	@Override
 	public List<DepartmentLevel> list() {
 		DepartmentLevelExample example = new DepartmentLevelExample();
+		example.setOrderByClause("level");
 		example.createCriteria().andDlIdIsNotNull();
 		return departmentLevelMapper.selectByExample(example);
 	}

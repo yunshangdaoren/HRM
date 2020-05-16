@@ -53,17 +53,18 @@ public class DepartmentLevelController {
 	 */
 	@RequestMapping("departmentStructureManage.do")
 	public String departmentStructureManage(HttpServletRequest request, PageRequest pageRequest, ModelMap map){
-		//所有部门级别信息
+		//部门级别信息
 		List<DepartmentLevel> departmentLevelList = departmentLevelService.list();
-		//返回查询的所有部门级别信息
+		//返回查询的部门级别信息
 		map.put("departmentLevelList", departmentLevelList);
-		//查询一级部门的部门级别信息
-		DepartmentLevel departmentLevel = departmentLevelService.getByLevel(1);
-		//返回所有一级部门信息
-		List<Department> firstDepartmentList = departmentService.listByDlId(departmentLevel.getDlId());
-		//返回所有一级部门信息
-		map.put("firstDepartmentList", firstDepartmentList);
-		return "department/departmentStructureManage";
+		
+//		//查询所有一级部门信息
+//		DepartmentLevel departmentLevel = departmentLevelService.getByLevel(1);
+//		//返回所有一级部门信息
+//		List<Department> firstDepartmentList = departmentService.listByDlId(departmentLevel.getDlId());
+//		//返回所有一级部门信息
+//		map.put("firstDepartmentList", firstDepartmentList);
+		return "/department/departmentStructureManage";
 	}
 	
 	/**

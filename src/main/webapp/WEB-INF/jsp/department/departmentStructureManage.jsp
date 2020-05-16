@@ -20,24 +20,13 @@
 				<form class="form-inline" id="form-queryDept" method="get" action="/department/departmentList.do">
 					<c:forEach items="${departmentLevelList }" var="departmentLevel">
 						<label>${departmentLevel.levelDesc }</label>
-						<select class="form-control" id="input-selectDeptLevel"  name="dlId">
+						<select class="form-control" id="${departmentLevel.dlId}" name="dlId">
     						<option value="" disabled selected hidden>请选择</option>
-    						<c:forEach items="${firstDepartmentList }" var="firstDepartment">
-    							<c:choose>
-    								<c:when test="${dlIdStr == firstDepartment.dlId }">
-    									<option value="${dlIdStr }" selected = "selected">${firstDepartment.deptName }</option>
-    								</c:when>
-    								<c:otherwise>
-    								<option value="${firstDepartment.deptId }">${firstDepartment.deptName }</option>
-    							</c:otherwise>
-    							</c:choose>
-    						</c:forEach>
 						</select>
 					</c:forEach>
   					<button id="btn-resetSelect" type="button" class="btn btn-danger">重置</button>
   					<button id="btn-selectDept" type="submit" class="btn btn-danger">查询</button>
   					<button id="btn-addDept" type="button" class="btn btn-success">添加部门</button>
-  					<button id="btn-addDept" type="button" class="btn btn-success">部门级别管理</button>
 				</form>
 			</div>
 			<table class="table table-hover" id="table-deptDtail">
@@ -123,6 +112,6 @@
 	</div>
 	<%@ include file="../bottom.jsp" %>
 	
-	
 </body>
+	<script type="text/javascript" src="/static/js/department/departmentStructureManage.js"></script>
 </html>
