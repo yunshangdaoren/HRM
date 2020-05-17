@@ -59,6 +59,21 @@
     border:0px;
     background-color:#fff;
 }
+/* 显示部门详细信息弹出层 */
+.panel_departmentDetail{
+	width:700px;
+	height:376px;
+	position:absolute;
+	display:none;
+	z-index:7;
+	left:0px; 
+	top:0px; 
+	right:0px; 
+	bottom:0px;
+    margin:auto;    /* 锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷远锟斤拷锟斤拷锟斤拷锟� */
+    border:0px;
+    background-color:#fff;
+}
 
 .div-panel{
 	width:100%;
@@ -78,7 +93,7 @@
 	font-weight:500;
 	margin-left:5px;
 }
-/* 关闭添加部门信息弹出层面板 */
+/* 关闭添加部门信息弹出层面板按钮样式 */
 .div-panel .panel-heading #btn-hidePanelAddDepartment{
 	width:80px;
 	float:right;
@@ -89,7 +104,7 @@
 	text-align:center;
 	line-height:15px;
 }
-/* 关闭职工详细信息弹出层面板 */
+/* 关闭职工详细信息弹出层面板按钮样式 */
 .div-panel .panel-heading #btn-hidePanelEmployeeDetail{
 	width:80px;
 	float:right;
@@ -100,7 +115,17 @@
 	text-align:center;
 	line-height:15px;
 }
-
+/* 关闭部门详细信息弹出层面板按钮样式 */
+.div-panel .panel-heading #btn-hidePanelDepartmentDetail{
+	width:80px;
+	float:right;
+	height:38px;
+	margin-top:4px;
+	margin-right:3px;
+	font-size:16px;
+	text-align:center;
+	line-height:15px;
+}
 
 
 

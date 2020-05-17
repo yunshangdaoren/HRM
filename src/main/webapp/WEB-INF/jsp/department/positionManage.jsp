@@ -70,7 +70,7 @@
 							<td>${position.positionName }</td>
 							<td>${position.plLevelDesc }</td>
 							<td>
-								<a href="#" class="a-manageEmpName">${position.deptName }</a>
+								<a href="#" class=a_departmentDetail>${position.deptName }</a>
 								<i style="display:none;">${position.deptId }</i>
 							</td>
 							<td>${position.parentPositionName }</td>
@@ -81,7 +81,7 @@
 								<i style="display:none;">${position.operatorEmpjobid }</i>
 							</td>
 							<td>
-								<a class="a_positionDetail" href="/position/detail.do">
+								<a class="a_positionDetail" href="#">
 					    			<span class="label label-primary">详情</span>
 					    		</a>
 					    	</td>
@@ -192,7 +192,7 @@
 			</div>
 		</div>
 		
-		<!-- 弹出遮罩层，用于显示职职工详细信息 -->
+		<!-- 弹出遮罩层，用于显示职工详细信息 -->
 		<div class="panel_employeeDetail">
 			<div class="div-panel">
     			<div class="panel-heading">
@@ -212,7 +212,51 @@
     			</div>
 			</div>
 		</div>
+		<!-- 弹出遮罩层，用于显示部门详细信息 -->
+		<div class="panel_departmentDetail" style="display:none;">
+			<div class="div-panel">
+    			<div class="panel-heading">
+    				<label>部门详细信息</label>
+    				<button id="btn-hidePanelDepartmentDetail" type="button" class="btn btn-success">退出</button>
+    			</div>
+    			<div class="panel_body">
+    				<ul class="list-group" style="width:100%;height:100%;overflow:auto;">
+        				<li class="list-group-item"><label>部门id：</label><span class="span-deptId"></span></li>
+        				<li class="list-group-item"><label>部门名称：</label><span class="span-deptName"></span></li>
+        				<li class="list-group-item"><label>部门级别：</label><span class="span-dlLevel"></span></li>
+        				<li class="list-group-item"><label>部门主管：</label><span class="span-manageEmpName"></span></li>
+        				<li class="list-group-item"><label>部门人数：</label><span class="span-deptEmpnum"></span></li>
+       					<li class="list-group-item"><label>上级部门：</label><span class="span-parentDeptName"></span></li>
+       					<li class="list-group-item"><label>部门描述：</label><span class="span-deptDesc"></span></li>
+       					<li class="list-group-item"><label>最后一次操作时间：</label><span class="span-lastOperatorDate"></span></li>
+       					<li class="list-group-item"><label>操作人：</label><span class="span-operatorEmpName"></span></li>
+   					</ul>
+    			</div>
+			</div>
+		</div>
 		
+		<!-- 弹出遮罩层，用于显示职位详细信息 -->
+		<div class="panel_positionDetail" style="display:none;">
+			<div class="div-panel">
+    			<div class="panel-heading">
+    				<label>部门详细信息</label>
+    				<button id="btn-hidePanelPositionDetail" type="button" class="btn btn-success">退出</button>
+    			</div>
+    			<div class="panel_body">
+    				<ul class="list-group" style="width:100%;height:100%;overflow:auto;">
+        				<li class="list-group-item"><label>职位id：</label><span class="span-positionId"></span></li>
+        				<li class="list-group-item"><label>职位名称：</label><span class="span-positionName"></span></li>
+        				<li class="list-group-item"><label>职位级别：</label><span class="span-plLevelDesc"></span></li>
+        				<li class="list-group-item"><label>职位所属部门：</label><span class="span-deptName"></span></li>
+        				<li class="list-group-item"><label>上级职位：</label><span class="span-parentPositionName"></span></li>
+       					<li class="list-group-item"><label>状态：</label><span class="span-statusName"></span></li>
+       					<li class="list-group-item"><label>职位描述：</label><span class="span-positionDesc"></span></li>
+       					<li class="list-group-item"><label>最后一次操作时间：</label><span class="span-lastOperatorDate"></span></li>
+       					<li class="list-group-item"><label>操作人：</label><span class="span-operatorEmpName"></span></li>
+   					</ul>
+    			</div>
+			</div>
+		</div>
 </body>
 	<script type="text/javascript" src="/static/js/department/positionManage.js"></script>
 </html>

@@ -240,5 +240,15 @@ public class DepartmentServiceImpl implements DepartmentService{
 		example.or().andDeptNameLike("%"+deptName+"%");
 		return departmentMapper.selectByExample(example);
 	}
+	
+	/**
+	 * 根据上级部门id查询所有子部门信息
+	 */
+	@Override
+	public List<Department> listByParentId(Integer parentId) {
+		DepartmentExample example = new DepartmentExample();
+		example.or().andParentIdEqualTo(parentId);
+		return departmentMapper.selectByExample(example);
+	}
 
 }

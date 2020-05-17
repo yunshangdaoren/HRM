@@ -212,7 +212,7 @@ public class PositionController {
 		List<PositionLevel> positionLevelList = positionLevelService.list();
 		//返回查询的职位级别信息
 		map.put("positionLevelList", positionLevelList);
-		return "/department/positionList";
+		return "department/positionManage";
 	}
 	
 	/**
@@ -387,14 +387,28 @@ public class PositionController {
 	}
 	
 	/**
+	 * 查询指定id的职位信息
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("get.do")
+	@ResponseBody
+	public JsonCommonResult<Position> get(HttpServletRequest request) {
+		//职位id
+		String positionIdStr = request.getParameter("positionId");
+		Position position = positionService.get(Integer.valueOf(positionIdStr));
+		setPositionInfo(position);
+		if(position == null) {
+			return new JsonCommonResult<Position>("100",null, "请求失败！");
+		}
+		return new JsonCommonResult<Position>("200",position, "请求成功！");
+	}
+	
+	/**
 	 * 设置查询出来的职位实体类信息
 	 * @param departmentList
 	 */
 	public void setPositionInfo(List<Position> positionList) {
-		System.out.println("=================");
-		for (Position position : positionList) {
-			System.out.println(position);
-		}
 		if (positionList.size() != 0 || positionList != null) {
 			for (int i = 0; i < positionList.size(); i++) {
 				//设置职位级别
@@ -415,6 +429,33 @@ public class PositionController {
 				if(positionList.get(i).getOperatorEmpjobid() != null && !positionList.get(i).getOperatorEmpjobid().isEmpty()) {
 					positionList.get(i).setOperatorEmpName(employeeService.get(positionList.get(i).getOperatorEmpjobid()).getEmpName());
 				}
+			}
+		}
+	}
+	
+	/**
+	 * 设置查询出来的职位实体类信息
+	 * @param departmentList
+	 */
+	public void setPositionInfo(Position position) {
+		if (position != null) {
+			//设置职位级别
+			position.setPlLeve(positionLevelService.get(position.getPlId()).getLevel());
+			//设置职位级别描述
+			position.setPlLevelDesc(positionLevelService.get(position.getPlId()).getLevelDesc());
+			//设置职位上级职位名称
+			if(position.getParentPositionid() != 0) {
+				position.setParentPositionName(positionService.get(position.getParentPositionid()).getPositionName());
+			}
+			//设置职位所属部门名称
+			if (position.getDeptId() != null) {
+				position.setDeptName(departmentService.get(position.getDeptId()).getDeptName());
+			} 
+			//设置职位状态名称
+			position.setStatusName(statusService.get(position.getStatusId()).getStatusName());
+			//设置操作人名称
+			if(position.getOperatorEmpjobid() != null && !position.getOperatorEmpjobid().isEmpty()) {
+				position.setOperatorEmpName(employeeService.get(position.getOperatorEmpjobid()).getEmpName());
 			}
 		}
 	}

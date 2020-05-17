@@ -24,7 +24,6 @@ public class EmployeeServiceImpl implements EmployeeService{
 	public Employee get(String empJobid) {
 //		EmployeeExample example = new EmployeeExample();
 //		example.or().andEmpIdcardEqualTo(empJobid);
-		System.out.println("==============职工工号为："+empJobid);
 		return employeeMapper.selectByPrimaryKey(empJobid);
 	}
 

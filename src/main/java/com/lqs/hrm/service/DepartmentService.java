@@ -133,4 +133,11 @@ public interface DepartmentService {
 	 * @return
 	 */
 	List<Department> listLikeDeptName(String deptName);
+	
+	/**
+	 * 根据上级部门id查询所有子部门信息
+	 * @param parentId
+	 * @return
+	 */
+	List<Department> listByParentId(Integer parentId);
 }

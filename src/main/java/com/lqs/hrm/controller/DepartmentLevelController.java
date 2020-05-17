@@ -2,14 +2,15 @@ package com.lqs.hrm.controller;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.tomcat.util.buf.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -21,7 +22,6 @@ import com.github.pagehelper.PageInfo;
 import com.github.pagehelper.util.StringUtil;
 import com.lqs.hrm.entity.Department;
 import com.lqs.hrm.entity.DepartmentLevel;
-import com.lqs.hrm.entity.Employee;
 import com.lqs.hrm.entity.User;
 import com.lqs.hrm.json.JsonCommonResult;
 import com.lqs.hrm.json.JsonPageResult;
@@ -29,7 +29,6 @@ import com.lqs.hrm.service.impl.DepartmentLevelServiceImpl;
 import com.lqs.hrm.service.impl.DepartmentServiceImpl;
 import com.lqs.hrm.service.impl.EmployeeServiceImpl;
 import com.lqs.hrm.service.impl.StatusServiceImpl;
-import com.lqs.hrm.service.impl.UserServiceImpl;
 import com.lqs.hrm.util.PageRequest;
 import com.lqs.hrm.util.PageResult;
 import com.lqs.hrm.util.PageResultUtil;
@@ -43,6 +42,8 @@ public class DepartmentLevelController {
 	private DepartmentLevelServiceImpl departmentLevelService;
 	@Autowired
 	private EmployeeServiceImpl employeeService;
+	@Autowired
+	private StatusServiceImpl statusService;
 	
 	/**
 	 * 查询部门并跳转至部门架构管理页面
@@ -57,14 +58,64 @@ public class DepartmentLevelController {
 		List<DepartmentLevel> departmentLevelList = departmentLevelService.list();
 		//返回查询的部门级别信息
 		map.put("departmentLevelList", departmentLevelList);
+		Enumeration<String> enumeration = request.getParameterNames();
+		//上级部门id
+		int parentDeptId = 0;
+		//上级部门列表
 		
-//		//查询所有一级部门信息
-//		DepartmentLevel departmentLevel = departmentLevelService.getByLevel(1);
-//		//返回所有一级部门信息
-//		List<Department> firstDepartmentList = departmentService.listByDlId(departmentLevel.getDlId());
-//		//返回所有一级部门信息
-//		map.put("firstDepartmentList", firstDepartmentList);
+		while (enumeration.hasMoreElements()) {
+			String parameterStr = (String) enumeration.nextElement();
+			parentDeptId = Integer.valueOf(request.getParameter(parameterStr));
+		}
+		List<Department> departmentList = new ArrayList<>();
+		//分页
+		PageHelper.startPage(pageRequest.getPageNum(), pageRequest.getPageSize());
+		if (parentDeptId == 0) {
+			departmentList = departmentService.listByNo();
+		}else {
+			departmentList = departmentService.listByParentId(parentDeptId);
+		}
+		//设置查询出来的部门信息
+		setDeptInfo(departmentList);
+		//设置分页查询结果
+		PageResult pageResult = PageResultUtil.getPageResult(new PageInfo<>(departmentList));
+		//返回查询的部门信息
+		map.put("pageResult", pageResult);
 		return "/department/departmentStructureManage";
+	}
+	
+	
+	@RequestMapping("query.do")
+	@ResponseBody
+	public JsonPageResult query(HttpServletRequest request, PageRequest pageRequest) {
+		System.out.println("====pageNum:"+pageRequest.getPageNum());
+		//部门级别信息
+		Enumeration<String> enumeration = request.getParameterNames();
+		//上级部门id
+		int parentDeptId = 0;
+		while (enumeration.hasMoreElements()) {
+			String parameterStr = (String) enumeration.nextElement();
+			System.out.println("====:"+parameterStr);
+			if (!com.lqs.hrm.util.StringUtil.isEquqls(parameterStr, "pageNum")) {
+				parentDeptId = Integer.valueOf(request.getParameter(parameterStr));
+			}
+			System.out.println("====deptId:"+parentDeptId);
+		}
+		List<Department> departmentList = new ArrayList<>();
+		//分页
+		PageHelper.startPage(pageRequest.getPageNum(), pageRequest.getPageSize());
+		if (parentDeptId == 0) {
+			departmentList = departmentService.listByNo();
+		}else {
+			departmentList = departmentService.listByParentId(parentDeptId);
+		}
+		if (departmentList.size()==0 || departmentList == null) {
+			return new JsonPageResult("100", null, "无数据！");
+		}
+		//设置查询出来的部门信息
+		setDeptInfo(departmentList);
+		PageResult pageResult = PageResultUtil.getPageResult(new PageInfo<>(departmentList));
+		return new JsonPageResult("200", PageResultUtil.getPageResult(new PageInfo<>(departmentList)), "请求成功！");
 	}
 	
 	/**
@@ -103,6 +154,46 @@ public class DepartmentLevelController {
 	}
 	
 	/**
+	 * 设置查询出来的部门级别实体类信息
+	 * @param departmentList
+	 */
+	public void setDepartmentLevelInfo(DepartmentLevel departmentLevel) {
+		if (departmentLevel != null) {
+			//设置操作人名称
+			if(departmentLevel.getOperatorEmpjobid() != null && !departmentLevel.getOperatorEmpjobid().isEmpty()) {
+				departmentLevel.setOperatorEmpName(employeeService.get(departmentLevel.getOperatorEmpjobid()).getEmpName());
+			}
+		}
+	}
+	
+	/**
+	 * 设置查询出来的部门实体类信息
+	 * @param departmentList
+	 */
+	public void setDeptInfo(List<Department> list) {
+		if (list.size() != 0 || list != null) {
+			for (int i = 0; i < list.size(); i++) {
+				//设置部门级别
+				list.get(i).setDlLeve(departmentLevelService.get(list.get(i).getDlId()).getLevel());
+				//设置部门主管名称
+				if(list.get(i).getManageEmpjobid() != null && !list.get(i).getManageEmpjobid().isEmpty()) {
+					list.get(i).setManageEmpName(employeeService.get(list.get(i).getManageEmpjobid()).getEmpName());
+				}
+				//设置上级部门名称
+				if (list.get(i).getParentId() != null) {
+					list.get(i).setParentDeptName(departmentService.get(list.get(i).getParentId()).getDeptName());
+				} 
+				//设置部门状态名称
+				list.get(i).setStatusName(statusService.get(list.get(i).getStatusId()).getStatusName());
+				//设置操作人名称
+				if(list.get(i).getOperatorEmpjobid() != null && !list.get(i).getOperatorEmpjobid().isEmpty()) {
+					list.get(i).setOperatorEmpName(employeeService.get(list.get(i).getOperatorEmpjobid()).getEmpName());
+				}
+			}
+		}
+	}
+	
+	/**
 	 * 返回所有部门级别信息
 	 * @return
 	 */
@@ -128,6 +219,8 @@ public class DepartmentLevelController {
 		//部门级别id
 		String dlIdStr = request.getParameter("dlId");
 		DepartmentLevel departmentLevel = departmentLevelService.get(Integer.valueOf(dlIdStr));
+		//设置查询出来的部门级别信息
+		setDepartmentLevelInfo(departmentLevel);
 		if(departmentLevel == null) {
 			return new JsonCommonResult<DepartmentLevel>("100",null, "请求失败！");
 		}

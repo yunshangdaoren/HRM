@@ -17,19 +17,19 @@
   				<li role="presentation"><a href="/departmentLevel/levelStructureManage.do">级别架构管理</a></li>
 			</ul>
 			<div class="div_search">
-				<form class="form-inline" id="form-queryDept" method="get" action="/department/departmentList.do">
+				<form class="form-inline" id="form-queryDeptLevel" method="get">
 					<c:forEach items="${departmentLevelList }" var="departmentLevel">
 						<label>${departmentLevel.levelDesc }</label>
-						<select class="form-control" id="${departmentLevel.dlId}" name="dlId">
+						<select class="form-control" id="${departmentLevel.level}" name="${departmentLevel.level}-deptId">
     						<option value="" disabled selected hidden>请选择</option>
 						</select>
 					</c:forEach>
   					<button id="btn-resetSelect" type="button" class="btn btn-danger">重置</button>
-  					<button id="btn-selectDept" type="submit" class="btn btn-danger">查询</button>
+  					<button id="btn-selectDeptLevel" type="button" class="btn btn-danger">查询</button>
   					<button id="btn-addDept" type="button" class="btn btn-success">添加部门</button>
 				</form>
 			</div>
-			<table class="table table-hover" id="table-deptDtail">
+			<table class="table table-hover" id="table-deptLevelDtail">
 				<thead>
 					<tr>
 						<th>部门ID</th>
@@ -64,7 +64,7 @@
 								<i style="display:none;">${department.operatorEmpjobid }</i>
 							</td>
 							<td>
-								<a class="a_deptDetail" href="/department/detail.do">
+								<a class="a_departmentDetail" href="#">
 					    			<span class="label label-primary">详情</span>
 					    		</a>
 					    	</td>
@@ -112,6 +112,114 @@
 	</div>
 	<%@ include file="../bottom.jsp" %>
 	
+	<!-- 弹出遮罩层，用于添加部门信息 -->
+	<div class="panel_addDepartment">
+			<div class="div-panel">
+    			<div class="panel-heading">
+    				<label>添加部门信息</label>
+    				<button id="btn-hidePanelAddDepartment" type="button" class="btn btn-success">退出</button>
+    			</div>
+    			<div class="panel_body">
+    				<form style="width:100%;" id="form-addDept" class="form-horizontal" role="form">
+  						<div class="form-group" style="margin-top:10px;">
+    						<label for="firstname" class="col-sm-2 control-label">部门名称</label>
+    						<div class="col-sm-8">
+      							<input type="text" class="form-control" name="deptName" id="input-addDeptName">
+    						</div>
+  						</div>
+  						<div class="form-group">
+    						<label for="firstname" class="col-sm-2 control-label">部门级别</label>
+    						<div class="col-sm-8">
+      							<select class="form-control" name="dlId" id="select-addDeptLevel">
+      								<option value="" disabled selected hidden>请选择</option>
+								</select>
+    						</div>
+  						</div>
+  						<div class="form-group">
+    						<label for="lastname" class="col-sm-2 control-label">上级部门</label>
+    						<div class="col-sm-8">
+      							<input type="text" list="list-parentDeptName" class="form-control" name="parentDeptName" id="input-addParentDeptName" placeholder="请输入上级部门名称或id">
+    							<datalist id="list-parentDeptName" style="height:50px;overflow:auto;">
+  									<option value="BMW">
+								</datalist>
+    						</div>
+  						</div>
+  						<div class="form-group">
+    						<label for="lastname" class="col-sm-2 control-label">部门主管</label>
+    						<div class="col-sm-8">
+      							<input type="text" list="list-deptManageName" class="form-control" name="deptManageName" id="input-addDeptManageName" placeholder="请输入员工工号进行查询">
+    							<datalist id="list-deptManageName" style="height:50px;overflow:auto;">
+  									<option value="BMW">
+								</datalist>
+    						</div>
+  						</div>
+  						<div class="form-group">
+    						<label for="lastname" class="col-sm-2 control-label">部门状态</label>
+    						<div class="col-sm-8">
+      							<select class="form-control" name="statusId" id="select-addDeptStatus">
+      								<option value="" disabled selected hidden>请选择</option>
+								</select>
+    						</div>
+  						</div>
+  						<div class="form-group">
+    						<label for="lastname" class="col-sm-2 control-label">部门描述</label>
+    						<div class="col-sm-8">
+      							<textarea class="form-control" name="deptDesc" id="input-addDeptDesc" rows="5"></textarea>
+    						</div>
+  						</div>
+  						<div class="form-group">
+    						<div class="col-sm-offset-2 col-sm-10">
+      							<button id="btn-submitEditSC" type="button" class="btn btn-primary">提交</button>
+    						</div>
+ 	 					</div>
+					</form>
+    			</div>
+			</div>
+		</div>
+		
+		<!-- 弹出遮罩层，用于显示职工详细信息 -->
+		<div class="panel_employeeDetail" style="display:none;">
+			<div class="div-panel">
+    			<div class="panel-heading">
+    				<label>职工详细信息</label>
+    				<button id="btn-hidePanelEmployeeDetail" type="button" class="btn btn-success">退出</button>
+    			</div>
+    			<div class="panel_body">
+    				<ul class="list-group" style="width:100%;height:100%;overflow:auto;">
+        				<li class="list-group-item"><label>工号：</label><span class="span-empJobId"></span></li>
+        				<li class="list-group-item"><label>姓名：</label><span class="span-empName"></span></li>
+        				<li class="list-group-item"><label>性别：</label><span class="span-empSex"></span></li>
+        				<li class="list-group-item"><label>联系电话：</label><span class="span-empPhone"></span></li>
+        				<li class="list-group-item"><label>入职时间：</label><span class="span-empEntryTime"></span></li>
+       					<li class="list-group-item"><label>所属部门：</label><span class="span-deptName"></span></li>
+       					<li class="list-group-item"><label>状态：</label><span class="span-empStatus"></span></li>
+   					</ul>
+    			</div>
+			</div>
+		</div>
+		
+		<!-- 弹出遮罩层，用于显示部门详细信息 -->
+		<div class="panel_departmentDetail" style="display:none;">
+			<div class="div-panel">
+    			<div class="panel-heading">
+    				<label>部门详细信息</label>
+    				<button id="btn-hidePanelDepartmentDetail" type="button" class="btn btn-success">退出</button>
+    			</div>
+    			<div class="panel_body">
+    				<ul class="list-group" style="width:100%;height:100%;overflow:auto;">
+        				<li class="list-group-item"><label>部门id：</label><span class="span-deptId"></span></li>
+        				<li class="list-group-item"><label>部门名称：</label><span class="span-deptName"></span></li>
+        				<li class="list-group-item"><label>部门级别：</label><span class="span-dlLevel"></span></li>
+        				<li class="list-group-item"><label>部门主管：</label><span class="span-manageEmpName"></span></li>
+        				<li class="list-group-item"><label>部门人数：</label><span class="span-deptEmpnum"></span></li>
+       					<li class="list-group-item"><label>上级部门：</label><span class="span-parentDeptName"></span></li>
+       					<li class="list-group-item"><label>部门描述：</label><span class="span-deptDesc"></span></li>
+       					<li class="list-group-item"><label>最后一次操作时间：</label><span class="span-lastOperatorDate"></span></li>
+       					<li class="list-group-item"><label>操作人：</label><span class="span-operatorEmpName"></span></li>
+   					</ul>
+    			</div>
+			</div>
+		</div>
 </body>
 	<script type="text/javascript" src="/static/js/department/departmentStructureManage.js"></script>
 </html>

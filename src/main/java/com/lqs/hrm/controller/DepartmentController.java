@@ -180,6 +180,7 @@ public class DepartmentController {
 			departmentList = departmentService.listByAll(Integer.valueOf(deptIdStr), deptNameStr, manageEmpNameStr, Integer.valueOf(dlIdStr));
 		}
 		setDeptInfo(departmentList);
+		//设置分页查询结果
 		PageResult pageResult = PageResultUtil.getPageResult(new PageInfo<>(departmentList));
 		//返回查询的部门信息
 		map.put("pageResult", pageResult);
@@ -216,7 +217,6 @@ public class DepartmentController {
 		List<Department> departmentList = new ArrayList<>();
 		//查询条件判断
 		if (StringUtil.isEmpty(deptIdStr) && StringUtil.isEmpty(deptNameStr) && StringUtil.isEmpty(manageEmpNameStr) && StringUtil.isEmpty(dlIdStr)) {
-			System.out.println("查询条件都为空");
 			//如果查询的条件全部为空，则查询出所有部门信息
 			departmentList = departmentService.listByNo();
 		}else if(StringUtil.isEmpty(deptNameStr) && StringUtil.isEmpty(manageEmpNameStr) && StringUtil.isEmpty(dlIdStr)) {
@@ -357,6 +357,24 @@ public class DepartmentController {
 	}
 	
 	/**
+	 * 查询指定id的部门信息
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("get.do")
+	@ResponseBody
+	public JsonCommonResult<Department> get(HttpServletRequest request) {
+		//部门级别id
+		String deptIdStr = request.getParameter("deptId");
+		Department department = departmentService.get(Integer.valueOf(deptIdStr));
+		setDeptInfo(department);
+		if(department == null) {
+			return new JsonCommonResult<Department>("100",null, "请求失败！");
+		}
+		return new JsonCommonResult<Department>("200",department, "请求成功！");
+	}
+	
+	/**
 	 * 设置查询出来的部门实体类信息
 	 * @param departmentList
 	 */
@@ -379,6 +397,31 @@ public class DepartmentController {
 				if(list.get(i).getOperatorEmpjobid() != null && !list.get(i).getOperatorEmpjobid().isEmpty()) {
 					list.get(i).setOperatorEmpName(employeeService.get(list.get(i).getOperatorEmpjobid()).getEmpName());
 				}
+			}
+		}
+	}
+	
+	/**
+	 * 设置查询出来的部门实体类信息
+	 * @param departmentList
+	 */
+	public void setDeptInfo(Department department) {
+		if (department != null) {
+			//设置部门级别
+			department.setDlLeve(departmentLevelService.get(department.getDlId()).getLevel());
+			//设置部门主管名称
+			if(department.getManageEmpjobid() != null && !department.getManageEmpjobid().isEmpty()) {
+				department.setManageEmpName(employeeService.get(department.getManageEmpjobid()).getEmpName());
+			}
+			//设置上级部门名称
+			if (department.getParentId() != null) {
+				department.setParentDeptName(departmentService.get(department.getParentId()).getDeptName());
+			} 
+			//设置部门状态名称
+			department.setStatusName(statusService.get(department.getStatusId()).getStatusName());
+			//设置操作人名称
+			if(department.getOperatorEmpjobid() != null && !department.getOperatorEmpjobid().isEmpty()) {
+				department.setOperatorEmpName(employeeService.get(department.getOperatorEmpjobid()).getEmpName());
 			}
 		}
 	}
@@ -467,22 +510,38 @@ public class DepartmentController {
 		return new JsonCommonResult<Object>("200", null, "添加成功");
 	}
 	/**
-	 * 查询指定部门级别id的部门信息
+	 * 查询指定父部门的所有子部门信息
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping("get.do")
+	@RequestMapping("getChildDepartmentList.do")
 	@ResponseBody
-	public JsonCommonResult<List<Department>> get(HttpServletRequest request) {
-		//部门级别id
-		String dlIdStr = request.getParameter("dlId");
-		List<Department> departmentList = departmentService.listByDlId(Integer.valueOf(dlIdStr));
+	public JsonCommonResult<List<Department>> getChildDepartmentList(HttpServletRequest request) {
+		//部门级别值
+		String levelStr = request.getParameter("level");
+		//上级部门id
+		String parentDeptIdStr = request.getParameter("parentDeptId");
+		//System.out.println("==========上级部门id："+parentDeptIdStr);
+		int level = Integer.valueOf(levelStr);
+		int parentDeptId = Integer.valueOf(parentDeptIdStr);
+		//获取部门级别id
+		int dlId = departmentLevelService.getByLevel(level).getDlId();
+		List<Department> departmentList = null;
+		if (parentDeptId != 0) {
+			//有上级部门，查询上级部门id下的所有子部门信息
+			departmentList = departmentService.listByParentId(parentDeptId);
+		}else {
+			//没有上级部门
+			departmentList = departmentService.listByDlId(dlId);
+		}
 		
 		if(departmentList.size() == 0 || departmentList == null) {
-			return new JsonCommonResult<List<Department>>("100",null, "请求失败！");
+			return new JsonCommonResult<List<Department>>("100",null, "无信息!");
 		}
 		return new JsonCommonResult<List<Department>>("200",departmentList, "请求成功！");
 	}
+	
+	
 	
 }
 

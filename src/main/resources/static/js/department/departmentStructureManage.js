@@ -1,32 +1,32 @@
 //定义全局部门查询要跳转的地址
-var href = "http://localhost:8080/departmentLevel/levelStructureManage.do?pageNum=";
+var href = "/departmentLevel/query.do?pageNum=";
 //当前页码
 var pageNum = parseInt($(".i-pageNum").text());
 //总页码
 var totalPages = parseInt($(".i-totalPages").text());
 //首页点击事件
 $(".a-indexPage").click(function(){
-	window.location.href = href+"0&"+$("#form-queryDept").serialize();
+	query(0);
 });
 //上一页点击事件
 $(".a-prePage").click(function(){
 	if(pageNum-1 <= 0){
-		window.location.href = href+"0&"+$("#form-queryDept").serialize();
+		query(0);
 	}else{
-		window.location.href = href+""+(pageNum-1)+"&"+$("#form-queryDept").serialize();
+		query(pageNum-1);
 	}
 });
 //下一页点击事件
 $(".a-nextPage").click(function(){
 	if(pageNum+1 > totalPages){
-		window.location.href = href+""+totalPages+"&"+$("#form-queryDept").serialize();
+		query(totalPages);
 	}else{
-		window.location.href = href+""+(pageNum+1)+"&"+$("#form-queryDept").serialize();
+		query((pageNum+1));
 	}
 });
 //尾页点击事件
 $(".a-endPage").click(function(){
-	window.location.href = href+""+totalPages+"&"+$("#form-queryDept").serialize();
+	query(totalPages);
 });
 //跳转至指定页码
 $("#span-jumPageNum").click(function(){
@@ -39,7 +39,7 @@ $("#span-jumPageNum").click(function(){
 		if(pageNum > totalPage || pageNum <= 0){
 			alert("请输入正确的页码！");
 		}else{
-			window.location.href = "/departmentLevel/levelStructureManage.do?pageNum="+pageNum+"&"+$("#form-queryDept").serialize();
+			query(pageNum);
 		}
 	}else{
 		alert("请输入正确的页码！")
@@ -48,17 +48,25 @@ $("#span-jumPageNum").click(function(){
 //部门级别点击事件：查询该级别对应的所有部门信息并赋值给下拉列表
 $("select").click(function(){
 	//alert($(this).attr("id"));
-	var dlId = $(this).attr("id");
+	//部门级别值
+	var level = $(this).attr("id");
+	//上级部门id
+	var parentDeptId;
+	if(level-1 >0){
+		parentDeptId = $("#"+(level-1)).val();
+	}else{
+		parentDeptId = 0;
+	}
 	$.ajax({
-		url:"/department/get.do?dlId="+dlId,
+		url:"/department/getChildDepartmentList.do?level="+level+"&parentDeptId="+parentDeptId,
 		dataType:"json",
 		success:function(result){
 			if(result.code==200){
 				//先清空值（除了第一个）
-				$("#"+dlId+" option:not(:first)").remove();
+				$("#"+level+" option:not(:first)").remove();
 				//添加值
 				for(var i =0; i < result.data.length; i++){
-					$("#"+dlId).append("<option value='"+result.data[i].deptId+"'>"+result.data[i].deptName+"</option>");
+					$("#"+level).append("<option value='"+result.data[i].deptId+"'>"+result.data[i].deptName+"</option>");
 				}
 			}else{
 				alert(result.msg);
@@ -66,95 +74,41 @@ $("select").click(function(){
 		}
 	});
 });
-
-//显示添加职位弹出层面板
-$("#btn-addDepartmentLevel").click(function(){
-	//显示弹出层面板
+//部门主管人名称点击事件：弹出显示层，显示指定职工的详细信息
+$(".a-manageEmpName").click(function(){
+	//获取到要查看的职工工号
+	var manageEmpjobid = $(this).next().text();
+	//获取到职工所属部门id
+	var deptId = $(this).parent().parent().children().first().text();
+	//显示面板
 	$(".shadeDiv").show();
-	$(".panel_addDepartmentLevel").show();
-});
-//添加部门级别信息弹出层面板提交按钮点击事件
-$("#btn-submitAddDepartmentLevel").click(function(){
-	if(addDepartmentLevelFormEmptyCheck()){
-		$.ajax({
-			url:"/departmentLevel/add.do",
-			data:$("#form-addDepartmentLevel").serialize(),
-			dataType:"json",
-			success:function(result){
-				if(result.code==200){
-					alert(result.msg);
-					$(".shadeDiv").hide();
-					$(".panel_addDepartmentLevel").hide();
-					location.reload();
-				}else{
-					alert(result.msg);
+	$(".panel_employeeDetail").show();
+	//发送Ajax请求
+	$.ajax({
+		url:"/employee/get.do?empJobid="+manageEmpjobid+"&deptId="+deptId,
+		dataType:"json",
+		type:"post",
+		success:function(result){
+			if(result.code==200){
+				//填充职工信息
+				$(".span-empJobId").text(result.data.empJobid);
+				$(".span-empName").text(result.data.empName);
+				$(".span-empSex").text(result.data.empSexName);
+				$(".span-empPhone").text(result.data.empPhone);
+				$(".span-empEntryTime").text(result.data.entryTime);
+				var deptName = "";
+				for(var i = 0; i < result.data.deptNameList.length; i++){
+					deptName += result.data.deptNameList[i]+" ";
 				}
+				$(".span-deptName").text(deptName);
+				$(".span-empStatus").text(result.data.statusName);
+			}else{
+				alert(result.msg);
 			}
-		});
-	};
+		}
+	});
 });
-//修改部门级别信息弹出层面板提交按钮点击事件
-$("#btn-submitUpdateDepartmentLevel").click(function(){
-	if(updateDepartmentLevelFormEmptyCheck()){
-		$.ajax({
-			url:"/departmentLevel/update.do",
-			data:$("#form-updateDepartmentLevel").serialize(),
-			dataType:"json",
-			success:function(result){
-				if(result.code==200){
-					alert(result.msg);
-					$(".shadeDiv").hide();
-					$(".panel_updateDepartmentLevel").hide();
-					location.reload();
-				}else{
-					alert(result.msg);
-				}
-			}
-		});
-	};
-});
-//关闭添加部门级别信息弹出层面板
-$("#btn-hidePanelAddDepartmentLevel").click(function(){
-	$(".shadeDiv").hide();
-	$(".panel_addPosition").hide();
-});
-//关闭修改部门级别信息弹出层面板
-$("#btn-hidePanelUpdateDepartmentLevel").click(function(){
-	$(".shadeDiv").hide();
-	$(".panel_updateDepartmentLevel").hide();
-});
-//添加职位信息弹出层面板非空判断
-function addDepartmentLevelFormEmptyCheck(){
-	if($("#input-addLevel").val()==null || $("#input-addLevel").val()==""){
-		alert("职位级别不能为空！");
-		$("#input-addLevel").focus();
-		return false;
-	}
-	if($("#input-addLevelDesc").val()==null || $("#input-addLevelDesc").val()==""){
-		alert("级别描述不能为空！");
-		$("#input-addLevelDesc").focus();
-		return false;
-	}
-	//上面判断无误则返回true
-	return true;
-}
-//修改职位信息弹出层面板非空判断
-function updateDepartmentLevelFormEmptyCheck(){
-	if($("#input-updateLevel").val()==null || $("#input-updateLevel").val()==""){
-		alert("职位级别不能为空！");
-		$("#input-updateLevel").focus();
-		return false;
-	}
-	if($("#input-updateLevelDesc").val()==null || $("#input-updateLevelDesc").val()==""){
-		alert("级别描述不能为空！");
-		$("#input-updateLevelDesc").focus();
-		return false;
-	}
-	//上面判断无误则返回true
-	return true;
-}
-
-//职位信息操作人名称点击事件：弹出显示层，显示指定职工的详细信息
+//部门信息操作人名称点击事件：弹出显示层，显示指定职工的详细信息
 $(".a-operatorEmpName").click(function(){
 	//获取到要查看的职工工号
 	var manageEmpjobid = $(this).next().text();
@@ -188,28 +142,205 @@ $(".a-operatorEmpName").click(function(){
 		}
 	});
 });
+//关闭职工详细信息弹出层面板
+$("#btn-hidePanelEmployeeDetail").click(function(){
+	$(".shadeDiv").hide();
+	$(".panel_employeeDetail").hide();
+});
 
-//修改部门级别信息点击事件：弹出显示层，显示指定要修改的部门级别的详细信息
-$(".a-updateDepartmentLevel").click(function(){
-	//获取到要查看的职工工号
-	var manageEmpjobid = $(this).next().text();
-	//获取到部门级别id
-	var dlId = $(this).parent().parent().children().first().text();
+//查询点击事件
+$("#btn-selectDeptLevel").click(function(){
+	query(0);
+});
+//分页查询方法
+function query(pageNum){
+	$.ajax({
+		url:href+pageNum,
+		data:$("#form-queryDeptLevel").serialize(),
+		dataType:"json",
+		success:function(result){
+			if(result.code==200){
+				//转换日期
+				var lastOperatorDate;
+				//先清空值（除了第一个）
+				$("#table-deptLevelDtail tr:not(:first)").remove();
+				//添加值
+				for(var i =0; i < result.pageResult.content.length; i++){
+					//lastOperatorDate = result.pageResult.content[i].lastOperatorDate.Format("yyyy-MM-dd HH:mm:ss");
+					$("#table-deptLevelDtail").append("<tr>"+
+							"<td>"+result.pageResult.content[i].deptId+"</td>"+
+							"<td>"+result.pageResult.content[i].deptName+"</td>"+
+							"<td>"+result.pageResult.content[i].dlLeve+"级</td>"+
+							"<td>"+
+								"<a href='#' class='a-manageEmpName'>"+result.pageResult.content[i].manageEmpName+"</a>"+
+								"<i style='display:none;'>"+result.pageResult.content[i].manageEmpjobid+"</i>"+
+							"</td>"+
+							"<td>"+result.pageResult.content[i].deptEmpnum+"</td>"+
+							"<td>"+result.pageResult.content[i].parentDeptName+"</td>"+
+							"<td class='td-hideContent'>"+result.pageResult.content[i].statusName+"</td>"+
+							"<td>"+result.pageResult.content[i].lastOperatorDate+"</td>"+
+							"<td>"+
+								"<a href='#' class='a-operatorEmpName'>"+result.pageResult.content[i].operatorEmpName+"</a>"+
+								"<i style='display:none;'>"+result.pageResult.content[i].operatorEmpjobid+"</i>"+
+							"</td>"+
+							"<td>"+
+								"<a class='a_deptDetail' href='/department/detail.do'>"+
+					    			"<span class='label label-primary'>详情</span>"+
+					    		"</a>"+
+					    	"</td>"+
+					    	"<td>"+
+								"<a class='a_deptStatus' href='#' style='text-decoration:none;'>"+
+					    			"<span class='label label-primary'>状态管理</span>"+
+					    		"</a>"+
+					    	"</td>"+
+						"</tr>");
+				}
+				//重新赋值页码
+				//当前页码
+				$(".i-pageNum").text(""+result.pageResult.pageNum);
+				$(".span-currentPage").text("当前第"+result.pageResult.pageNum+"页");
+				//总页码
+				$(".i-totalPages").text(""+result.pageResult.totalPages);
+				$(".span-totalPages").text("共"+result.pageResult.totalPages+"页");
+			}else{
+				alert(result.msg);
+				//先清空值（除了第一个）
+				$("#table-deptLevelDtail tr:not(:first)").remove();
+				//重新赋值页码
+				//当前页码
+				$(".i-pageNum").text("0");
+				$(".span-currentPage").text("当前第0页");
+				//总页码
+				$(".i-totalPages").text("0");
+				$(".span-totalPages").text("共0页");
+			}
+		}
+	});
+}
+//重置查询条件按钮点击事件
+$("#btn-resetSelect").click(function(){
+	$("#form-queryDeptLevel")[0].reset();
+	//$("#queryDeptLevel option:first").prop("selected", 'selected')
+});
+
+//显示添加部门弹出层面板,并给部门级别和部门状态信息下拉框赋值
+$("#btn-addDept").click(function(){
+	//显示弹出层面板
+	$(".shadeDiv").show();
+	$(".panel_addDepartment").show();
+	//发送Ajax请求获取部门级别信息
+	$.ajax({
+		url:"/departmentLevel/list.do",
+		dataType:"json",
+		async:false,
+		success:function(result){
+			if(result.code==200){
+				//先清空值（除了第一个）
+				$("#select-addDeptLevel option:not(:first)").remove();
+				//添加值
+				for(var i =0; i < result.data.length; i++){
+					$("#select-addDeptLevel").append("<option value='"+result.data[i].dlId+"'>"+result.data[i].levelDesc+"</option>")
+				}
+				//alert("开始获取部门状态信息");
+				//发送Ajax请求获取部门状态信息
+				$.ajax({
+					url:"/status/listDepartment.do",
+					dataType:"json",
+					async:false,
+					success:function(result){
+						//alert("开始获取部门状态信息成功");
+						if(result.code==200){
+							//先清空值（除了第一个）
+							$("#select-addDeptStatus option:not(:first)").remove();
+							//添加值
+							for(var i =0; i < result.data.length; i++){
+								$("#select-addDeptStatus").append("<option value='"+result.data[i].statusId+"'>"+result.data[i].statusName+"</option>")
+							}
+						}else{
+							alert("获取信息失败！");
+						}
+					}
+				});
+			}else{
+				alert("获取信息失败！");
+			}
+		}
+	});
+});
+//添加部门信息弹出层面板提交按钮点击事件
+$("#btn-submitEditSC").click(function(){
+	if(addDeptFormEmptyCheck()){
+		$.ajax({
+			url:"/department/add.do",
+			data:$("#form-addDept").serialize(),
+			dataType:"json",
+			success:function(result){
+				if(result.code==200){
+					alert(result.msg);
+					$(".shadeDiv").hide();
+					$(".panel_addDepartment").hide();
+					location.reload();
+				}else{
+					alert(result.msg);
+				}
+			}
+		});
+	};
+});
+//关闭添加部门信息弹出层面板
+$("#btn-hidePanelAddDepartment").click(function(){
+	$(".shadeDiv").hide();
+	$(".panel_addDepartment").hide();
+});
+
+//监听添加部门信息弹出层中部门名称输入框输入值，并动态查找指定部门信息赋值给下拉选项列表
+$("#input-addParentDeptName").bind("input propertychange", function(event){
+	//alert($("#input-addParentDeptName").val());
+});
+//添加部门弹出层面板非空判断
+function addDeptFormEmptyCheck(){
+	if($("#input-addDeptName").val()==''){
+		alert("部门名称不能为空！");
+		$("#addDeptName").focus();
+		return false;
+	}
+	if($("#select-addDeptLevel").val()==null){
+		alert("部门级别不能为空！");
+		$("#select-addDeptLevel").focus();
+		return false;
+	}
+	if($("#select-addDeptStatus").val()==null){
+		alert("部门状态不能为空！");
+		$("#select-addDeptStatus").focus();
+		return false;
+	}
+	//上面判断无误则返回true
+	return true;
+}
+//弹出显示层，显示指定部门的详细信息
+$(".a_departmentDetail").click(function(){
+	//获取到部门id
+	var deptId = $(this).parent().parent().children().first().text();
 	//显示面板
 	$(".shadeDiv").show();
-	$(".panel_updateDepartmentLevel").show();
+	$(".panel_departmentDetail").show();
 	//发送Ajax请求
 	$.ajax({
-		url:"/departmentLevel/get.do?dlId="+dlId,
+		url:"/department/get.do?deptId="+deptId,
 		dataType:"json",
 		type:"post",
 		success:function(result){
 			if(result.code==200){
-				//填充部门级别信息
-				$("#input-updateDlId").val(dlId);
-				$("#input-updateLevel").val(result.data.level);
-				$("#input-updateLevelDesc").text(result.data.levelDesc);
-				$("#input-updateLevelNote").text(result.data.levelNote);
+				//填充部门信息
+				$(".span-deptId").text(result.data.deptId);
+				$(".span-deptName").text(result.data.deptName);
+				$(".span-dlLevel").text(result.data.dlLeve+"级");
+				$(".span-manageEmpName").text(result.data.manageEmpName);
+				$(".span-deptEmpnum").text(result.data.deptEmpnum);
+				$(".span-parentDeptName").text(result.data.parentDeptName);
+				$(".span-deptDesc").text(result.data.deptDesc);
+				$(".span-lastOperatorDate").text(result.data.lastOperatorDate);
+				$(".span-operatorEmpName").text(result.data.operatorEmpName);
 			}else{
 				alert(result.msg);
 			}
@@ -217,29 +348,7 @@ $(".a-updateDepartmentLevel").click(function(){
 	});
 });
 //关闭职工详细信息弹出层面板
-$("#btn-hidePanelEmployeeDetail").click(function(){
+$("#btn-hidePanelDepartmentDetail").click(function(){
 	$(".shadeDiv").hide();
-	$(".panel_employeeDetail").hide();
-});
-//删除指定级别信息
-$(".a-deleteDepartmentLevel").click(function(){
-	var value = confirm("删除该级别信息？");
-	//如果确认删除
-	if(value == true){
-		var dlId = $(this).parent().parent().children().first().text();
-		$.ajax({
-			url:"/departmentLevel/delete.do?dlId="+dlId,
-			dataType:"json",
-			success:function(result){
-				if(result.code==0){
-					alert(result.msg);
-				}else{
-					alert(result.msg);
-					//删除该行记录
-					$(this).parent().parent().remove();
-					location.reload(); 
-				}  
-			}	
-		});
-	}
+	$(".panel_departmentDetail").hide();
 });

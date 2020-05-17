@@ -245,3 +245,73 @@ $("#btn-hidePanelEmployeeDetail").click(function(){
 	$(".shadeDiv").hide();
 	$(".panel_employeeDetail").hide();
 });
+//弹出显示层，显示指定部门的详细信息
+$(".a_departmentDetail").click(function(){
+	//获取到部门id
+	var deptId = $(this).parent().parent().children().first().text();
+	//显示面板
+	$(".shadeDiv").show();
+	$(".panel_departmentDetail").show();
+	//发送Ajax请求
+	$.ajax({
+		url:"/department/get.do?deptId="+deptId,
+		dataType:"json",
+		type:"post",
+		success:function(result){
+			if(result.code==200){
+				//填充部门信息
+				$(".span-deptId").text(result.data.deptId);
+				$(".span-deptName").text(result.data.deptName);
+				$(".span-dlLevel").text(result.data.dlLeve+"级");
+				$(".span-manageEmpName").text(result.data.manageEmpName);
+				$(".span-deptEmpnum").text(result.data.deptEmpnum);
+				$(".span-parentDeptName").text(result.data.parentDeptName);
+				$(".span-deptDesc").text(result.data.deptDesc);
+				$(".span-lastOperatorDate").text(result.data.lastOperatorDate);
+				$(".span-operatorEmpName").text(result.data.operatorEmpName);
+			}else{
+				alert(result.msg);
+			}
+		}
+	});
+});
+//关闭职工详细信息弹出层面板
+$("#btn-hidePanelDepartmentDetail").click(function(){
+	$(".shadeDiv").hide();
+	$(".panel_departmentDetail").hide();
+});
+//弹出显示层，显示指定职位的详细信息
+$(".a_positionDetail").click(function(){
+	//获取到职位id
+	var positionId = $(this).parent().parent().children().first().text();
+	//显示面板
+	$(".shadeDiv").show();
+	$(".panel_positionDetail").show();
+	//发送Ajax请求
+	$.ajax({
+		url:"/position/get.do?positionId="+positionId,
+		dataType:"json",
+		type:"post",
+		success:function(result){
+			if(result.code==200){
+				//填充部门信息
+				$(".span-positionId").text(result.data.positionId);
+				$(".span-positionName").text(result.data.positionName);
+				$(".span-plLevelDesc").text(result.data.plLevelDesc);
+				$(".span-deptName").text(result.data.deptName);
+				$(".span-parentPositionName").text(result.data.parentPositionName);
+				$(".span-statusName").text(result.data.statusName);
+				$(".span-positionDesc").text(result.data.positionDesc);
+				$(".span-lastOperatorDate").text(result.data.lastOperatorDate);
+				$(".span-operatorEmpName").text(result.data.operatorEmpName);
+			}else{
+				alert(result.msg);
+			}
+		}
+	});
+});
+//关闭职位详细信息弹出层面板
+$("#btn-hidePanelPositionDetail").click(function(){
+	$(".shadeDiv").hide();
+	$(".panel_positionDetail").hide();
+});
