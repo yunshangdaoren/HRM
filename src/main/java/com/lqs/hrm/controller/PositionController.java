@@ -367,17 +367,17 @@ public class PositionController {
 	@ResponseBody
 	public JsonCommonResult<List<Position>> queryLikePositionName(HttpServletRequest request, PageRequest pageRequest) {
 		//查询条件信息
-		String parentPositionNameStr = request.getParameter("parentPositionName");
+		String positionNameStr = request.getParameter("positionName");
 		//分页
 		//PageHelper.startPage(pageRequest.getPageNum(), pageRequest.getPageSize());
 		List<Position> positionList = new ArrayList<>();
 		//查询条件判断
-		if (StringUtil.isEmpty(parentPositionNameStr)) {
+		if (StringUtil.isEmpty(positionNameStr)) {
 			//如果查询的条件全部为空，则查询出所有部门信息
 			positionList = positionService.listByNo();
 		}else {
 			//根据部门名称模糊查询
-			positionList = positionService.listByPositionName(parentPositionNameStr);
+			positionList = positionService.listByPositionName(positionNameStr);
 		}
 		if (positionList == null || positionList.size() == 0) {
 			return new JsonCommonResult<List<Position>>("100", null, "没有数据！");
@@ -495,18 +495,16 @@ public class PositionController {
 		if (!StringUtil.isEmpty(parentPositionNameStr)) {
 			List<Position> parentPositionList = positionService.listByPositionName(parentPositionNameStr);
 			for (Position position : parentPositionList) {
-				if (deptNameStr.equals(position.getDeptName())) {
+				if (com.lqs.hrm.util.StringUtil.isEquqls(parentPositionNameStr, position.getPositionName())) {
 					parentPositionId = position.getPositionId();
 				}
 			}
-			System.out.println("获取到上级部门id:"+parentPositionId);
 		}
 		//职位所属部门id
 		int deptId = 0;
 		if (!StringUtil.isEmpty(deptNameStr)) {
 			Department department = departmentService.listByDeptName(deptNameStr).get(0);
 			deptId = department.getDeptId();
-			System.out.println("获取到职位所属部门id:"+deptId);
 		}
 		Position position = new Position();
 		//设置职位名称

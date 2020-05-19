@@ -338,6 +338,7 @@ public class DepartmentController {
 	public JsonCommonResult<List<Department>> queryLikeDeptName(HttpServletRequest request, PageRequest pageRequest) {
 		//查询条件信息
 		String deptNameStr = request.getParameter("deptName");
+		System.out.println("要查询的部门名称为："+deptNameStr);
 		//分页
 		//PageHelper.startPage(pageRequest.getPageNum(), pageRequest.getPageSize());
 		List<Department> departmentList = new ArrayList<>();
@@ -345,11 +346,14 @@ public class DepartmentController {
 		if (StringUtil.isEmpty(deptNameStr)) {
 			//如果查询的条件全部为空，则查询出所有部门信息
 			departmentList = departmentService.listByNo();
+			System.out.println("查询所有部门信息");
 		}else {
 			//根据部门名称模糊查询
 			departmentList = departmentService.listLikeDeptName(deptNameStr);
+			System.out.println("进行模糊查询");
 		}
 		if (departmentList == null || departmentList.size() == 0) {
+			System.out.println("查询list大小："+departmentList.size());
 			return new JsonCommonResult<List<Department>>("100", null, "没有数据！");
 		}
 		setDeptInfo(departmentList);

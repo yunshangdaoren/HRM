@@ -237,7 +237,7 @@ public class DepartmentServiceImpl implements DepartmentService{
 	@Override
 	public List<Department> listLikeDeptName(String deptName) {
 		DepartmentExample example = new DepartmentExample();
-		example.or().andDeptNameLike("%"+deptName+"%");
+		example.createCriteria().andDeptNameLike("%"+deptName+"%");
 		return departmentMapper.selectByExample(example);
 	}
 	

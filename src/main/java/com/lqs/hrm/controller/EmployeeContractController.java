@@ -30,7 +30,7 @@ import com.lqs.hrm.util.PageResultUtil;
 
 @Controller
 @RequestMapping("status")
-public class StatusController {
+public class EmployeeContractController {
 	@Autowired
 	private StatusServiceImpl statusService;
 	

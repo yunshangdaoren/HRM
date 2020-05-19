@@ -239,7 +239,7 @@
 		<div class="panel_positionDetail" style="display:none;">
 			<div class="div-panel">
     			<div class="panel-heading">
-    				<label>部门详细信息</label>
+    				<label>职位详细信息</label>
     				<button id="btn-hidePanelPositionDetail" type="button" class="btn btn-success">退出</button>
     			</div>
     			<div class="panel_body">

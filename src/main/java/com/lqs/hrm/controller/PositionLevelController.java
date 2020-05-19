@@ -21,7 +21,6 @@ public class PositionLevelController {
 	@RequestMapping("list.do")
 	@ResponseBody
 	public JsonCommonResult<List<PositionLevel>> list(){
-		System.out.println("===================进入到获取职位级别Controller");
 		List<PositionLevel> positionLevelList = positionLevelService.list();
 		if (positionLevelList.size() ==0 || positionLevelList == null) {
 			return new JsonCommonResult<List<PositionLevel>>("100", null, "没有查询到数据！");
