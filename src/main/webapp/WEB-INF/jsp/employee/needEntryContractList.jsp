@@ -4,8 +4,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-	<title>合同详情</title>
-	<link href="/static/css/contract/checkContract.css" rel="stylesheet" />
+	<title>待入职列表</title>
+	<link href="/static/css/contract/contractList.css" rel="stylesheet" />
 </head>
 <body>
 	<%@ include file="../top.jsp" %>
@@ -13,14 +13,14 @@
 		<%@ include file="../leftNav.jsp" %>
 		<div id="right">
 			<ul class="nav nav-tabs">
-  				<li role="presentation"><a href="/contract/contractList.do">合同列表</a></li>
-  				<li role="presentation" class="active"><a href="/contract/toCheckContract.do">合同审批</a></li>
+  				<li role="presentation" class="active"><a href="/contract/needEntryContractList.do">待入职列表</a></li>
+  				<li role="presentation"><a href="/contract/alreadyEntryContractList.do">已入职列表</a></li>
 			</ul>
 			<div class="div_search">
 				<form class="form-inline" id="form-queryDept" method="get" action="/contract/toCheckContract.do">
 					<div class="form-group">
-    					<label for="exampleInputName2">合同ID</label>
-    					<input type="text" class="form-control" name="conId" id="input-selectConId" value="${conIdStr }">
+    					<label for="exampleInputName2">职工姓名</label>
+    					<input type="text" class="form-control" name="empName" id="input-selectConId" value="${conIdStr }">
   					</div>
   					<div class="form-group">
     					<label for="exampleInputName2">所属部门</label>
@@ -34,7 +34,7 @@
   					<button id="btn-selectContract" type="submit" class="btn btn-danger">查询</button>
 				</form>
 			</div>
-			<table class="table table-hover" id="table-deptDtail">
+			<table class="table table-hover " id="table-deptDtail">
 				<thead>
 					<tr>
 						<th>合同ID</th>
@@ -49,7 +49,7 @@
 						<th>审批时间</th>
 						<th>审批人</th>
 						<th>详情</th>
-						<th style="width:150px;">操作</th>
+						<th>操作</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -82,8 +82,8 @@
 							</td>
 							<td><fmt:formatDate value="${contract.checkDate }" type="both"/></td>
 							<td>
-								<a href="#" class="a-operatorEmpName">${department.checkEmpName }</a>
-								<i style="display:none;">${department.checkEmpjobid }</i>
+								<a href="#" class="a-operatorEmpName">${contract.checkEmpName }</a>
+								<i style="display:none;">${contract.checkEmpjobid }</i>
 							</td>
 							<td>
 								<a class="a_detailContract" href="#">
@@ -91,8 +91,8 @@
 					    		</a>
 					    	</td>
 					    	<td>
-								<a class="a_checkContract" href="#" style="text-decoration:none;">
-					    			<span class="label label-primary">审批</span>
+								<a class="a_entryContract" href="#" style="text-decoration:none;">
+					    			<span class="label label-primary">入职</span>
 					    		</a>
 					    	</td>
 						</tr>
@@ -202,5 +202,5 @@
 		</div>
 		
 </body>
-	<script type="text/javascript" src="/static/js/contract/checkContract.js"></script>
+	<script type="text/javascript" src="/static/js/employee/needEntryContractList.js"></script>
 </html>

@@ -203,5 +203,24 @@ public class ContractServiceImpl implements ContractService{
 		return contractMapper.deleteByPrimaryKey(conId);
 	}
 
+	/**
+	 * 根据职工姓名查询
+	 */
+	@Override
+	public List<Contract> listByEmpName(String empName) {
+		ContractExample example = new ContractExample();
+		example.or().andEmpNameEqualTo(empName);
+		return contractMapper.selectByExample(example);
+	}
+	
+	/**
+	 * 根据职工姓名、状态id查询
+	 */
+	@Override
+	public List<Contract> listByEmpNameStatusId(String empName, Integer statusId) {
+		ContractExample example = new ContractExample();
+		example.or().andEmpNameEqualTo(empName).andStatusIdEqualTo(statusId);
+		return contractMapper.selectByExample(example);
+	}
 
 }

@@ -27,10 +27,9 @@ public interface EmployeeDepartmentService {
 	EmployeeDepartment get(String empJobid, Integer deptId);
 	
 	/**
-	 * 添加
-	 * @param empJobid
-	 * @param deptId
+	 * 添加职工部门信息
+	 * @param employeeDepartment
 	 * @return
 	 */
-	int insert(EmployeeDepartment employeeDepartment);
+	int add(EmployeeDepartment employeeDepartment);
 }

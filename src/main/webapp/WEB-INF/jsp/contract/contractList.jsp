@@ -93,13 +93,13 @@
 							</c:choose>
 							<td><fmt:formatDate value="${contract.addDate }" type="both"/></td>
 							<td>
-								<a href="#" class="a-operatorEmpName">${contract.addEmpName }</a>
+								<a href="#" class="a-addEmpName">${contract.addEmpName }</a>
 								<i style="display:none;">${contract.addEmpjobid }</i>
 							</td>
 							<td><fmt:formatDate value="${contract.checkDate }" type="both"/></td>
 							<td>
-								<a href="#" class="a-operatorEmpName">${department.checkEmpName }</a>
-								<i style="display:none;">${department.checkEmpjobid }</i>
+								<a href="#" class="a-checkEmpName">${contract.checkEmpName }</a>
+								<i style="display:none;">${contract.checkEmpjobid }</i>
 							</td>
 							<td>
 								<a class="a_detailContract" href="#">

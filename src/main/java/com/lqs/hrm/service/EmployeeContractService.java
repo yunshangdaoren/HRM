@@ -44,4 +44,11 @@ public interface EmployeeContractService {
 	 */
 	List<EmployeeContract> getAll();
 	
+	/**
+	 * 添加职工合同信息
+	 * @param employeeContract
+	 * @return
+	 */
+	int add(EmployeeContract employeeContract);
+	
 }

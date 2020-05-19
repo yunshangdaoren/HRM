@@ -501,7 +501,7 @@ public class DepartmentController {
 			int deptId = departmentService.listByDeptName(deptNameStr).get(0).getDeptId();
 			//添加职工-部门信息
 			employeeDepartment.setDeptId(deptId);
-			int result1 = employeeDepartmentService.insert(employeeDepartment);
+			int result1 = employeeDepartmentService.add(employeeDepartment);
 			if (result1 == 0) {
 				return new JsonCommonResult<Object>("100", null, "添加失败");
 			}

@@ -46,30 +46,9 @@ $("#span-jumPageNum").click(function(){
 	}
 });
 
-//显示添加合同弹出层面板,并给合同状态信息下拉框赋值
+//点击添加合同按钮，跳转至添加合同页面
 $("#btn-addContract").click(function(){
-	//显示弹出层面板
-	$(".shadeDiv").show();
-	$(".panel_addContract").show();
-	//发送Ajax请求获取部门状态信息
-	$.ajax({
-		url:"/status/listContract.do",
-		dataType:"json",
-		async:false,
-		success:function(result){
-			if(result.code==200){
-				//先清空值（除了第一个）
-				$("#select-addContractStatus option:not(:first)").remove();
-				//添加值
-				for(var i =0; i < result.data.length; i++){
-					$("#select-addContractStatus").append("<option value='"+result.data[i].statusId+"'>"+result.data[i].statusName+"</option>")
-				}
-			}else{
-				alert("获取信息失败！");
-			}
-		}
-	});
-	
+	window.location.href = "/contract/toAddContract.do";
 });
 //添加合同信息弹出层面板提交按钮点击事件
 $("#btn-submitAddContract").click(function(){

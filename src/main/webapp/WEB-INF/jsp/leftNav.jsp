@@ -43,7 +43,7 @@
 		<div class="modu-content">
 			<div class="content-body">
 				<a href="/department/list.do" >职工花名册</a>
-				<a href="/department/list.do" >职工入职</a>
+				<a href="/contract/needEntryContractList.do" >合同入职</a>
 				<a href="/department/list.do" >职工离职</a>
 			</div>
 		</div>

@@ -69,5 +69,13 @@ public class EmployeeContractServiceImpl implements EmployeeContractService{
 		return employeeContractMapper.selectByExample(example);
 	}
 
+	/**
+	 * 添加职工合同信息
+	 */
+	@Override
+	public int add(EmployeeContract employeeContract) {
+		return employeeContractMapper.insertSelective(employeeContract);
+	}
+
 
 }

@@ -201,25 +201,8 @@ $(".a_detailContract").click(function(){
 	var conId = $(".a_detailContract").parent().parent().children().first().text();
 	window.location.href="/contract/detailContract.do?conId="+conId;
 });
-//审批合同
-$(".a_checkContract").click(function(){
-	var value = confirm("确认审批？");
-	//如果确认审批
-	if(value == true){
-		var conId = $(".a_detailContract").parent().parent().children().first().text();
-		//发送Ajax请求
-		$.ajax({
-			url:"/contract/checkContract.do?conId="+conId,
-			dataType:"json",
-			type:"post",
-			success:function(result){
-				if(result.code==200){
-					alert(result.msg);
-					location.reload();
-				}else{
-					alert(result.msg);
-				}
-			}
-		});
-	}
+//跳转至职工信息填写页面
+$(".a_entryContract").click(function(){
+	var conId = $(".a_entryContract").parent().parent().children().first().text();
+	window.location.href="/employee/toAddEmployeeInfo.do?conId="+conId;
 });

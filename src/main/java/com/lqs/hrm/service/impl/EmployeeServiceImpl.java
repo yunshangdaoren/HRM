@@ -1,5 +1,6 @@
 package com.lqs.hrm.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,20 +23,8 @@ public class EmployeeServiceImpl implements EmployeeService{
 	
 	@Override
 	public Employee get(String empJobid) {
-//		EmployeeExample example = new EmployeeExample();
-//		example.or().andEmpIdcardEqualTo(empJobid);
 		return employeeMapper.selectByPrimaryKey(empJobid);
 	}
-
-	/**
-	 * 根据职工名称和所属部门id查询
-	 */
-//	@Override
-//	public List<Employee> listByEmpNameDeptId(String empName, Integer deptId) {
-//		EmployeeExample example = new EmployeeExample();
-//		example.or().andEmpNameEqualTo(empName).andDeptIdEqualTo(deptId);
-//		return employeeMapper.selectByExample(example);
-//	}
 
 	/**
 	 * 根据职工名称查询
@@ -53,6 +42,18 @@ public class EmployeeServiceImpl implements EmployeeService{
 	public List<Employee> list(){
 		EmployeeExample example = new EmployeeExample();
 		example.or().andEmpIdcardIsNotNull();
+		return employeeMapper.selectByExample(example);
+	}
+
+	@Override
+	public int add(Employee employee) {
+		return employeeMapper.insertSelective(employee);
+	}
+
+	@Override
+	public List<Employee> listByEmpNameDeptId(Date lastOperatorDate) {
+		EmployeeExample example = new EmployeeExample();
+		example.or().andLastOperatorDateEqualTo(lastOperatorDate);
 		return employeeMapper.selectByExample(example);
 	}
 

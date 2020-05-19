@@ -2,9 +2,6 @@
 	width:100%;
 	border-top:1px solid black;
 }
-/* #right table td{
-	overflow:hidden;
-} */
 #right .div_search{
 	min-width:1220px;
 	width:100%;
@@ -28,21 +25,6 @@
 	display:blcok-inline;
 }
 
-/* 弹出遮罩层，用于添加合同信息 */
-.panel_addContract{
-	width:700px;
-	height:550px;
-	position:absolute;
-	display:none;
-	z-index:7;
-	left:0px; 
-	top:0px; 
-	right:0px; 
-	bottom:0px;
-    margin:auto;    /* 閿熸枻鎷烽敓鏂ゆ嫹閿熸枻鎷烽敓鏂ゆ嫹閿熸枻鎷疯繙閿熸枻鎷烽敓鏂ゆ嫹閿熸枻鎷烽敓锟� */
-    border:0px;
-    background-color:#fff;
-}
 /* 弹出遮罩层，用于显示职位详细信息  */
 .panel_employeeDetail{
 	width:500px;

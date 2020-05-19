@@ -4,8 +4,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-	<title>合同详情</title>
-	<link href="/static/css/contract/checkContract.css" rel="stylesheet" />
+	<title>已入职列表</title>
+	<link href="/static/css/employee/alreadyEntryContractList.css" rel="stylesheet" />
 </head>
 <body>
 	<%@ include file="../top.jsp" %>
@@ -13,14 +13,14 @@
 		<%@ include file="../leftNav.jsp" %>
 		<div id="right">
 			<ul class="nav nav-tabs">
-  				<li role="presentation"><a href="/contract/contractList.do">合同列表</a></li>
-  				<li role="presentation" class="active"><a href="/contract/toCheckContract.do">合同审批</a></li>
+  				<li role="presentation"><a href="/contract/needEntryContractList.do">待入职列表</a></li>
+  				<li role="presentation" class="active"><a href="/contract/alreadyEntryContractList.do">已入职列表</a></li>
 			</ul>
 			<div class="div_search">
 				<form class="form-inline" id="form-queryDept" method="get" action="/contract/toCheckContract.do">
 					<div class="form-group">
-    					<label for="exampleInputName2">合同ID</label>
-    					<input type="text" class="form-control" name="conId" id="input-selectConId" value="${conIdStr }">
+    					<label for="exampleInputName2">职工姓名</label>
+    					<input type="text" class="form-control" name="empName" id="input-selectConId" value="${conIdStr }">
   					</div>
   					<div class="form-group">
     					<label for="exampleInputName2">所属部门</label>
@@ -202,5 +202,5 @@
 		</div>
 		
 </body>
-	<script type="text/javascript" src="/static/js/contract/checkContract.js"></script>
+	<script type="text/javascript" src="/static/js/employee/alreadyEntryContractList.js"></script>
 </html>

@@ -59,11 +59,10 @@ public class EmployeeDepartmentServiceImpl implements EmployeeDepartmentService{
 	}
 
 	/**
-	 * 
-	 * 添加
+	 * 添加职工部门信息
 	 */
 	@Override
-	public int insert(EmployeeDepartment employeeDepartment) {
+	public int add(EmployeeDepartment employeeDepartment) {
 		return employeeDepartmentMapper.insertSelective(employeeDepartment);
 	}
 	

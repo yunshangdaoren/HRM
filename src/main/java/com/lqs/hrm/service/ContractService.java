@@ -94,6 +94,20 @@ public interface ContractService {
 	List<Contract> listByNo();
 	
 	/**
+	 * 根据职工姓名查询所有合同信息
+	 * @param empName
+	 * @return
+	 */
+	List<Contract> listByEmpName(String empName);
+	
+	/**
+	 * 根据职工姓名、状态id查询所有合同信息
+	 * @param empName
+	 * @param statusId
+	 */
+	List<Contract> listByEmpNameStatusId(String empName, Integer statusId);
+	
+	/**
 	 * 添加合同
 	 * @param contract
 	 * @return
