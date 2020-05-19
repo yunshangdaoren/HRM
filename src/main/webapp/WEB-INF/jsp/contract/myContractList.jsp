@@ -4,31 +4,20 @@
 <html>
 <head>
 <meta charset="UTF-8">
-	<title>合同详情</title>
-	<link href="/static/css/contract/contractList.css" rel="stylesheet" />
+	<title>我的合同</title>
+	<link href="/static/css/contract/myContractList.css" rel="stylesheet" />
 </head>
 <body>
 	<%@ include file="../top.jsp" %>
 	<div id="center">
 		<%@ include file="../leftNav.jsp" %>
 		<div id="right">
-			<ul class="nav nav-tabs">
-  				<li role="presentation" class="active"><a href="/contract/contractList.do">合同列表</a></li>
-  				<li role="presentation"><a href="/contract/toCheckContract.do">合同审批</a></li>
-			</ul>
+			<span class="title">我的合同</span>
 			<div class="div_search">
-				<form class="form-inline" id="form-queryDept" method="get" action="/contract/contractList.do">
+				<form class="form-inline" id="form-queryDept" method="get" action="/employeeContract/myContractList.do">
 					<div class="form-group">
     					<label for="exampleInputName2">合同ID</label>
     					<input type="text" class="form-control" name="conId" id="input-selectConId" value="${conIdStr }">
-  					</div>
-  					<div class="form-group">
-    					<label for="exampleInputName2">所属部门</label>
-    					<input type="text" class="form-control"  name="deptName" id="input-selectDeptName" value="${deptNameStr }">
-  					</div>
-  					<div class="form-group">
-    					<label for="exampleInputName2">所属职位</label>
-    					<input type="text" class="form-control"  name="positionName" id="input-selectPositionName" value="${positionNameStr }">
   					</div>
   					<div class="form-group">
   						<label for="exampleInputEmail2">合同状态</label>
@@ -48,7 +37,6 @@
   					</div>
   					<button id="btn-resetSelect" type="button" class="btn btn-danger">重置</button>
   					<button id="btn-selectContract" type="submit" class="btn btn-danger">查询</button>
-  					<button id="btn-addContract" type="button" class="btn btn-success">添加合同</button>
 				</form>
 			</div>
 			<table class="table table-hover" id="table-deptDtail">
@@ -213,5 +201,5 @@
 		</div>
 		
 </body>
-	<script type="text/javascript" src="/static/js/contract/contractList.js"></script>
+	<script type="text/javascript" src="/static/js/contract/myContractList.js"></script>
 </html>

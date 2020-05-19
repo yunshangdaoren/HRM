@@ -33,6 +33,12 @@ public interface EmployeeContractService {
 	List<EmployeeContract> getByEmpJobid(String empJobid);
 	
 	/**
+	 * 返回指定合同id、职工id的职工合同信息
+	 * @return
+	 */
+	List<EmployeeContract> getByConIdEmpJobid(Integer conId, String empJobid);
+	
+	/**
 	 * 返回所有职工合同信息
 	 * @return
 	 */

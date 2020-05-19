@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 	<title>合同信息</title>
-	<link href="/static/css/contract/addContract.css" rel="stylesheet" />
+	<link href="/static/css/contract/detailContract.css" rel="stylesheet" />
 </head>
 <body>
 	<%@ include file="../top.jsp" %>
@@ -13,7 +13,7 @@
 		<%@ include file="../leftNav.jsp" %>
 		<div id="right">
 			<span class="title">合同信息</span>
-			<div class="div_addContract">
+			<div class="div_detailContract">
 				<ul class="list-group" style="width:100%;height:100%;overflow:auto;">
         			<li class="list-group-item"><label>职工姓名：</label><span class="span-empName">${contract.empName }</span></li>
         			<li class="list-group-item"><label>职工身份证号：</label><span class="span-empIdcard">${contract.empIdcard }</span></li>
@@ -22,7 +22,22 @@
         			<li class="list-group-item"><label>合同开始日期：</label><span class="span-beginDate"><fmt:formatDate value="${contract.beginDate }" type="both"/></span></li>
         			<li class="list-group-item"><label>合同结束日期：</label><span class="span-endDate"><fmt:formatDate value="${contract.endDate }" type="both"/></span></li>
        				<li class="list-group-item"><label>合同月薪：</label><span class="span-monthlySalary">${contract.monthlySalary }</span></li>
-       				<li class="list-group-item"><label>合同签订日期：</label><span class="span-signDate"><fmt:formatDate value="${contract.entryTime }" type="both"/></span></li>
+       				<li class="list-group-item"><label>合同签订日期：</label><span class="span-signDate"><fmt:formatDate value="${contract.signDate }" type="both"/></span></li>
+       				<li class="list-group-item"><label>入职日期：</label><span class="span-entryTime"><fmt:formatDate value="${contract.entryTime }" type="both"/></span></li>
+       				<li class="list-group-item"><label>合同状态：</label>
+       					<c:choose>
+								<c:when test="${contract.statusName =='正常' }">
+									<span style="color:black;">${contract.statusName }</span>
+    							</c:when>
+    							<c:otherwise>
+    								<span class="span-statusName" style="color:red;">${contract.statusName }</span>
+    							</c:otherwise>	
+							</c:choose>
+       				</li>
+       				<li class="list-group-item"><label>合同录入人：</label><span class="span-addEmpName">${contract.addEmpName }</span></li>
+       				<li class="list-group-item"><label>合同录入日期：</label><span class="span-addDate"><fmt:formatDate value="${contract.addDate }" type="both"/></span></li>
+       				<li class="list-group-item"><label>合同审批人：</label><span class="span-checkEmpName">${contract.checkEmpName }</span></li>
+       				<li class="list-group-item"><label>合同审批日期：</label><span class="span-checkDate"><fmt:formatDate value="${contract.checkDate }" type="both"/></span></li>
    					<li class="list-group-item"><label>备注：</label><span class="span-note"></span>${contract.note }</li>
    				</ul>
 			</div>
@@ -31,5 +46,4 @@
 	<%@ include file="../bottom.jsp" %>
 	
 </body>
-	<script type="text/javascript" src="/static/js/contract/addContract.js"></script>
 </html>

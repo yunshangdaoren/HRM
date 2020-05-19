@@ -765,7 +765,7 @@ public class ContractController {
 	}
 	
 	/**
-	 * 转至审批合同页面
+	 * 转至合同详情页面
 	 * @param request
 	 * @param pageRequest
 	 * @param map
@@ -774,17 +774,10 @@ public class ContractController {
 	@RequestMapping("detailContract.do")
 	public String detailContract(HttpServletRequest request, ModelMap map){
 		String conIdStr = request.getParameter("conId");
-		if (StringUtil.isNotEmpty(conIdStr)) {
-			Contract contract = contractService.get(Integer.valueOf(conIdStr));
-		}else {
-			//获取当前登录系统人工号
-			HttpSession session = request.getSession();
-			//获得当前登录系统人信息
-			User user = (User) session.getAttribute("session_loginUser");
-			
-		}
-		return "";
+		Contract contract = contractService.get(Integer.valueOf(conIdStr));
+		setContractInfo(contract);
+		map.put("contract", contract);		
+		return "contract/detailContract";
 	}
-	
 }
 

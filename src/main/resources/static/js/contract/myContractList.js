@@ -342,7 +342,6 @@ $("#btn-hidePanelPositionDetail").click(function(){
 	$(".shadeDiv").hide();
 	$(".panel_positionDetail").hide();
 });
-
 //跳转至合同详情页面
 $(".a_detailContract").click(function(){
 	var conId = $(".a_detailContract").parent().parent().children().first().text();

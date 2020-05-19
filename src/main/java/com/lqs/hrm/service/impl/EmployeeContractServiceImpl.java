@@ -48,7 +48,16 @@ public class EmployeeContractServiceImpl implements EmployeeContractService{
 		example.or().andEmpJobidEqualTo(empJobid);
 		return employeeContractMapper.selectByExample(example);
 	}
-
+	
+	/**
+	 * 返回指定合同id、职工id的职工合同信息
+	 */
+	@Override
+	public List<EmployeeContract> getByConIdEmpJobid(Integer conId, String empJobid) {
+		EmployeeContractExample example = new EmployeeContractExample();
+		example.or().andConIdEqualTo(conId).andEmpJobidEqualTo(empJobid);
+		return employeeContractMapper.selectByExample(example);
+	}
 
 	/**
 	 * 返回所有职工合同信息
@@ -59,5 +68,6 @@ public class EmployeeContractServiceImpl implements EmployeeContractService{
 		example.or().andEcIdIsNotNull();
 		return employeeContractMapper.selectByExample(example);
 	}
+
 
 }

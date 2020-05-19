@@ -88,6 +88,7 @@
 			<div class="content-body">
 				<a href="/contract/contractList.do" >合同列表</a>
 				<a href="/contract/toAddContract.do" >添加合同</a>
+				<a href="/employeeContract/myContractList.do" >我的合同</a>
 			</div>
 		</div>
 	</div>
