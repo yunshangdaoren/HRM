@@ -31,8 +31,7 @@
 </div>
 
 <!-- 遮罩层 -->
-<div class="shadeDiv"></div>
-
+<div class="shadeDiv">
 	<!-- 弹出层，用于修改密码 -->
 	<div class="panel_changeUserPwd">
 			<div class="panel">
@@ -58,6 +57,9 @@
     			</div>
 			</div>
 		</div>
+</div>
+
+	
 	
 	
 	

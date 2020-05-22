@@ -1,5 +1,6 @@
 package com.lqs.hrm.controller;
 
+import java.security.KeyStore.Entry;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -27,9 +28,8 @@ import com.lqs.hrm.entity.Contract;
 import com.lqs.hrm.entity.Department;
 import com.lqs.hrm.entity.Employee;
 import com.lqs.hrm.entity.EmployeeContract;
-import com.lqs.hrm.entity.EmployeeDepartment;
-import com.lqs.hrm.entity.EmployeeEntry;
 import com.lqs.hrm.entity.EmployeePosition;
+import com.lqs.hrm.entity.EntryCount;
 import com.lqs.hrm.entity.Position;
 import com.lqs.hrm.entity.Status;
 import com.lqs.hrm.entity.User;
@@ -38,10 +38,9 @@ import com.lqs.hrm.service.EmployeePositionService;
 import com.lqs.hrm.service.impl.ContractServiceImpl;
 import com.lqs.hrm.service.impl.DepartmentServiceImpl;
 import com.lqs.hrm.service.impl.EmployeeContractServiceImpl;
-import com.lqs.hrm.service.impl.EmployeeDepartmentServiceImpl;
-import com.lqs.hrm.service.impl.EmployeeEntryServiceImpl;
 import com.lqs.hrm.service.impl.EmployeePositionServiceImpl;
 import com.lqs.hrm.service.impl.EmployeeServiceImpl;
+import com.lqs.hrm.service.impl.EntryCountServiceImpl;
 import com.lqs.hrm.service.impl.PositionServiceImpl;
 import com.lqs.hrm.service.impl.StatusServiceImpl;
 import com.lqs.hrm.service.impl.UserServiceImpl;
@@ -64,15 +63,13 @@ public class EmployeeController {
 	@Autowired
 	private StatusServiceImpl statusService;
 	@Autowired
-	private EmployeeDepartmentServiceImpl employeeDepartmentService;
-	@Autowired
 	private ContractServiceImpl contractService;
 	@Autowired
 	private PositionServiceImpl positionService;
 	@Autowired
 	private EmployeeContractServiceImpl employeeContractService;
 	@Autowired
-	private EmployeeEntryServiceImpl employeeEntryService;
+	private EntryCountServiceImpl entryCountService;
 	@Autowired
 	private EmployeePositionServiceImpl employeePositionService;
 	
@@ -85,16 +82,19 @@ public class EmployeeController {
 	@ResponseBody
 	public JsonCommonResult<Employee> get(String empJobid) {
 		Employee employee =  employeeService.get(empJobid);
+	    //职工所属部门id
+	    List<Integer> deptIdList = new ArrayList<>();
+	    //职工所属部门名称
+	    List<String> deptNameList = new ArrayList<>();
+	    
 		if (empJobid != null) {
-			//获取部门信息
-			List<EmployeeDepartment> list = employeeDepartmentService.get(empJobid);
-			//list
-			List<Integer> deptIdList = new ArrayList<Integer>();
-			List<String> deptNameList = new ArrayList<String>();
-			for (EmployeeDepartment employeeDepartment : list) {
-				//设置职工所属部门信息
-				deptIdList.add(employeeDepartment.getDeptId());
-				deptNameList.add(departmentService.get(employeeDepartment.getDeptId()).getDeptName());
+			List<EmployeePosition> employeePositionList = employeePositionService.listByEmpJobId(empJobid);
+			if (employeePositionList != null && employeePositionList.size() != 0) {
+				for (EmployeePosition employeePosition : employeePositionList) {
+					Department department = departmentService.get(employeePosition.getPositionId());
+					deptIdList.add(department.getDeptId());
+					deptNameList.add(department.getDeptName());
+				}
 			}
 			//设置职工所属部门信息
 			employee.setDeptIdList(deptIdList);
@@ -169,6 +169,7 @@ public class EmployeeController {
 	@RequestMapping("addEmployeeInfo.do")
 	@ResponseBody
 	public JsonCommonResult<Object> toAddContract(HttpServletRequest request, ModelMap map) throws ParseException{
+		int result1 = 0,result2 = 0, result3 = 0, result4 = 0, result5 = 0;
 		//获取到合同id
 		String conIdStr = request.getParameter("conId");
 		//职工姓名
@@ -204,9 +205,25 @@ public class EmployeeController {
 		Date zeroDate = format.parse(format2.format(date)+" 00:00:00");
 		//23:59:59
 		Date twentyFourDate = format.parse(format2.format(date)+" 23:59:59");
-		EmployeeEntry employeeEntry = employeeEntryService.get(zeroDate, twentyFourDate).get(0);
 		//今日入职员工数量
-		int entryEmpnum = employeeEntry.getEntryEmpnum();	
+		int entryEmpnum = 0;	
+		List<EntryCount> entryCountList = entryCountService.get(zeroDate, twentyFourDate);
+		EntryCount entryCount = new EntryCount();
+		if (entryCountList == null || entryCountList.size() == 0) {
+			//今日无职工入职统计记录，新创建一个记录
+			entryCount.setEntryDate(new Date());
+			entryCount.setEntryEmpnum(0);
+			entryCountService.add(entryCount);
+			entryEmpnum = 1;
+			result1 = 1;
+		}else {
+			//有入职统计记录，获取数量
+			entryCount = entryCountList.get(0);
+			entryEmpnum = entryCount.getEntryEmpnum() + 1;
+			//当日职工入职数量+1
+			entryCount.setEntryEmpnum(entryCount.getEntryEmpnum()+1);
+			result1 = entryCountService.update(entryCount);
+		}
 		//生成职工工号
 		String empJobid = com.lqs.hrm.util.StringUtil.getEmpJobId(new Date(), entryEmpnum+1);
 		
@@ -228,44 +245,40 @@ public class EmployeeController {
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("session_loginUser");
 		employee.setOperatorEmpjobid(user.getUserAccount());
-		int result1 = employeeService.add(employee);
-		int result2, result3, result4, result5, result6;
-		if (result1 != 0) {
+		result2 = employeeService.add(employee);
+		
+		if (result1 != 0 && result2 != 0) {
 			//更新合同信息
 			Contract contract = contractService.get(Integer.valueOf(conIdStr));
+			System.out.println("合同Id："+conIdStr);
 			//设置合同状态从待入职变为正常状态
 			contract.setStatusId(14);
-			result2 = contractService.update(contract);
-			if (result2 != 0) {
+			//设置入职时间
+			contract.setEntryTime(new Date());
+			result3 = contractService.update(contract);
+			if (result3 != 0) {
 				//录入职工-合同信息
 				EmployeeContract employeeContract = new EmployeeContract();
 				employeeContract.setConId(Integer.valueOf(conIdStr));
 				employeeContract.setEmpJobid(empJobid);
-				result3 = employeeContractService.add(employeeContract);
-				if (result3 != 0) {
-					//录入职工-部门信息
-					EmployeeDepartment employeeDepartment = new EmployeeDepartment();
-					employeeDepartment.setDeptId(Integer.valueOf(deptIdStr));
-					employeeDepartment.setEmpJobid(empJobid);
-					result4 = employeeDepartmentService.add(employeeDepartment);
-					if (result4 != 0) {
-						//录入职工-职位信息
-						EmployeePosition employeePosition = new EmployeePosition();
-						employeePosition.setEmpJobid(empJobid);
-						employeePosition.setPositionId(Integer.valueOf(positionIdStr));
-						result5 = employeePositionService.add(employeePosition);
-						if (result5 != 0) {
-							//更新职工入职信息
-							employeeEntry.setEntryEmpnum(employeeEntry.getEntryEmpnum()+1);
-							result6 = employeeEntryService.update(employeeEntry);
-							if (result6 != 0) {
-								return new JsonCommonResult<Object>("200", null, "添加职工信息成功！");
-							}
-						}
+				result4 = employeeContractService.add(employeeContract);
+				if (result4 != 0) {
+					//录入职工-职位信息
+					EmployeePosition employeePosition = new EmployeePosition();
+					employeePosition.setEmpJobid(empJobid);
+					employeePosition.setPositionId(Integer.valueOf(positionIdStr));
+					result5 = employeePositionService.add(employeePosition);
+					if (result5 != 0) {
+						return new JsonCommonResult<Object>("200", null, "添加职工信息成功！");
 					}
 				}
 			}
 		}
+		System.out.println("result1:"+result1);
+		System.out.println("result2:"+result2);
+		System.out.println("result3:"+result3);
+		System.out.println("result4:"+result4);
+		System.out.println("result5:"+result5);
 		return new JsonCommonResult<Object>("100", null, "添加职工信息失败！");
 	}
 	

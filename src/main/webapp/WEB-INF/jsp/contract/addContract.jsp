@@ -22,6 +22,15 @@
     						</div>
   						</div>
   						<div class="form-group" style="margin-top:10px;">
+    						<label for="firstname" class="col-sm-3 control-label">职工性别</label>
+    						<div class="col-sm-8">
+      							<select class="form-control" name="empSex" >
+      								<option value="1" selected="selected">男</option>
+      								<option value="0">女</option>
+								</select>
+    						</div>
+  						</div>
+  						<div class="form-group" style="margin-top:10px;">
     						<label for="firstname" class="col-sm-3 control-label">职工身份证号</label>
     						<div class="col-sm-8">
       							<input type="text" class="form-control" name="empIdcard" id="input-empIdcard">

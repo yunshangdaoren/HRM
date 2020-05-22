@@ -49,6 +49,7 @@ $("#btn_submitChangeUserPwd").click(function(){
 				if(result.statusCode==1){
 					alert("修改成功！");
 					$(".shadeDiv").hide();
+					$(".panel_changeUserPwd").hide();
 					$("input").val("");
 				}else{
 					alert(result.message);

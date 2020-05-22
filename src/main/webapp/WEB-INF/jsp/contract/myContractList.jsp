@@ -166,7 +166,7 @@
         				<li class="list-group-item"><label>部门id：</label><span class="span-deptId"></span></li>
         				<li class="list-group-item"><label>部门名称：</label><span class="span-deptName"></span></li>
         				<li class="list-group-item"><label>部门级别：</label><span class="span-dlLevel"></span></li>
-        				<li class="list-group-item"><label>部门主管：</label><span class="span-manageEmpName"></span></li>
+        				<li class="list-group-item"><label>部门主管人：</label><span class="span-manageEmpName"></span></li>
         				<li class="list-group-item"><label>部门人数：</label><span class="span-deptEmpnum"></span></li>
        					<li class="list-group-item"><label>上级部门：</label><span class="span-parentDeptName"></span></li>
        					<li class="list-group-item"><label>部门描述：</label><span class="span-deptDesc"></span></li>

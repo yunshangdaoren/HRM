@@ -33,5 +33,4 @@ public class Config implements WebMvcConfigurer{
 		.addPathPatterns("/**")
 		.excludePathPatterns("/login/**","/static/**");
 	}
-	
 }

@@ -27,12 +27,12 @@
 		String password = "";
 		if(cookies != null){
 			for(Cookie c : cookies){
-				if(c.getName().equals("userAccount")){
-					username = c.getValue();
+				if(c.getName().length()>14){
+					if(c.getName().substring(0, 14).equals("HRMUserAccount")){
+						username = c.getName().replaceAll("HRMUserAccount", "");
+						password = c.getValue();
+					}
 				}
-				if(c.getName().equals("userPwd")){
-					password = c.getValue();
-				}	
 			}
 		}
 	%>
@@ -70,7 +70,7 @@
                         <div class="footer text-center" style="padding-top:0px;">
                         	<div>
                         		<div style="float:left;width:50%;text-align: center;">
-                        			<input class="remember" type="checkbox" name="remember" value="1" checked="checked"/><b>记住密码？</b>
+                        			<input class="remember" type="checkbox" name="remember" value="1" checked="checked"/><b>记住密码</b>
                         		</div>
                         		<div style="float:right;width:50%;">
                         			<span class="span_fogetPwd">忘记密码？</span>

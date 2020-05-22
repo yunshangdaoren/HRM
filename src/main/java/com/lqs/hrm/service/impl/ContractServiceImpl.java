@@ -175,6 +175,8 @@ public class ContractServiceImpl implements ContractService{
 	@Override
 	public List<Contract> listByNo() {
 		ContractExample example = new ContractExample();
+		//按照日期倒序排序
+		example.setOrderByClause("add_date desc");
 		example.or().andConIdIsNotNull();
 		return contractMapper.selectByExample(example);
 	}

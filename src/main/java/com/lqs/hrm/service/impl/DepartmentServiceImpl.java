@@ -31,6 +31,15 @@ public class DepartmentServiceImpl implements DepartmentService{
 		return departmentMapper.selectByPrimaryKey(deptId);
 	}
 	/**
+	 * 通过部门主管职位id查询
+	 */
+	@Override
+	public List<Department> getByManagePositionId(Integer managePositionid) {
+		DepartmentExample example = new DepartmentExample();
+		example.or().andManagePositionidEqualTo(managePositionid);
+		return departmentMapper.selectByExample(example);
+	}
+	/**
 	 * 根据部门名称查询
 	 */
 	@Override
@@ -39,17 +48,6 @@ public class DepartmentServiceImpl implements DepartmentService{
 		//按照日期排序
 		example.setOrderByClause("last_operator_date desc");
 		example.createCriteria().andDeptNameEqualTo(deptName);
-		return departmentMapper.selectByExample(example);
-	}
-	/**
-	 * 根据部门主管id查询
-	 */
-	@Override
-	public List<Department> listBymanageEmpjobid(String manageEmpjobid) {
-		DepartmentExample example = new DepartmentExample();
-		//按照日期排序
-		example.setOrderByClause("last_operator_date desc");
-		example.createCriteria().andManageEmpjobidEqualTo(manageEmpjobid);
 		return departmentMapper.selectByExample(example);
 	}
 	
@@ -78,18 +76,6 @@ public class DepartmentServiceImpl implements DepartmentService{
 	}
 	
 	/**
-	 * 根据id，部门主管id查询
-	 */
-	@Override
-	public List<Department> listByDeptIdManageEmpJobId(Integer deptId, String manageEmpjobid) {
-		DepartmentExample example = new DepartmentExample();
-		//按照日期排序
-		example.setOrderByClause("last_operator_date desc");
-		example.createCriteria().andDeptIdEqualTo(deptId).andManageEmpjobidEqualTo(manageEmpjobid);
-		return departmentMapper.selectByExample(example);
-	}
-	
-	/**
 	 * 根据部门id，部门级别id查询
 	 */
 	@Override
@@ -98,18 +84,6 @@ public class DepartmentServiceImpl implements DepartmentService{
 		//按照日期排序
 		example.setOrderByClause("last_operator_date desc");
 		example.createCriteria().andDeptIdEqualTo(deptId).andDlIdEqualTo(dlId);
-		return departmentMapper.selectByExample(example);
-	}
-	
-	/**
-	 * 根据部门名称，部门主管id查询
-	 */
-	@Override
-	public List<Department> listByDeptNameManageEmpJobId(String deptName, String manageEmpjobid) {
-		DepartmentExample example = new DepartmentExample();
-		//按照日期排序
-		example.setOrderByClause("last_operator_date desc");
-		example.createCriteria().andDeptNameEqualTo(deptName).andManageEmpjobidEqualTo(manageEmpjobid);
 		return departmentMapper.selectByExample(example);
 	}
 	
@@ -124,30 +98,6 @@ public class DepartmentServiceImpl implements DepartmentService{
 		example.createCriteria().andDeptNameEqualTo(deptName).andDlIdEqualTo(dlId);
 		return departmentMapper.selectByExample(example);
 	}
-	
-	/**
-	 * 根据部门主管id，部门级别查询
-	 */
-	@Override
-	public List<Department> listByManageEmpJobIdDlId(String manageEmpjobid, Integer dlId) {
-		DepartmentExample example = new DepartmentExample();
-		//按照日期排序
-		example.setOrderByClause("last_operator_date desc");
-		example.createCriteria().andManageEmpjobidEqualTo(manageEmpjobid).andDlIdEqualTo(dlId);
-		return departmentMapper.selectByExample(example);
-	}
-	
-	/**
-	 * 根据部门id，部门名称，部门主管id查询
-	 */
-	@Override
-	public List<Department> listByDeptIdNameManageEmpJobId(Integer deptId, String deptName, String manageEmpjobid) {
-		DepartmentExample example = new DepartmentExample();
-		//按照日期排序
-		example.setOrderByClause("last_operator_date desc");
-		example.createCriteria().andDeptIdEqualTo(deptId).andDeptNameEqualTo(deptName).andManageEmpjobidEqualTo(manageEmpjobid);
-		return departmentMapper.selectByExample(example);
-	}
 	/**
 	 * 根据部门id，部门名称，部门级别查询
 	 */
@@ -157,41 +107,6 @@ public class DepartmentServiceImpl implements DepartmentService{
 		//按照日期排序
 		example.setOrderByClause("last_operator_date desc");
 		example.createCriteria().andDeptIdEqualTo(deptId).andDeptNameEqualTo(deptName).andDlIdEqualTo(dlId);
-		return departmentMapper.selectByExample(example);
-	}
-	/**
-	 * 根据部门id，部门主管id，部门级别查询
-	 */
-	@Override
-	public List<Department> listByDeptIdManageEmpJonIdDlId(Integer deptId, String manageEmpjobid, Integer dlId) {
-		DepartmentExample example = new DepartmentExample();
-		//按照日期排序
-		example.setOrderByClause("last_operator_date desc");
-		example.createCriteria().andDeptIdEqualTo(deptId).andManageEmpjobidEqualTo(manageEmpjobid).andDlIdEqualTo(dlId);
-		return departmentMapper.selectByExample(example);
-	}
-	
-	/**
-	 * 根据部门名称，部门主管id，部门级别查询
-	 */
-	@Override
-	public List<Department> listByDeptNameManageEmpJonIdDlId(String deptName, String manageEmpjobid, Integer dlId) {
-		DepartmentExample example = new DepartmentExample();
-		//按照日期排序
-		example.setOrderByClause("last_operator_date desc");
-		example.createCriteria().andDeptNameEqualTo(deptName).andManageEmpjobidEqualTo(manageEmpjobid).andDlIdEqualTo(dlId);
-		return departmentMapper.selectByExample(example);
-	}
-	
-	/**
-	 * 根据id，部门名称，部门主管id，部门级别id查询
-	 */
-	@Override
-	public List<Department> listByAll(Integer deptId, String deptName, String manageEmpjobid, Integer dlId) {
-		DepartmentExample example = new DepartmentExample();
-		//按照日期排序
-		example.setOrderByClause("last_operator_date desc");
-		example.or().andDeptIdEqualTo(deptId).andDeptNameEqualTo(deptName).andManageEmpjobidEqualTo(manageEmpjobid).andDlIdEqualTo(dlId);
 		return departmentMapper.selectByExample(example);
 	}
 	
@@ -227,7 +142,7 @@ public class DepartmentServiceImpl implements DepartmentService{
 	 * 删除指定部门信息
 	 */
 	@Override
-	public int delte(Integer deptId) {
+	public int delete(Integer deptId) {
 		return departmentMapper.deleteByPrimaryKey(deptId);
 	}
 

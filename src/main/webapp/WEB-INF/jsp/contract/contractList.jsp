@@ -55,6 +55,7 @@
 				<thead>
 					<tr>
 						<th>合同ID</th>
+						<th>姓名</th>
 						<th>所属部门</th>
 						<th>职位</th>
 						<th>开始日期</th>
@@ -65,14 +66,15 @@
 						<th>录入人</th>
 						<th>审批时间</th>
 						<th>审批人</th>
-						<th style="width:150px;">操作</th>
+						<th>操作</th>
 					</tr>
 				</thead>
 				<tbody>
 					<c:forEach items="${pageResult.content }" var="contract">
 						<tr>
 							<td>${contract.conId }</td>
-							<td>
+							<td>${contract.empName }</td>
+							<td style="overflow:hiden;">
 								<a href="#" class="a-deptName">${contract.deptName }</a>
 								<i style="display:none;">${contract.deptId }</i>
 							</td>
@@ -178,7 +180,7 @@
         				<li class="list-group-item"><label>部门id：</label><span class="span-deptId"></span></li>
         				<li class="list-group-item"><label>部门名称：</label><span class="span-deptName"></span></li>
         				<li class="list-group-item"><label>部门级别：</label><span class="span-dlLevel"></span></li>
-        				<li class="list-group-item"><label>部门主管：</label><span class="span-manageEmpName"></span></li>
+        				<li class="list-group-item"><label>部门主管人：</label><span class="span-manageEmpName"></span></li>
         				<li class="list-group-item"><label>部门人数：</label><span class="span-deptEmpnum"></span></li>
        					<li class="list-group-item"><label>上级部门：</label><span class="span-parentDeptName"></span></li>
        					<li class="list-group-item"><label>部门描述：</label><span class="span-deptDesc"></span></li>

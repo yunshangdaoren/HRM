@@ -54,7 +54,10 @@
 		</div>
 		<div class="modu-content">
 			<div class="content-body">
-				
+				<a href="/department/list.do" >考勤查看与统计</a>
+				<a href="/department/list.do" >个人考勤信息查看</a>
+				<a href="/department/list.do" >请假申请</a>
+				<a href="/department/list.do" >审批</a>
 			</div>
 		</div>
 	</div>
@@ -64,7 +67,9 @@
 		</div>
 		<div class="modu-content">
 			<div class="content-body">
-				
+				<a href="/department/list.do" >绩效制定</a>
+				<a href="/department/list.do" >绩效查看与统计</a>
+				<a href="/department/list.do" >下属考评</a>
 			</div>
 		</div>
 	</div>
@@ -75,7 +80,9 @@
 		</div>
 		<div class="modu-content">
 			<div class="content-body">
-				
+				<a href="/department/list.do" >薪资查看与统计</a>
+				<a href="/department/list.do" >个人薪资查看</a>
+				<a href="/department/list.do" >审批</a>
 			</div>
 		</div>
 	</div>

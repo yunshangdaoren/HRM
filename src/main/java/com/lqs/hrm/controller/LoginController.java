@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.util.StringUtil;
 import com.lqs.hrm.entity.User;
 import com.lqs.hrm.service.impl.LoginServiceImpl;
 import com.lqs.hrm.service.impl.MailServiceImpl;
@@ -46,10 +47,10 @@ public class LoginController {
 	 */
 	@RequestMapping("loginCheck.do")
 	@ResponseBody
-	public String loginCheck(User u, HttpServletRequest request,HttpServletResponse response) {
+	public String loginCheck(HttpServletRequest request,HttpServletResponse response) {
 		//返回结果Map
 		Map<String, Object> resultMap = new HashMap<>();
-		User user = loginService.getUser(u.getUserAccount(), u.getUserPwd());
+		User user = loginService.getUser(request.getParameter("userAccount"), request.getParameter("userPwd"));
 		if (user == null) {
 			//无该用户
 			resultMap.put("statusCode", "0");
@@ -59,24 +60,23 @@ public class LoginController {
 			HttpSession session = request.getSession();
 			session.setAttribute("session_loginUser", user);
 			session.setMaxInactiveInterval(24*60*60);
-			if (u.getRememberPwd()!=null && u.getRememberPwd()==true) {
+			if (StringUtil.isNotEmpty(request.getParameter("remember"))) {
 				//记住账户密码
-				Cookie cookieUserAccount = new Cookie("userAccount", String.valueOf(u.getUserAccount()));
-				Cookie cookieUserPwd = new Cookie("userPwd", String.valueOf(u.getUserPwd()));
+				Cookie cookieUserAccount = new Cookie("HRMUserAccount"+request.getParameter("userAccount"),request.getParameter("userPwd"));
 				cookieUserAccount.setMaxAge(30*24*60*60);
-				cookieUserPwd.setMaxAge(30*24*60*60);
 				response.addCookie(cookieUserAccount);
-				response.addCookie(cookieUserPwd);
 			}else {
 				//不记住账户和密码，需要清除浏览器储存的用户账户和密码
 				//获取到浏览器所有Cookie
 				Cookie[] cookies = request.getCookies();
 				for (Cookie cookie : cookies) {
-					if (cookie.getName().equals(u.getUserAccount().toString()) || 
-								cookie.getName().equals(u.getUserPwd().toString())) {
-						//删除该cookie
-						cookie.setMaxAge(0);
-						response.addCookie(cookie);
+					if (cookie.getName().length() > 14) {
+						//判断是否为登录账户的Cookie
+						if (cookie.getName().replace("HRMUserAccount", "").equals(request.getParameter("userAccount"))) {
+							//删除该cookie
+							cookie.setMaxAge(0);
+							response.addCookie(cookie);
+						}
 					}
 				}
 			}

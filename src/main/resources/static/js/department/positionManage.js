@@ -126,7 +126,7 @@ $("#input-addDeptName").bind("input propertychange", function(){
 		success:function(result){
 			if(result.code==200){
 				$.each(result.data, function(i, item){
-					$("#select-infoDeptName").append("<option>"+item.deptName+"</option>");
+					$("#select-infoDeptName").append("<option value='"+item.deptId+"'>"+item.deptName+"</option>");
 				});
 			}
 		}
@@ -144,7 +144,7 @@ $("#input-addParentPositionName").bind("input propertychange", function(){
 		success:function(result){
 			if(result.code==200){
 				$.each(result.data, function(i, item){
-					$("#select-parentPositionName").append("<option>"+item.positionName+"</option>");
+					$("#select-parentPositionName").append("<option value='"+item.positionId+"'>"+item.positionName+"</option>");
 				});
 			}
 		}
@@ -176,7 +176,8 @@ $("#select-infoDeptName").dblclick(function(){
 	var options = $("#select-infoDeptName option:selected");
 	$("#select-infoDeptName").hide();
 	$("#input-addDeptName").empty();
-	$("#input-addDeptName").val(options.val());
+	$("#input-addDeptName").val(options.text());
+	$("#input-addDeptId").val(options.val());
 });
 //添加职位信息弹出层的下拉列表上级职位信息双击事件
 $("#select-parentPositionName").dblclick(function(){
@@ -184,7 +185,8 @@ $("#select-parentPositionName").dblclick(function(){
 	var options = $("#select-parentPositionName option:selected");
 	$("#select-parentPositionName").hide();
 	$("#input-addParentPositionName").empty();
-	$("#input-addParentPositionName").val(options.val());
+	$("#input-addParentPositionName").val(options.text());
+	$("#input-addParentPositionid").val(options.val());
 });
 //添加职位信息弹出层面板非空判断
 function addPositionFormEmptyCheck(){

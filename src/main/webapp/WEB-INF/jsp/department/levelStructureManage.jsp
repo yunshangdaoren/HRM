@@ -28,7 +28,7 @@
 						<th>备注</th>
 						<th>最后一次操作时间</th>
 						<th>操作人</th>
-						<th style="width:150px;">操作</th>
+						<th>操作</th>
 					</tr>
 				</thead>
 				<tbody>

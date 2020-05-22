@@ -11,11 +11,12 @@ import org.springframework.web.servlet.ModelAndView;
 /**
  * 请求拦截器
  * @author Administrator
- *
  */
 @Component
 public class ApiInterceptor implements HandlerInterceptor{
-	
+	/**
+	 * 在请求处理之前拦截
+	 */
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
@@ -23,7 +24,6 @@ public class ApiInterceptor implements HandlerInterceptor{
 		Object userObject = session.getAttribute("session_loginUser");
 		if (userObject == null) {
 			response.sendRedirect("/login/loginPage.do");
-			System.out.println("用户不存在");
 			return true;
 		}
 		return true;

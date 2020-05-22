@@ -1,9 +1,12 @@
 package com.lqs.hrm.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.lqs.hrm.entity.EmployeePosition;
+import com.lqs.hrm.entity.EmployeePositionExample;
 import com.lqs.hrm.mapper.EmployeePositionMapper;
 import com.lqs.hrm.service.EmployeePositionService;
 
@@ -25,6 +28,27 @@ public class EmployeePositionServiceImpl implements EmployeePositionService{
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	/**
+	 * 根据职位id查询
+	 */
+	@Override
+	public List<EmployeePosition> listByPositionId(Integer positionId) {
+		EmployeePositionExample example = new EmployeePositionExample();
+		example.or().andPositionIdEqualTo(positionId);
+		return employeePositionMapper.selectByExample(example);
+	}
+	
+	/**
+	 * 根据职工工号查询
+	 */
+	@Override
+	public List<EmployeePosition> listByEmpJobId(String empJobId) {
+		EmployeePositionExample example = new EmployeePositionExample();
+		example.or().andEmpJobidEqualTo(empJobId);
+		return employeePositionMapper.selectByExample(example);
+	}
+	
 
 	/**
 	 * 添加职工-职位信息
@@ -33,5 +57,7 @@ public class EmployeePositionServiceImpl implements EmployeePositionService{
 	public int add(EmployeePosition employeePosition) {
 		return employeePositionMapper.insertSelective(employeePosition);
 	}
+
+
 
 }

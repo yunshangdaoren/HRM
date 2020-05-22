@@ -23,8 +23,6 @@ import com.github.pagehelper.util.StringUtil;
 import com.lqs.hrm.entity.Department;
 import com.lqs.hrm.entity.DepartmentLevel;
 import com.lqs.hrm.entity.Employee;
-import com.lqs.hrm.entity.EmployeeDepartment;
-import com.lqs.hrm.entity.EmployeeDepartmentExample;
 import com.lqs.hrm.entity.Position;
 import com.lqs.hrm.entity.PositionLevel;
 import com.lqs.hrm.entity.Status;
@@ -33,7 +31,6 @@ import com.lqs.hrm.json.JsonCommonResult;
 import com.lqs.hrm.json.JsonPageResult;
 import com.lqs.hrm.service.impl.DepartmentLevelServiceImpl;
 import com.lqs.hrm.service.impl.DepartmentServiceImpl;
-import com.lqs.hrm.service.impl.EmployeeDepartmentServiceImpl;
 import com.lqs.hrm.service.impl.EmployeeServiceImpl;
 import com.lqs.hrm.service.impl.PositionLevelServiceImpl;
 import com.lqs.hrm.service.impl.PositionServiceImpl;
@@ -416,11 +413,12 @@ public class PositionController {
 				//设置职位级别描述
 				positionList.get(i).setPlLevelDesc(positionLevelService.get(positionList.get(i).getPlId()).getLevelDesc());
 				//设置职位上级职位名称
-				if(positionList.get(i).getParentPositionid() != 0) {
+				if(positionList.get(i).getParentPositionid() != null && positionList.get(i).getParentPositionid() != 0) {
+					System.out.println("上级部门id为空："+positionList.get(i).getParentPositionid());
 					positionList.get(i).setParentPositionName(positionService.get(positionList.get(i).getParentPositionid()).getPositionName());
 				}
 				//设置职位所属部门名称
-				if (positionList.get(i).getDeptId() != null) {
+				if (positionList.get(i).getDeptId() != null && positionList.get(i).getDeptId() != 0) {
 					positionList.get(i).setDeptName(departmentService.get(positionList.get(i).getDeptId()).getDeptName());
 				} 
 				//设置职位状态名称
@@ -444,11 +442,11 @@ public class PositionController {
 			//设置职位级别描述
 			position.setPlLevelDesc(positionLevelService.get(position.getPlId()).getLevelDesc());
 			//设置职位上级职位名称
-			if(position.getParentPositionid() != 0) {
+			if(position.getParentPositionid() != null && position.getParentPositionid() != 0) {
 				position.setParentPositionName(positionService.get(position.getParentPositionid()).getPositionName());
 			}
 			//设置职位所属部门名称
-			if (position.getDeptId() != null) {
+			if (position.getDeptId() != null && position.getDeptId() != 0) {
 				position.setDeptName(departmentService.get(position.getDeptId()).getDeptName());
 			} 
 			//设置职位状态名称
@@ -474,38 +472,21 @@ public class PositionController {
 		String positionNameStr = request.getParameter("positionName");
 		//获取职位级别id
 		String plIdStr = request.getParameter("plId");
-		//获取职位所属部门名称
-		String deptNameStr = request.getParameter("deptName");
+		//获取职位所属部门id
+		String deptIdStr = request.getParameter("deptId");
+		//职位是否唯一
+		Boolean isOnly = false;
+		if (StringUtil.isNotEmpty(request.getParameter("isOnly"))) {
+			System.out.println("职位不唯一："+request.getParameter("isOnly"));
+			isOnly = true;
+		}
 		//获取上级职位名称
-		String parentPositionNameStr = request.getParameter("parentPositionName");
+		String parentPositionIdStr = request.getParameter("parentPositionId");
 		//获取职位状态id
 		String statusIdStr = request.getParameter("statusId");
 		//获取职位描述
 		String positionDescStr = request.getParameter("positionDesc");
 		
-//		System.out.println("职位名称："+positionNameStr);
-//		System.out.println("职位级别id："+plIdStr);
-//		System.out.println("职位所属部门名称："+deptNameStr);
-//		System.out.println("上级职位名称："+parentPositionNameStr);
-//		System.out.println("职位状态id："+statusIdStr);
-//		System.out.println("职位描述："+positionDescStr);
-		
-		//上级职位id
-		int parentPositionId = 0;
-		if (!StringUtil.isEmpty(parentPositionNameStr)) {
-			List<Position> parentPositionList = positionService.listByPositionName(parentPositionNameStr);
-			for (Position position : parentPositionList) {
-				if (com.lqs.hrm.util.StringUtil.isEquqls(parentPositionNameStr, position.getPositionName())) {
-					parentPositionId = position.getPositionId();
-				}
-			}
-		}
-		//职位所属部门id
-		int deptId = 0;
-		if (!StringUtil.isEmpty(deptNameStr)) {
-			Department department = departmentService.listByDeptName(deptNameStr).get(0);
-			deptId = department.getDeptId();
-		}
 		Position position = new Position();
 		//设置职位名称
 		position.setPositionName(positionNameStr);
@@ -514,9 +495,13 @@ public class PositionController {
 		//设置职位级别id
 		position.setPlId(Integer.valueOf(plIdStr));
 		//设置职位所属部门id
-		position.setDeptId(deptId);
-		//设置上级职位id
-		position.setParentPositionid(parentPositionId);
+		position.setDeptId(Integer.valueOf(deptIdStr));
+		//设置职位是否唯一
+		position.setIsOnly(isOnly);
+		if (StringUtil.isNotEmpty(parentPositionIdStr)) {
+			//设置上级职位id
+			position.setParentPositionid(Integer.valueOf(parentPositionIdStr));
+		}
 		//设置职位状态id
 		position.setStatusId(Integer.valueOf(statusIdStr));
 		//设置最后一次操作时间

@@ -198,11 +198,11 @@ $("#btn-hidePanelPositionDetail").click(function(){
 });
 //跳转至合同详情页面
 $(".a_detailContract").click(function(){
-	var conId = $(".a_detailContract").parent().parent().children().first().text();
+	var conId = $(this).parent().parent().children().first().text();
 	window.location.href="/contract/detailContract.do?conId="+conId;
 });
-//跳转至职工信息填写页面
+//职工入职，跳转至职工信息填写页面
 $(".a_entryContract").click(function(){
-	var conId = $(".a_entryContract").parent().parent().children().first().text();
+	var conId = $(this).parent().parent().children().first().text();
 	window.location.href="/employee/toAddEmployeeInfo.do?conId="+conId;
 });

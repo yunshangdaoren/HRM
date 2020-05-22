@@ -16,7 +16,7 @@
     <!-- tableName标签表示数据库中的表，可以有多个，
          schema:用于指定实体类的名字，不指定则默认是表名的首字母大写
      -->
-    <table schema="EmployeeEntry" tableName="employee_entry">
+    <table schema="EntryCount" tableName="entry_count">
       
     </table>
   </context>

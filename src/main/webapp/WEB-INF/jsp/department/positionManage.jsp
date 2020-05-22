@@ -154,16 +154,23 @@
   						</div>
   						<div class="form-group">
     						<label for="lastname" class="col-sm-3 control-label">职位所属部门</label>
-    						<div class="col-sm-8" id="div-infoDeptName">
+    						<div class="col-sm-5" id="div-infoDeptName">
       							<input type="text" class="form-control" name="deptName" id="input-addDeptName" placeholder="请输入部门名称">
+      							<input type="text" style="display:none;" name="deptId" id="input-addDeptId">
     							<select multiple class="form-control" id="select-infoDeptName">
 								</select>
     						</div>
+    						<div class="col-sm-3 checkbox">
+    							<label>
+     								 <input type="checkbox" name="isOnly" value="true"> 职位唯一
+    							</label>
+  							</div>
   						</div>
   						<div class="form-group">
     						<label for="lastname" class="col-sm-3 control-label">上级职位</label>
     						<div class="col-sm-8" id="div-parentPositionName">
       							<input type="text" class="form-control" name="parentPositionName" id="input-addParentPositionName" placeholder="请输入上级职位名称">
+      							<input type="text" style="display:none;" name="parentPositionid" id="input-addParentPositionid">
     							<select multiple class="form-control" id="select-parentPositionName">
 								</select>
     						</div>
@@ -224,7 +231,7 @@
         				<li class="list-group-item"><label>部门id：</label><span class="span-deptId"></span></li>
         				<li class="list-group-item"><label>部门名称：</label><span class="span-deptName"></span></li>
         				<li class="list-group-item"><label>部门级别：</label><span class="span-dlLevel"></span></li>
-        				<li class="list-group-item"><label>部门主管：</label><span class="span-manageEmpName"></span></li>
+        				<li class="list-group-item"><label>部门主管人：</label><span class="span-manageEmpName"></span></li>
         				<li class="list-group-item"><label>部门人数：</label><span class="span-deptEmpnum"></span></li>
        					<li class="list-group-item"><label>上级部门：</label><span class="span-parentDeptName"></span></li>
        					<li class="list-group-item"><label>部门描述：</label><span class="span-deptDesc"></span></li>

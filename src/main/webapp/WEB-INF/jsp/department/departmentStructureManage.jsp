@@ -35,14 +35,14 @@
 						<th>部门ID</th>
 						<th>部门名称</th>
 						<th>部门级别</th>
-						<th>部门主管</th>
+						<th>部门主管职位</th>
+						<th>部门主管人</th>
 						<th>部门人数</th>
 						<th>上级部门</th>
 						<th>状态</th>
 						<th>最后一次操作时间</th>
 						<th>操作人</th>
-						<th>详情</th>
-						<th style="width:150px;">操作</th>
+						<th>操作</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -52,8 +52,12 @@
 							<td>${department.deptName }</td>
 							<td>${department.dlLeve }级</td>
 							<td>
+								<a href="#" class="a-managePositionName">${department.managePositionName }</a>
+								<i style="display:none;">${department.managePositionid }</i>
+							</td>
+							<td>
 								<a href="#" class="a-manageEmpName">${department.manageEmpName }</a>
-								<i style="display:none;">${department.manageEmpjobid }</i>
+								<i style="display:none;">${department.manageEmpJobId }</i>
 							</td>
 							<td>${department.deptEmpnum }</td>
 							<td>${department.parentDeptName }</td>
@@ -63,14 +67,15 @@
 								<a href="#" class="a-operatorEmpName">${department.operatorEmpName }</a>
 								<i style="display:none;">${department.operatorEmpjobid }</i>
 							</td>
-							<td>
-								<a class="a_departmentDetail" href="#">
+					    	<td>
+					    		<a class="a_departmentDetail" href="#">
 					    			<span class="label label-primary">详情</span>
 					    		</a>
-					    	</td>
-					    	<td>
-								<a class="a_deptStatus" href="#" style="text-decoration:none;">
-					    			<span class="label label-primary">状态管理</span>
+								<a class="a_updateDepartment" href="#" style="text-decoration:none;">
+					    			<span class="label label-primary">修改</span>
+					    		</a>
+					    		<a class="a_deleteDepartment" href="#">
+					    			<span class="label label-primary">删除</span>
 					    		</a>
 					    	</td>
 						</tr>
@@ -220,6 +225,72 @@
     			</div>
 			</div>
 		</div>
+		
+	<!-- 弹出遮罩层，用于修改部门信息 -->
+	<div class="panel_updateDepartment">
+		<div class="div-panel">
+    		<div class="panel-heading">
+    			<label>修改部门信息</label>
+    			<button id="btn-hidePanelUpdateDepartment" type="button" class="btn btn-success">退出</button>
+    		</div>
+    		<div class="panel_body">
+    			<form style="width:100%;" id="form-updateDept" class="form-horizontal" role="form">
+    				<input type="text" style="display:none;" class="form-control" name="deptId" id="input-updateDeptId">
+  					<div class="form-group" style="margin-top:10px;">
+    					<label for="firstname" class="col-sm-3 control-label">部门名称</label>
+    					<div class="col-sm-8">
+      						<input type="text" class="form-control" name="deptName" id="input-updateDeptName">
+    					</div>
+  					</div>
+  					<div class="form-group">
+    					<label for="firstname" class="col-sm-3 control-label">部门级别</label>
+    					<div class="col-sm-8">
+      						<select class="form-control" name="dlId" id="select-updateDeptLevel">
+      							<option value="" disabled selected hidden>请选择</option>
+							</select>
+    					</div>
+  					</div>
+  					<div class="form-group">
+    					<label for="lastname" class="col-sm-3 control-label">上级部门</label>
+    					<div class="col-sm-8" id="div-updateParentDeptName">
+      						<input type="text" class="form-control" name="deptName" id="input-updateParentDeptName" placeholder="请输入上级部门名称">
+      						<input type="text" style="display:none;" name="parentId" id="input-updateParentId">
+    						<select multiple class="form-control" id="select-updateDeptId" name="deptId">
+							</select>
+    					</div>
+  					</div>
+  					<div class="form-group">
+    					<label for="lastname" class="col-sm-3 control-label">部门主管职位</label>
+    					<div class="col-sm-8" id="div-updateManagePositionName">
+      						<input type="text" class="form-control" name="managePositionName" id="input-updateManagePositionName" placeholder="请输入部门主管职位名称">
+      						<input type="text" style="display:none;" name="managePositionid" id="input-updateManagePositionid">
+    						<select multiple class="form-control" id="select-updatePositionId" name="positionId" >
+							</select>
+    					</div>
+  					</div>
+  					<div class="form-group">
+    					<label for="lastname" class="col-sm-3 control-label">部门状态</label>
+    					<div class="col-sm-8">
+      						<select class="form-control" name="statusId" id="select-updateDeptStatus">
+      							<option value="" disabled selected hidden>请选择</option>
+							</select>
+    					</div>
+  					</div>
+  					<div class="form-group">
+    					<label for="lastname" class="col-sm-3 control-label">部门描述</label>
+    					<div class="col-sm-8">
+      						<textarea class="form-control" name="deptDesc" id="input-updateDeptDesc" rows="5"></textarea>
+    					</div>
+  					</div>
+  					<div class="form-group">
+    					<div class="col-sm-offset-3 col-sm-9">
+      						<button id="btn-submitUpdateDepartment" type="button" class="btn btn-primary">提交</button>
+    					</div>
+ 	 				</div>
+				</form>
+    		</div>
+		</div>
+	</div>
 </body>
 	<script type="text/javascript" src="/static/js/department/departmentStructureManage.js"></script>
 </html>

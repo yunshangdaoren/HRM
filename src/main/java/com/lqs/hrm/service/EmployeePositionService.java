@@ -20,11 +20,28 @@ public interface EmployeePositionService {
 	EmployeePosition get(Integer epId);
 	
 	/**
+	 * 根据职位id查询
+	 * @param deptId
+	 * @param positionId
+	 * @return
+	 */
+	List<EmployeePosition> listByPositionId(Integer positionId);
+	
+	/**
+	 * 根据职工工号查询
+	 * @param deptId
+	 * @param positionId
+	 * @return
+	 */
+	List<EmployeePosition> listByEmpJobId(String empJobId);
+	
+	/**
 	 * 添加职工-职位信息
 	 * @param contract
 	 * @return
 	 */
 	int add(EmployeePosition employeePosition);
+	
 	
 	
 	
