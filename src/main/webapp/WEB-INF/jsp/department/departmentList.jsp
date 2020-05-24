@@ -37,8 +37,8 @@
     									<option value="${dlIdStr }" selected = "selected">${departmentLevel.level }级</option>
     								</c:when>
     								<c:otherwise>
-    								<option value="${departmentLevel.dlId }">${departmentLevel.level }级</option>
-    							</c:otherwise>
+    									<option value="${departmentLevel.dlId }">${departmentLevel.level }级</option>
+    								</c:otherwise>
     							</c:choose>
     						</c:forEach>
 						</select>

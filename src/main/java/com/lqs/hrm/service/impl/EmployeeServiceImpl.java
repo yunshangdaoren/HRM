@@ -21,40 +21,123 @@ public class EmployeeServiceImpl implements EmployeeService{
 	@Autowired
 	EmployeeMapper employeeMapper;
 	
+	/**
+	 * 根据职工工号查询
+	 */
 	@Override
-	public Employee get(String empJobid) {
-		return employeeMapper.selectByPrimaryKey(empJobid);
+	public Employee get(String empJobId) {
+		return employeeMapper.selectByPrimaryKey(empJobId);
 	}
-
+	
 	/**
 	 * 根据职工名称查询
 	 */
 	@Override
 	public List<Employee> listByEmpName(String empName) {
 		EmployeeExample example = new EmployeeExample();
+		//按照日期排序
+		example.setOrderByClause("entry_time desc");
 		example.or().andEmpNameEqualTo(empName);
+		return employeeMapper.selectByExample(example);
+	}
+	
+	/**
+	 * 根据职工状态id查询
+	 */
+	@Override
+	public List<Employee> listByStatusId(Integer statusId) {
+		EmployeeExample example = new EmployeeExample();
+		//按照日期排序
+		example.setOrderByClause("entry_time desc");
+		example.or().andStatusIdEqualTo(statusId);
+		return employeeMapper.selectByExample(example);
+	}
+	
+	/**
+	 * 根据职工工号和姓名查询
+	 */
+	@Override
+	public List<Employee> listByEmpJobIdEmpName(String empJobId, String empName) {
+		EmployeeExample example = new EmployeeExample();
+		//按照日期排序
+		example.setOrderByClause("entry_time desc");
+		example.or().andEmpJobidEqualTo(empJobId).andEmpNameEqualTo(empName);
+		return employeeMapper.selectByExample(example);
+	}
+	
+	/**
+	 * 根据职工工号，状态id查询
+	 */
+	@Override
+	public List<Employee> listByEmpJobIdStatusId(String empJobId, Integer statusId) {
+		EmployeeExample example = new EmployeeExample();
+		//按照日期排序
+		example.setOrderByClause("entry_time desc");
+		example.or().andEmpJobidEqualTo(empJobId).andStatusIdEqualTo(statusId);
+		return employeeMapper.selectByExample(example);
+	}
+	
+	/**
+	 * 根据职工姓名，状态id查询
+	 */
+	@Override
+	public List<Employee> listByEmpNameStatusId(String empName, Integer statusId) {
+		EmployeeExample example = new EmployeeExample();
+		//按照日期排序
+		example.setOrderByClause("entry_time desc");
+		example.or().andEmpNameEqualTo(empName).andStatusIdEqualTo(statusId);
+		return employeeMapper.selectByExample(example);
+	}
+	
+	/**
+	 * 根据职工工号，姓名，状态id查询
+	 */
+	@Override
+	public List<Employee> listByEmpJobIdEmpNameStatusId(String empJobId, String empName, Integer statusId) {
+		EmployeeExample example = new EmployeeExample();
+		//按照日期排序
+		example.setOrderByClause("entry_time desc");
+		example.or().andEmpJobidEqualTo(empJobId).andEmpNameEqualTo(empName).andStatusIdEqualTo(statusId);
+		return employeeMapper.selectByExample(example);
+	}
+	
+	/**
+	 * 根据职工性别查询
+	 */
+	@Override
+	public List<Employee> listByEmpSex(Integer empSex) {
+		EmployeeExample example = new EmployeeExample();
+		//按照日期排序
+		example.setOrderByClause("entry_time desc");
+		example.or().andEmpSexEqualTo(empSex);
 		return employeeMapper.selectByExample(example);
 	}
 	
 	/**
 	 * 查询出所有职工信息
 	 */
-	public List<Employee> list(){
+	public List<Employee> listByNo(){
 		EmployeeExample example = new EmployeeExample();
+		//按照日期排序
+		example.setOrderByClause("entry_time desc");
 		example.or().andEmpIdcardIsNotNull();
 		return employeeMapper.selectByExample(example);
 	}
 
+	/**
+	 * 添加职工信息
+	 */
 	@Override
 	public int add(Employee employee) {
 		return employeeMapper.insertSelective(employee);
 	}
 
+	/**
+	 * 修改职工信息
+	 */
 	@Override
-	public List<Employee> listByEmpNameDeptId(Date lastOperatorDate) {
-		EmployeeExample example = new EmployeeExample();
-		example.or().andLastOperatorDateEqualTo(lastOperatorDate);
-		return employeeMapper.selectByExample(example);
+	public int update(String empJobId) {
+		return employeeMapper.deleteByPrimaryKey(empJobId);
 	}
 
 }

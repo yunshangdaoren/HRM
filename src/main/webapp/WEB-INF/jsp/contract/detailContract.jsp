@@ -13,6 +13,10 @@
 		<%@ include file="../leftNav.jsp" %>
 		<div id="right">
 			<span class="title">合同信息</span>
+			<div class="div_search">
+  				<button id="btn-reback" type="button" class="btn btn-success">返回</button>
+  				<button id="btn-updateContract" type="submit" class="btn btn-danger">修改</button>
+			</div>
 			<div class="div_detailContract">
 				<ul class="list-group" style="width:100%;height:100%;overflow:auto;">
         			<li class="list-group-item"><label>职工姓名：</label><span class="span-empName">${contract.empName }</span></li>
@@ -46,4 +50,5 @@
 	<%@ include file="../bottom.jsp" %>
 	
 </body>
+	<script type="text/javascript" src="/static/js/contract/detailContract.js"></script>
 </html>

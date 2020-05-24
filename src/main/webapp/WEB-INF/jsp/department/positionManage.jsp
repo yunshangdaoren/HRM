@@ -59,8 +59,7 @@
 						<th>状态</th>
 						<th>最后一次操作时间</th>
 						<th>操作人</th>
-						<th>详情</th>
-						<th style="width:150px;">操作</th>
+						<th>操作</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -80,14 +79,12 @@
 								<a href="#" class="a-operatorEmpName">${position.operatorEmpName }</a>
 								<i style="display:none;">${position.operatorEmpjobid }</i>
 							</td>
-							<td>
-								<a class="a_positionDetail" href="#">
+					    	<td>
+					    		<a class="a_positionDetail" href="#">
 					    			<span class="label label-primary">详情</span>
 					    		</a>
-					    	</td>
-					    	<td>
-								<a class="a_positionStatus" href="#" style="text-decoration:none;">
-					    			<span class="label label-primary">状态管理</span>
+								<a class="a_deletePosition" href="#" style="text-decoration:none;">
+					    			<span class="label label-primary">删除</span>
 					    		</a>
 					    	</td>
 						</tr>

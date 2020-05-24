@@ -61,14 +61,14 @@ public class DepartmentController {
 	private PositionServiceImpl positionService;
 	
 	/**
-	 * 查询部门并跳转至部门详情页面
+	 * 查询部门并跳转至部门列表页面
 	 * @param request
 	 * @param pageRequest
 	 * @param map
 	 * @return
 	 */
-	@RequestMapping("departmentList.do")
-	public String departmentList(HttpServletRequest request, PageRequest pageRequest, ModelMap map){
+	@RequestMapping("toDepartmentList.do")
+	public String toDepartmentList(HttpServletRequest request, PageRequest pageRequest, ModelMap map){
 		//查询条件信息
 		String deptIdStr = request.getParameter("deptId");
 		String deptNameStr = request.getParameter("deptName");
@@ -621,6 +621,8 @@ public class DepartmentController {
 				}
 				//设置部门主管人工号和姓名
 				if(list.get(i).getManagePositionid() != null && list.get(i).getManagePositionid() != 0) {
+					//设置部门主管职位名称
+					list.get(i).setManagePositionName(positionService.get(list.get(i).getManagePositionid()).getPositionName());
 					//获取部门主管职位
 					List<EmployeePosition> employeePositionList = employeePositionService.listByPositionId(list.get(i).getManagePositionid());
 					if (employeePositionList == null || employeePositionList.size() == 0) {
@@ -635,7 +637,7 @@ public class DepartmentController {
 					}
 				}
 				//设置上级部门名称
-				if (list.get(i).getParentId() != null) {
+				if (list.get(i).getParentId() != null && list.get(i).getParentId() !=0) {
 					list.get(i).setParentDeptName(departmentService.get(list.get(i).getParentId()).getDeptName());
 				} 
 				//设置部门状态名称
@@ -658,6 +660,8 @@ public class DepartmentController {
 			department.setDlLeve(departmentLevelService.get(department.getDlId()).getLevel());
 			//设置部门主管人工号和姓名
 			if(department.getManagePositionid() != null && department.getManagePositionid() != 0) {
+				//设置部门主管职位名称
+				department.setManagePositionName(positionService.get(department.getManagePositionid()).getPositionName());
 				//获取部门主管职位
 				List<EmployeePosition> employeePositionList = employeePositionService.listByPositionId(department.getManagePositionid());
 				if (employeePositionList == null || employeePositionList.size() == 0) {
@@ -672,7 +676,7 @@ public class DepartmentController {
 				}
 			}
 			//设置上级部门名称
-			if (department.getParentId() != null) {
+			if (department.getParentId() != null && department.getParentId() != 0) {
 				department.setParentDeptName(departmentService.get(department.getParentId()).getDeptName());
 			} 
 			//设置部门状态名称

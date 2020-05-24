@@ -81,10 +81,10 @@ class HrmApplicationTests {
 	void selectEmployee() {
 		Employee employee = employeeService.get("1");
 		System.out.println("查询工号为1的职工："+employee);
-		List<Employee> list = employeeService.list();
+		//List<Employee> list = employeeService.list
 		System.out.println("查询出所有职工信息：");
-		for (Employee e : list) {
-			System.out.println("工号:"+e.getEmpIdcard());
-		}
+//		for (Employee e : list) {
+//			System.out.println("工号:"+e.getEmpIdcard());
+//		}
 	}
 }

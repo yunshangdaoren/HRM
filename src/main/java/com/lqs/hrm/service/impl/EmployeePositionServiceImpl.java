@@ -49,6 +49,15 @@ public class EmployeePositionServiceImpl implements EmployeePositionService{
 		return employeePositionMapper.selectByExample(example);
 	}
 	
+	/**
+	 * 根据职工工号，职位id查询
+	 */
+	@Override
+	public List<EmployeePosition> listByEmpJobIdPositionId(String empJobId, Integer positionId) {
+		EmployeePositionExample example = new EmployeePositionExample();
+		example.or().andEmpJobidEqualTo(empJobId).andPositionIdEqualTo(positionId);
+		return employeePositionMapper.selectByExample(example);
+	}
 
 	/**
 	 * 添加职工-职位信息
@@ -58,6 +67,13 @@ public class EmployeePositionServiceImpl implements EmployeePositionService{
 		return employeePositionMapper.insertSelective(employeePosition);
 	}
 
+	/**
+	 * 更新
+	 */
+	@Override
+	public int update(EmployeePosition employeePosition) {
+		return employeePositionMapper.updateByPrimaryKeySelective(employeePosition);
+	}
 
 
 }

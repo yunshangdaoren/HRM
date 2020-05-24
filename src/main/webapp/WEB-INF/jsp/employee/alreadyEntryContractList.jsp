@@ -90,9 +90,6 @@
 					    		<a class="a_detailContract" href="#">
 					    			<span class="label label-primary">详情</span>
 					    		</a>
-								<a class="a_checkContract" href="#" style="text-decoration:none;">
-					    			<span class="label label-primary">审批</span>
-					    		</a>
 					    	</td>
 						</tr>
 					</c:forEach>

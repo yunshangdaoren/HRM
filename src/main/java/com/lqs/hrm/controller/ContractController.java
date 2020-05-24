@@ -786,7 +786,25 @@ public class ContractController {
 	@RequestMapping("detailContract.do")
 	public String detailContract(HttpServletRequest request, ModelMap map){
 		String conIdStr = request.getParameter("conId");
-		Contract contract = contractService.get(Integer.valueOf(conIdStr));
+		Contract contract = null;
+		if (StringUtil.isNotEmpty(conIdStr)) {
+			//如果有合同ID，则直接根据合同ID查询
+			contract = contractService.get(Integer.valueOf(conIdStr));
+		}else {
+			//如果无合同ID，则根据职工工号，职位id，部门id查询
+			String empJobId = request.getParameter("empJobId");
+			String positionId = request.getParameter("positionId");
+			String deptId = request.getParameter("deptId");
+			
+			List<EmployeeContract> empcEmployeeContractList = employeeContractService.getByEmpJobid(empJobId);
+			for (EmployeeContract employeeContract : empcEmployeeContractList) {
+				Contract c = contractService.get(employeeContract.getConId());
+				if (c.getDeptId() == Integer.valueOf(deptId) && c.getPositionId() == Integer.valueOf(positionId)) {
+					contract = c;
+				}
+			}
+		}
+		
 		setContractInfo(contract);
 		map.put("contract", contract);		
 		return "contract/detailContract";

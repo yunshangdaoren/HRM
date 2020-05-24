@@ -13,7 +13,7 @@ import com.lqs.hrm.entity.EmployeePosition;
  */
 public interface EmployeePositionService {
 	/**
-	 * 根据查职工职位id询
+	 * 根据id查询
 	 * @param conId
 	 * @return
 	 */
@@ -36,13 +36,26 @@ public interface EmployeePositionService {
 	List<EmployeePosition> listByEmpJobId(String empJobId);
 	
 	/**
+	 * 根据职工工号，职位id查询
+	 * @param deptId
+	 * @param positionId
+	 * @return
+	 */
+	List<EmployeePosition> listByEmpJobIdPositionId(String empJobId, Integer positionId);
+	
+	/**
 	 * 添加职工-职位信息
 	 * @param contract
 	 * @return
 	 */
 	int add(EmployeePosition employeePosition);
 	
-	
+	/**
+	 * 更新
+	 * @param employeePosition
+	 * @return
+	 */
+	int update(EmployeePosition employeePosition);
 	
 	
 }

@@ -133,6 +133,9 @@ html, body{
 	margin-top:0px;
 	margin-bottom:0px;
 }
+#right table{
+	font-size:13px;
+}
 /* 锟阶诧拷锟斤拷锟斤拷式 */
 #bottom{
 	min-width:1380px;
