@@ -104,7 +104,7 @@ public class EmployeeResignController {
 		List<EmployeeResign> employeeResignList = new ArrayList<>();
 		
 		//查询条件判断
-		if (StringUtil.isEmpty(empJobIdStr) && StringUtil.isEmpty(resignIdStr) && StringUtil.isEmpty(empJobIdStr) && StringUtil.isEmpty(statusIdStr)) {
+		if (StringUtil.isEmpty(resignIdStr) && StringUtil.isEmpty(empJobIdStr) && StringUtil.isEmpty(statusIdStr)) {
 			//如果查询的条件全部为空，则查询出所有离职信息
 			employeeResignList = employeeResignService.listByNo();
 		}else if(StringUtil.isEmpty(empJobIdStr) && StringUtil.isEmpty(statusIdStr)) {

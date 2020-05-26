@@ -19,7 +19,7 @@
 <div id="leftNav">
 	<div class="modu">
 		<div class="modu-head">
-			<p><a href="/workbench/index.do" style=" text-decoration:none;color:white;">工作台</a></p>
+			<p><a href="/workbench/toIndex.do" style=" text-decoration:none;color:white;">工作台</a></p>
 		</div>
 		<div class="modu-content">
 		</div>
@@ -30,9 +30,16 @@
 		</div>
 		<div class="modu-content">
 			<div class="content-body">
-				<a href="/department/toDepartmentList.do" >部门详情</a>
-				<a href="/departmentLevel/departmentStructureManage.do" >部门架构管理</a>
-				<a href="/position/positionList.do" >职位管理</a>
+				<c:choose>
+					<c:when test="${roles.roleId==3 }">
+						<a href="/department/toDepartmentList.do" >部门详情</a>
+					</c:when>
+					<c:otherwise>
+						<a href="/department/toDepartmentList.do" >部门详情</a>
+						<a href="/departmentLevel/departmentStructureManage.do" >部门架构管理</a>
+						<a href="/position/positionList.do" >职位管理</a>
+					</c:otherwise>
+				</c:choose>
 			</div>
 		</div>
 	</div>
@@ -42,10 +49,18 @@
 		</div>
 		<div class="modu-content">
 			<div class="content-body">
-				<a href="/employee/toEmployeeList.do" >职工花名册</a>
-				<a href="/contract/needEntryContractList.do" >合同入职</a>
-				<a href="/employeeResign/toEmployeeResignList.do" >离职申请列表</a>
-				<a href="/employeeResign/toMyEmployeeResignList.do" >我的离职申请</a>
+				<c:choose>
+					<c:when test="${roles.roleId==3 }">
+						<a href="/employee/toEmployeeList.do" >职工花名册</a>
+						<a href="/employeeResign/toMyEmployeeResignList.do" >我的离职申请</a>
+					</c:when>
+					<c:otherwise>
+						<a href="/employee/toEmployeeList.do" >职工花名册</a>
+						<a href="/contract/needEntryContractList.do" >合同入职</a>
+						<a href="/employeeResign/toEmployeeResignList.do" >离职申请列表</a>
+						<a href="/employeeResign/toMyEmployeeResignList.do" >我的离职申请</a>
+					</c:otherwise>
+				</c:choose>
 			</div>
 		</div>
 	</div>
@@ -55,10 +70,18 @@
 		</div>
 		<div class="modu-content">
 			<div class="content-body">
-				<a href="/department/list.do" >考勤查看与统计</a>
-				<a href="/department/list.do" >个人考勤信息查看</a>
-				<a href="/department/list.do" >请假申请</a>
-				<a href="/department/list.do" >审批</a>
+				<c:choose>
+					<c:when test="${roles.roleId==3 }">
+						<a href="/department/list.do" >个人考勤信息查看</a>
+						<a href="/department/list.do" >请假申请</a>
+					</c:when>
+					<c:otherwise>
+						<a href="/attendanceEmployee/toAttendanceEmployeeList.do" >考勤查看与统计</a>
+						<a href="/attendanceEmployee/toMyAttendanceEmployeeList.do" >个人考勤信息查看</a>
+						<a href="/department/list.do" >请假申请</a>
+						<a href="/department/list.do" >审批</a>
+					</c:otherwise>
+				</c:choose>
 			</div>
 		</div>
 	</div>
@@ -68,9 +91,17 @@
 		</div>
 		<div class="modu-content">
 			<div class="content-body">
-				<a href="/department/list.do" >绩效制定</a>
-				<a href="/department/list.do" >绩效查看与统计</a>
-				<a href="/department/list.do" >下属考评</a>
+				<c:choose>
+					<c:when test="${roles.roleId==3 }">
+						<a href="/department/list.do" >我的个人绩效</a>
+					</c:when>
+					<c:otherwise>
+						<a href="/department/list.do" >绩效制定</a>
+						<a href="/department/list.do" >绩效查看与统计</a>
+						<a href="/department/list.do" >我的个人绩效</a>
+						<a href="/department/list.do" >下属考评</a>
+					</c:otherwise>
+				</c:choose>
 			</div>
 		</div>
 	</div>
@@ -81,9 +112,16 @@
 		</div>
 		<div class="modu-content">
 			<div class="content-body">
-				<a href="/department/list.do" >薪资查看与统计</a>
-				<a href="/department/list.do" >个人薪资查看</a>
-				<a href="/department/list.do" >审批</a>
+				<c:choose>
+					<c:when test="${roles.roleId==3 }">
+						<a href="/department/list.do" >我的薪资</a>
+					</c:when>
+					<c:otherwise>
+						<a href="/department/list.do" >薪资查看与统计</a>
+						<a href="/department/list.do" >我的薪资</a>
+						<a href="/department/list.do" >审批</a>
+					</c:otherwise>
+				</c:choose>
 			</div>
 		</div>
 	</div>
@@ -94,9 +132,16 @@
 		</div>
 		<div class="modu-content">
 			<div class="content-body">
-				<a href="/contract/contractList.do" >合同列表</a>
-				<a href="/contract/toAddContract.do" >添加合同</a>
-				<a href="/employeeContract/myContractList.do" >我的合同</a>
+				<c:choose>
+					<c:when test="${roles.roleId==3 }">
+						<a href="/employeeContract/myContractList.do" >我的合同</a>
+					</c:when>
+					<c:otherwise>
+						<a href="/contract/contractList.do" >合同列表</a>
+						<a href="/contract/toAddContract.do" >添加合同</a>
+						<a href="/employeeContract/myContractList.do" >我的合同</a>
+					</c:otherwise>
+				</c:choose>
 			</div>
 		</div>
 	</div>
@@ -106,10 +151,17 @@
 			</div>
 			<div class="modu-content">
 				<div class="content-body">
-					<a href="/user/toAddUser.do" >消息管理</a>
-					<a href="/user/listSaleManager.do" >系统用户列表</a>
-					<a href="/user/toAddUser.do" >创建系统用户</a>
-					<a href="/user/toAddUser.do" >权限管理</a>
+					<c:choose>
+						<c:when test="${roles.roleId==3 }">
+							<a href="/user/toAddUser.do" >消息管理</a>
+						</c:when>
+						<c:otherwise>
+							<a href="/user/toAddUser.do" >消息管理</a>
+							<a href="/user/listSaleManager.do" >系统用户列表</a>
+							<a href="/user/toAddUser.do" >创建系统用户</a>
+							<a href="/user/toAddUser.do" >权限管理</a>
+						</c:otherwise>
+					</c:choose>
 				</div>
 			</div>
 		</div>	

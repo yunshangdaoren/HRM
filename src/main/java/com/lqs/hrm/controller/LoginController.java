@@ -82,7 +82,7 @@ public class LoginController {
 			}
 			resultMap.put("statusCode", "1");
 			resultMap.put("message", "登录成功!");
-			resultMap.put("url", "http://localhost:8080/workbench/index.do");
+			resultMap.put("url", "http://localhost:8080/workbench/toIndex.do");
 		}
 		return JSON.toJSONString(resultMap);
 	}

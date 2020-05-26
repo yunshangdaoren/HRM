@@ -43,7 +43,7 @@
     border:0px;
     background-color:#fff;
 }
-/* 弹出遮罩层，用于显示职位详细信息  */
+/* 弹出遮罩层，用于显示职工详细信息  */
 .panel_employeeDetail{
 	width:500px;
 	height:376px;
@@ -117,7 +117,7 @@
 	text-align:center;
 	line-height:15px;
 }
-/* 职位详细信息遮罩层退出按钮样式  */
+/* 职工详细信息遮罩层退出按钮样式  */
 .div-panel .panel-heading #btn-hidePanelEmployeeDetail{
 	width:80px;
 	float:right;

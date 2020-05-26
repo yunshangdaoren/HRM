@@ -165,5 +165,6 @@ public class DepartmentServiceImpl implements DepartmentService{
 		example.or().andParentIdEqualTo(parentId);
 		return departmentMapper.selectByExample(example);
 	}
+	
 
 }

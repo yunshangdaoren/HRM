@@ -1,5 +1,6 @@
 package com.lqs.hrm;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -87,4 +88,40 @@ class HrmApplicationTests {
 //			System.out.println("工号:"+e.getEmpIdcard());
 //		}
 	}
+	
+	
+	@Test
+	void getDeptList() {
+		//Department department = departmentService.get(3);
+		System.out.println("====================");
+		//System.out.println("部门名称是："+department.getDeptName());
+		System.out.println("====================");
+		
+		List<Department> allChildDepartmentList = listChildDeptByDeptId(4);
+		for(Department department : allChildDepartmentList) {
+			System.out.println("子部门名称是："+department.getDeptName());
+		}
+	}
+	
+	
+	/**
+	 * 获取到指定部门id的部门的所有子部门
+	 */
+	public List<Department> listChildDeptByDeptId(Integer deptd) {
+		//所有子部门信息
+		List<Department> allDepartmentList = new ArrayList<>();
+		//获取到所有部门信息
+		List<Department> childDepartmentList = departmentService.listByParentId(deptd);
+		System.out.println("===================子部门数量："+childDepartmentList.size());
+		for (Department department : childDepartmentList) {
+			for (Department d : listChildDeptByDeptId(department.getDeptId())) {
+				if (d != null) {
+					allDepartmentList.add(d);
+				}
+			}
+			allDepartmentList.add(department);
+		}
+		return allDepartmentList;
+	}
+	
 }

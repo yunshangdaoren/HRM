@@ -1,5 +1,7 @@
 package com.lqs.hrm.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -38,6 +40,7 @@ import com.lqs.hrm.service.impl.StatusServiceImpl;
 import com.lqs.hrm.util.PageRequest;
 import com.lqs.hrm.util.PageResult;
 import com.lqs.hrm.util.PageResultUtil;
+import com.lqs.hrm.util.entity.DepartmentInfoUtil;
 
 /**
  * 部门Controller
@@ -59,6 +62,8 @@ public class DepartmentController {
 	private EmployeePositionServiceImpl employeePositionService;
 	@Autowired
 	private PositionServiceImpl positionService;
+	@Autowired
+	private DepartmentInfoUtil departmentInfoUtil;
 	
 	/**
 	 * 查询部门并跳转至部门列表页面
@@ -66,9 +71,10 @@ public class DepartmentController {
 	 * @param pageRequest
 	 * @param map
 	 * @return
+	 * @throws ParseException 
 	 */
 	@RequestMapping("toDepartmentList.do")
-	public String toDepartmentList(HttpServletRequest request, PageRequest pageRequest, ModelMap map){
+	public String toDepartmentList(HttpServletRequest request, PageRequest pageRequest, ModelMap map) throws ParseException{
 		//查询条件信息
 		String deptIdStr = request.getParameter("deptId");
 		String deptNameStr = request.getParameter("deptName");
@@ -294,7 +300,7 @@ public class DepartmentController {
 				}
 			}
 		}
-		setDeptInfo(departmentList);
+		departmentInfoUtil.setDepartmentInfo(departmentList);
 		//设置分页查询结果
 		PageResult pageResult = PageResultUtil.getPageResult(new PageInfo<>(departmentList));
 		//返回查询的部门信息
@@ -318,10 +324,11 @@ public class DepartmentController {
 	 * @param request
 	 * @param pageRequest
 	 * @return
+	 * @throws ParseException 
 	 */
 	@RequestMapping("query.do")
 	@ResponseBody
-	public JsonPageResult query(HttpServletRequest request, PageRequest pageRequest) {
+	public JsonPageResult query(HttpServletRequest request, PageRequest pageRequest) throws ParseException {
 		//查询条件信息
 		String deptIdStr = request.getParameter("deptId");
 		String deptNameStr = request.getParameter("deptName");
@@ -550,7 +557,7 @@ public class DepartmentController {
 		if (departmentList == null) {
 			return new JsonPageResult("100", null, "没有数据！");
 		}
-		setDeptInfo(departmentList);
+		departmentInfoUtil.setDepartmentInfo(departmentList);
 		return new JsonPageResult("200", PageResultUtil.getPageResult(new PageInfo<>(departmentList)), "请求成功！");
 	}
 	
@@ -560,10 +567,11 @@ public class DepartmentController {
 	 * @param request
 	 * @param pageRequest
 	 * @return
+	 * @throws ParseException 
 	 */
 	@RequestMapping("queryLikeDeptName.do")
 	@ResponseBody
-	public JsonCommonResult<List<Department>> queryLikeDeptName(HttpServletRequest request, PageRequest pageRequest) {
+	public JsonCommonResult<List<Department>> queryLikeDeptName(HttpServletRequest request, PageRequest pageRequest) throws ParseException {
 		//查询条件信息
 		String deptNameStr = request.getParameter("deptName");
 		System.out.println("要查询的部门名称为："+deptNameStr);
@@ -584,7 +592,7 @@ public class DepartmentController {
 			System.out.println("查询list大小："+departmentList.size());
 			return new JsonCommonResult<List<Department>>("100", null, "没有数据！");
 		}
-		setDeptInfo(departmentList);
+		departmentInfoUtil.setDepartmentInfo(departmentList);
 		return new JsonCommonResult<List<Department>>("200",departmentList, "请求成功！");
 	}
 	
@@ -592,100 +600,19 @@ public class DepartmentController {
 	 * 查询指定id的部门信息
 	 * @param request
 	 * @return
+	 * @throws ParseException 
 	 */
 	@RequestMapping("get.do")
 	@ResponseBody
-	public JsonCommonResult<Department> get(HttpServletRequest request) {
+	public JsonCommonResult<Department> get(HttpServletRequest request) throws ParseException {
 		//部门级别id
 		String deptIdStr = request.getParameter("deptId");
 		Department department = departmentService.get(Integer.valueOf(deptIdStr));
-		setDeptInfo(department);
+		departmentInfoUtil.setDepartmentInfo(department);
 		if(department == null) {
 			return new JsonCommonResult<Department>("100",null, "请求失败！");
 		}
 		return new JsonCommonResult<Department>("200",department, "请求成功！");
-	}
-	
-	/**
-	 * 设置查询出来的部门实体类信息
-	 * @param departmentList
-	 */
-	public void setDeptInfo(List<Department> list) {
-		if (list.size() != 0 || list != null) {
-			for (int i = 0; i < list.size(); i++) {
-				//设置部门级别
-				list.get(i).setDlLeve(departmentLevelService.get(list.get(i).getDlId()).getLevel());
-				//设置部门主管职位名称
-				if (list.get(i).getManagePositionid() != null && list.get(i).getManagePositionid().intValue()!= 0) {
-					list.get(i).setManagePositionName(positionService.get(list.get(i).getManagePositionid()).getPositionName());
-				}
-				//设置部门主管人工号和姓名
-				if(list.get(i).getManagePositionid() != null && list.get(i).getManagePositionid() != 0) {
-					//设置部门主管职位名称
-					list.get(i).setManagePositionName(positionService.get(list.get(i).getManagePositionid()).getPositionName());
-					//获取部门主管职位
-					List<EmployeePosition> employeePositionList = employeePositionService.listByPositionId(list.get(i).getManagePositionid());
-					if (employeePositionList == null || employeePositionList.size() == 0) {
-						//该部门主管职位还未分配给职工
-						list.get(i).setManageEmpName("");
-					}else {
-						//该部门主管职位还已分配给职工，则查找该职工信息
-						Employee employee = employeeService.get(employeePositionList.get(0).getEmpJobid());
-						//设置部门主管人工号和姓名
-						list.get(i).setManageEmpJobId(employee.getEmpJobid());
-						list.get(i).setManageEmpName(employee.getEmpName());
-					}
-				}
-				//设置上级部门名称
-				if (list.get(i).getParentId() != null && list.get(i).getParentId() !=0) {
-					list.get(i).setParentDeptName(departmentService.get(list.get(i).getParentId()).getDeptName());
-				} 
-				//设置部门状态名称
-				list.get(i).setStatusName(statusService.get(list.get(i).getStatusId()).getStatusName());
-				//设置操作人名称
-				if(list.get(i).getOperatorEmpjobid() != null && !list.get(i).getOperatorEmpjobid().isEmpty()) {
-					list.get(i).setOperatorEmpName(employeeService.get(list.get(i).getOperatorEmpjobid()).getEmpName());
-				}
-			}
-		}
-	}
-	
-	/**
-	 * 设置查询出来的部门实体类信息
-	 * @param departmentList
-	 */
-	public void setDeptInfo(Department department) {
-		if (department != null) {
-			//设置部门级别
-			department.setDlLeve(departmentLevelService.get(department.getDlId()).getLevel());
-			//设置部门主管人工号和姓名
-			if(department.getManagePositionid() != null && department.getManagePositionid() != 0) {
-				//设置部门主管职位名称
-				department.setManagePositionName(positionService.get(department.getManagePositionid()).getPositionName());
-				//获取部门主管职位
-				List<EmployeePosition> employeePositionList = employeePositionService.listByPositionId(department.getManagePositionid());
-				if (employeePositionList == null || employeePositionList.size() == 0) {
-					//该部门主管职位还未分配给职工
-					department.setManageEmpName("");
-				}else {
-					//该部门主管职位还已分配给职工，则查找该职工信息
-					Employee employee = employeeService.get(employeePositionList.get(0).getEmpJobid());
-					//设置部门主管人工号和姓名
-					department.setManageEmpJobId(employee.getEmpJobid());
-					department.setManageEmpName(employee.getEmpName());
-				}
-			}
-			//设置上级部门名称
-			if (department.getParentId() != null && department.getParentId() != 0) {
-				department.setParentDeptName(departmentService.get(department.getParentId()).getDeptName());
-			} 
-			//设置部门状态名称
-			department.setStatusName(statusService.get(department.getStatusId()).getStatusName());
-			//设置操作人名称
-			if(department.getOperatorEmpjobid() != null && !department.getOperatorEmpjobid().isEmpty()) {
-				department.setOperatorEmpName(employeeService.get(department.getOperatorEmpjobid()).getEmpName());
-			}
-		}
 	}
 	
 	/**
