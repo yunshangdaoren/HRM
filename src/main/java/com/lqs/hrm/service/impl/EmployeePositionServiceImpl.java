@@ -75,5 +75,13 @@ public class EmployeePositionServiceImpl implements EmployeePositionService{
 		return employeePositionMapper.updateByPrimaryKeySelective(employeePosition);
 	}
 
+	/**
+	 * 删除
+	 */
+	@Override
+	public int delete(Integer epId) {
+		return employeePositionMapper.deleteByPrimaryKey(epId);
+	}
+
 
 }

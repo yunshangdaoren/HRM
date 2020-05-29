@@ -56,5 +56,30 @@ public class UserRoleServiceImpl implements UserRoleService{
 		return userRoleMapper.insertSelective(userRole);
 	}
 
+	/**
+	 * 查询出所有用户角色信息
+	 */
+	@Override
+	public List<UserRole> listByNo() {
+		UserRoleExample example = new UserRoleExample();
+		example.or().andRoleIdIsNotNull();
+		return userRoleMapper.selectByExample(example);
+	}
+	
+	/**
+	 * 查询出所有用户角色信息，除了超级管理员
+	 */
+	@Override
+	public List<UserRole> listByNoExceptSuperManager() {
+		UserRoleExample example = new UserRoleExample();
+		example.or().andRoleIdNotEqualTo(1);
+		return userRoleMapper.selectByExample(example);
+	}
+
+	@Override
+	public int delete(Integer urId) {
+		return userRoleMapper.deleteByPrimaryKey(urId);
+	}
+
 	
 }

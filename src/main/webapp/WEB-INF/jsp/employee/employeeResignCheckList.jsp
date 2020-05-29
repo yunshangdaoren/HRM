@@ -19,7 +19,7 @@
   				<li role="presentation" class="active"><a href="/employeeResign/toEmployeeResignCheckList.do">待审批离职单列表</a></li>
 			</ul>
 			<div class="div_search">
-				<form class="form-inline" id="form-queryDept" method="get" action="/employeeResign/toEmployeeResignList.do">
+				<form class="form-inline" id="form-queryDept" method="get" action="/employeeResign/toEmployeeResignCheckList.do">
 					<div class="form-group">
     					<label for="exampleInputName2">申请单ID</label>
     					<input type="text" class="form-control" name="resignId" id="input-selectResignId" value="${resignIdStr }">
@@ -53,7 +53,7 @@
 						<tr>
 							<td>${employeeResign.resignId }</td>
 							<td>${employeeResign.empJobid }</td>
-							<td><a href="#" class="a_detailEmployee">${employeeResign.empName }</a></td>
+							<td><a href="#" class="a_detailEmployeeByManagerEmployee">${employeeResign.empName }</a></td>
 							<td>
 								<label>${employeeResign.deptName }</label>
 								<label style="display:none;">${employeeResign.deptId }</label>
@@ -128,6 +128,6 @@
 	<%@ include file="../bottom.jsp" %>
 		
 </body>
-	<script type="text/javascript" src="/static/js/employee/employeeResignChgeckList.js"></script>
+	<script type="text/javascript" src="/static/js/employee/employeeResignCheckList.js"></script>
 	
 </html>

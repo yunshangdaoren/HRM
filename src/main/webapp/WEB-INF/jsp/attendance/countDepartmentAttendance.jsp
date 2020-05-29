@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 	<title>部门考勤统计</title>
-	<link href="/static/css/attendance/attendanceEmployeeList.css" rel="stylesheet" />
+	<link href="/static/css/attendance/countDepartmentAttendance.css" rel="stylesheet" />
 </head>
 <body>
 	<%@ include file="../top.jsp" %>
@@ -15,7 +15,6 @@
 			<ul class="nav nav-tabs">
   				<li role="presentation"><a href="/attendanceEmployee/toAttendanceEmployeeList.do">职工考勤详情列表</a></li>
   				<li role="presentation" class="active"><a href="/attendanceEmployee/countDepartmentAttendance.do">部门考勤统计</a></li>
-  				<li role="presentation"><a href="/contract/toCheckContract.do">职工考勤统计</a></li>
 			</ul>
 			<div class="div_search">
 				<form class="form-inline" id="form-queryDept" method="get" action="/attendanceEmployee/countDepartmentAttendance.do">
@@ -38,26 +37,26 @@
 						<th>部门ID</th>
 						<th>部门名称</th>
 						<th>职工数量</th>
-						<th>未签到职工</th>
-						<th>签到且未签退职工</th>
-						<th>签到且早退职工</th>
-						<th>迟到且未签退职工</th>
-						<th>迟到且早退职工</th>
-						<th>到勤职工</th>
+						<th>未签到人数</th>
+						<th>签到且未签退人数</th>
+						<th>签到且早退人数</th>
+						<th>迟到且未签退人数</th>
+						<th>迟到且早退人数</th>
+						<th>到勤人数</th>
 					</tr>
 				</thead>
 				<tbody>
 					<c:forEach items="${pageResult.content }" var="departmentAttendanceCount">
 						<tr>
 							<td>${departmentAttendanceCount.deptId }</td>
-							<td>${departmentAttendanceCount.deptName }</td>
-							<td>${departmentAttendanceCount.deptEmpnum }</td>
-							<td>${departmentAttendanceCount.notSignEmployeeNum }/${department.deptEmpnum }</td>
-							<td>${departmentAttendanceCount.signNotLogoutEmployeeNum}/${department.deptEmpnum }</td>
-							<td>${departmentAttendanceCount.signLeaveEarlyEmployeeNum}/${department.deptEmpnum }</td>
-							<td>${departmentAttendanceCount.lateNotLeaveEmployeeNum}/${department.deptEmpnum }</td>
-							<td>${departmentAttendanceCount.lateLeaveEarlyEmployeeNum}/${department.deptEmpnum }</td>
-							<td>${departmentAttendanceCount.normalEmployeeNum}/${department.deptEmpnum }</td>
+							<td><a class="a_departmentDetail" href="#" style="text-decoration:none;">${departmentAttendanceCount.deptName }</a></td>
+							<td>${departmentAttendanceCount.deptEmpNum }</td>
+							<td>${departmentAttendanceCount.notSignNum }/${departmentAttendanceCount.deptEmpNum }</td>
+							<td>${departmentAttendanceCount.signNotLogoutNum}/${departmentAttendanceCount.deptEmpNum }</td>
+							<td>${departmentAttendanceCount.signLeaveEarlyNum}/${departmentAttendanceCount.deptEmpNum }</td>
+							<td>${departmentAttendanceCount.lateNotLeaveNum}/${departmentAttendanceCount.deptEmpNum }</td>
+							<td>${departmentAttendanceCount.lateLeaveEarlyNum}/${departmentAttendanceCount.deptEmpNum }</td>
+							<td>${departmentAttendanceCount.normalNum}/${departmentAttendanceCount.deptEmpNum }</td>
 						</tr>
 					</c:forEach>
 				</tbody>

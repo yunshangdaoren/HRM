@@ -47,7 +47,9 @@
   					</div>
   					<button id="btn-resetSelect" type="button" class="btn btn-danger">重置</button>
   					<button id="btn-selectDept" type="submit" class="btn btn-danger">查询</button>
-  					<button id="btn-entryContract" type="button" class="btn btn-success">职工入职</button>
+  					<c:if test="${roles.roleId!=3 }">
+  						<button id="btn-entryContract" type="button" class="btn btn-success">职工入职</button>
+  					</c:if>
 				</form>
 			</div>
 			<table class="table table-hover" id="table-deptDtail">
@@ -73,45 +75,52 @@
 							<td>${employee.empName }</td>
 							<td>${employee.empSex==0?"女":"男" }</td>
 							<td>${employee.empPhone }</td>
-							<c:choose>
+							<%-- <c:choose>
     							<c:when test="${employee.departmentList!=null && fn:length(employee.departmentList) > 1 }">
     								<td>
-    									<a class="a_detailEmployeeDeptName" href="#" style="text-decoration:none;">
-					    				<span class="label label-primary">查看</span>
+    									<a class="a_moreDetailEmployeeDeptName" href="#" style="text-decoration:none;">
+					    				<span class="label label-primary" id="span_seeDetailEmployeeDeptName">查看</span>
 					    			</a>
     								</td>
     							</c:when>
     							<c:otherwise>
     								<td>${employee.deptNameListStr }</td>
     							</c:otherwise>
-    						</c:choose>
-							<c:choose>
-    							<c:when test="${employee.positionList!=null && fn:length(employee.positionList) > 1 }">
-    								<td>
-    									<a class="a_detailEmployeePositionName" href="#" style="text-decoration:none;">
-					    				<span class="label label-primary">查看</span>
-					    			</a>
-    								</td>
-    							</c:when>
-    							<c:otherwise>
-    								<td>${employee.positionNameListStr }</td>
-    							</c:otherwise>
-    						</c:choose>
-							
+    						</c:choose> --%>
+    						<td><a class="a_departmentDetail" href="#" style="text-decoration:none;">${employee.deptNameListStr }</a></td>
+							<td><a class="a_positionDetail" href="#" style="text-decoration:none;">${employee.positionNameListStr }</a></td>
 							<td><fmt:formatDate value="${employee.entryTime }" type="both"/></td>
 							<td class="td-hideContent">${employee.statusName }</td>
 							<td><fmt:formatDate value="${employee.lastOperatorDate }" type="both"/></td>
 							<td>
-								<a href="#" class="a-operatorEmpName">${employee.operatorEmpName }</a>
+								<c:choose>
+									<c:when test="${roles.roleId==3 }">
+										<a href="#" class="a_detailOperatorEmployeeByNormalEmployee">${employee.operatorEmpName }</a>
+									</c:when>
+									<c:otherwise>
+										<a href="#" class="a_detailOperatorEmployeeByManagerEmployee">${employee.operatorEmpName }</a>
+									</c:otherwise>
+								</c:choose>
 								<i style="display:none;">${employee.operatorEmpjobid }</i>
 							</td>
 					    	<td>
-					    		<a class="a_detailEmployee" href="#">
-					    			<span class="label label-primary">详情</span>
-					    		</a>
-								<a class="a_updateDepartment" href="#" style="text-decoration:none;">
-					    			<span class="label label-primary">修改</span>
-					    		</a>
+					    		<c:choose>
+									<c:when test="${roles.roleId==3 }">
+										<a class="a_detailEmployeeByNormalEmployee" href="#">
+					    					<span class="label label-primary">详情</span>
+					    				</a>
+									</c:when>
+									<c:otherwise>
+										<a class="a_detailEmployeeByManagerEmployee" href="#">
+					    					<span class="label label-primary">详情</span>
+					    				</a>
+									</c:otherwise>
+								</c:choose>
+					    		<c:if test="${roles.roleId!=3 }">
+  									<a class="a_updateDepartment" href="#" style="text-decoration:none;">
+					    				<span class="label label-primary">修改</span>
+					    			</a>
+  								</c:if>
 					    	</td>
 						</tr>
 					</c:forEach>
@@ -152,29 +161,26 @@
 	</div>
 	<%@ include file="../bottom.jsp" %>
 		
-		<!-- 弹出遮罩层，用于显示部门详细信息 -->
-		<div class="panel_departmentDetail" style="display:none;">
+		<!-- 弹出遮罩层，用于显示职工详细信息 -->
+		<div class="panel_employeeDetail" style="display:none;">
 			<div class="div-panel">
     			<div class="panel-heading">
-    				<label>部门详细信息</label>
-    				<button id="btn-hidePanelDepartmentDetail" type="button" class="btn btn-success">退出</button>
+    				<label>职工详细信息</label>
+    				<button id="btn-hidePanelEmployeeDetail" type="button" class="btn btn-success">退出</button>
     			</div>
     			<div class="panel_body">
     				<ul class="list-group" style="width:100%;height:100%;overflow:auto;">
-        				<li class="list-group-item"><label>部门id：</label><span class="span-deptId"></span></li>
-        				<li class="list-group-item"><label>部门名称：</label><span class="span-deptName"></span></li>
-        				<li class="list-group-item"><label>部门级别：</label><span class="span-dlLevel"></span></li>
-        				<li class="list-group-item"><label>部门主管人：</label><span class="span-manageEmpName"></span></li>
-        				<li class="list-group-item"><label>部门人数：</label><span class="span-deptEmpnum"></span></li>
-       					<li class="list-group-item"><label>上级部门：</label><span class="span-parentDeptName"></span></li>
-       					<li class="list-group-item"><label>部门描述：</label><span class="span-deptDesc"></span></li>
-       					<li class="list-group-item"><label>最后一次操作时间：</label><span class="span-lastOperatorDate"></span></li>
-       					<li class="list-group-item"><label>操作人：</label><span class="span-operatorEmpName"></span></li>
+        				<li class="list-group-item"><label>工号：</label><span class="span-empJobId"></span></li>
+        				<li class="list-group-item"><label>姓名：</label><span class="span-empName"></span></li>
+        				<li class="list-group-item"><label>性别：</label><span class="span-empSex"></span></li>
+        				<li class="list-group-item"><label>联系电话：</label><span class="span-empPhone"></span></li>
+        				<li class="list-group-item"><label>入职时间：</label><span class="span-empEntryTime"></span></li>
+       					<li class="list-group-item"><label>所属部门：</label><span class="span-deptName"></span></li>
+       					<li class="list-group-item"><label>状态：</label><span class="span-empStatus"></span></li>
    					</ul>
     			</div>
 			</div>
 		</div>
-	
 		
 </body>
 	<script type="text/javascript" src="/static/js/employee/employeeList.js"></script>

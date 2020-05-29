@@ -1,5 +1,7 @@
 package com.lqs.hrm.service;
 
+import java.util.List;
+
 import com.lqs.hrm.entity.Roles;
 
 /**
@@ -14,4 +16,10 @@ public interface RolesService {
 	int add(Roles roles);
 	
 	int update(Roles roles);
+	
+	/**
+	 * 获取所有角色信息
+	 * @return
+	 */
+	List<Roles> listByNo();
 }

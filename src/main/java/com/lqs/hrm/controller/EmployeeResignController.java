@@ -53,6 +53,7 @@ import com.lqs.hrm.service.impl.UserServiceImpl;
 import com.lqs.hrm.util.PageRequest;
 import com.lqs.hrm.util.PageResult;
 import com.lqs.hrm.util.PageResultUtil;
+import com.lqs.hrm.util.entity.ContractInfoUtil;
 import com.lqs.hrm.util.entity.EmployeeInfoUtil;
 import com.lqs.hrm.util.entity.EmployeeResignInfoUtil;
 
@@ -82,6 +83,10 @@ public class EmployeeResignController {
 	private EmployeeInfoUtil employeeInfoUtil;
 	@Autowired
 	private EmployeeResignInfoUtil employeeResignInfoUtil;
+	@Autowired
+	private EmployeeContractServiceImpl employeeContractService;
+	@Autowired
+	private ContractInfoUtil contractInfoUtil;
 	
 	/**
 	 * 查询部门并跳转至所有职工离职申请单列表页面
@@ -412,32 +417,6 @@ public class EmployeeResignController {
 		return new JsonPageResult("200", PageResultUtil.getPageResult(new PageInfo<>(employeeResignList)), "请求成功！");
 	}
 	
-	
-	/**
-	 * 设置查询出来的合同实体类信息
-	 * @param departmentList
-	 */
-	public void setContractInfo(Contract contract) {
-		if (contract != null) {
-			//设置职工性别描述
-			contract.setEmpSexName(contract.getEmpSex()==0?"女":"男");
-			//设置所属部门名称
-			contract.setDeptName(departmentService.get(contract.getDeptId()).getDeptName());
-			//设置所属职位名称
-			contract.setPositionName(positionService.get(contract.getPositionId()).getPositionName());
-			//设置状态名称
-			contract.setStatusName(statusService.get(contract.getStatusId()).getStatusName());
-			//设置录入人名称
-			if (StringUtil.isNotEmpty(contract.getAddEmpjobid())) {
-				contract.setAddEmpName(employeeService.get(contract.getAddEmpjobid()).getEmpName());
-			}
-			//设置审批人名称
-			if (StringUtil.isNotEmpty(contract.getCheckEmpjobid())) {
-				contract.setAddEmpName(employeeService.get(contract.getCheckEmpjobid()).getEmpName());
-			}
-		}
-	}
-	
 	/**
 	 * 转至离职申请单详细信息页面
 	 * @param request
@@ -502,6 +481,54 @@ public class EmployeeResignController {
 			return new JsonCommonResult<Object>("100", null, "申请失败");
 		}
 		return new JsonCommonResult<Object>("200", null, "申请成功");
+	}
+	
+	/**
+	 * 职工离职申请单审核
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws ParseException 
+	 */
+	@RequestMapping("employeeResignCheck.do")
+	@ResponseBody
+	public JsonCommonResult<Object> employeeResignCheck(HttpServletRequest request, HttpServletResponse response) throws ParseException {
+		Map<String, Object> resultMap = new HashMap<>();
+		//获取申请单ID
+		String resignIdStr = request.getParameter("resignId");
+		//获取离职申请单
+		EmployeeResign employeeResign = employeeResignService.get(Integer.valueOf(resignIdStr));
+		//设置该离职申请单状态为已审批：
+		employeeResign.setStatusId(19);
+		//更新该离职申请单详细
+		int result1 = employeeResignService.update(employeeResign);
+		if (result1 == 0) {
+			return new JsonCommonResult<Object>("100", null, "审核失败");
+		}
+		//获取该职工对应的合同信息
+		List<EmployeeContract> employeeContractList = employeeContractService.getByEmpJobid(employeeResign.getEmpJobid());
+		//查询到该职工对应的在合同期内的合同
+		//遍历职工-合同信息
+		//System.out.println("合同列表大小："+employeeContractList.size());
+		for (EmployeeContract employeeContract : employeeContractList) {
+			Contract contract = contractService.get(employeeContract.getConId());
+			//System.out.println("职工工号："+employeeContract.getEmpJobid());
+			//如果该份合同属于该职工的该职位，且在正常状态下，即在合同期内
+			if (contract.getPositionId() == employeeResign.getPositionId() && contract.getStatusId() == 14) {
+				//System.out.println("找到合同信息");
+				//将该份合同状态置为待离职
+				contract.setStatusId(26);
+				//设置离职原因
+				contract.setEndReason(employeeResign.getResignReason());
+				//更新该份合同信息
+				int result2 = contractService.update(contract);
+				if (result2 == 0) {
+					return new JsonCommonResult<Object>("100", null, "审核失败");
+				}
+				break;
+			}
+		}
+		return new JsonCommonResult<Object>("200", null, "审核成功");
 	}
 	
 }

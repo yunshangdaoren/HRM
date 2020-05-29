@@ -69,7 +69,7 @@
 						<tr>
 							<td>${employeeResign.resignId }</td>
 							<td>${employeeResign.empJobid }</td>
-							<td><a href="#" class="a_detailEmployee">${employeeResign.empName }</a></td>
+							<td><a href="#" class="a_detailEmployeeByManagerEmployee">${employeeResign.empName }</a></td>
 							<td>
 								<label>${employeeResign.deptName }</label>
 								<label style="display:none;">${employeeResign.deptId }</label>
@@ -81,8 +81,8 @@
 							<td><fmt:formatDate value="${employeeResign.applyDate }" type="both"/></td>
 							<td><fmt:formatDate value="${employeeResign.resignDate }" type="both"/></td>
 							<c:choose>
-								<c:when test="${contremployeeResignact.statusName =='已审批' }">
-									<td style="color:black;">${employeeResign.statusName }</td>
+								<c:when test="${employeeResign.statusName =='已审批' }">
+									<td style="color:green;">${employeeResign.statusName }</td>
     							</c:when>
     							<c:otherwise>
     								<td style="color:red;">${employeeResign.statusName }</td>

@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 	<title>我的考勤详情列表</title>
-	<link href="/static/css/attendance/attendanceEmployeeList.css" rel="stylesheet" />
+	<link href="/static/css/attendance/myAttendanceEmployeeList.css" rel="stylesheet" />
 </head>
 <body>
 	<%@ include file="../top.jsp" %>
@@ -44,15 +44,15 @@
 				<thead>
 					<tr>
 						<th>考勤ID</th>
-						<th>职工工号</th>
-						<th>职工姓名</th>
+						<th>工号</th>
+						<th>姓名</th>
 						<th>职位</th>
 						<th>所属职位</th>
 						<th>所属部门</th>
+						<th>考勤日期</th>
 						<th>签到时间</th>
 						<th>签退时间</th>
 						<th>状态</th>
-						<th>操作</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -71,7 +71,7 @@
 							</td> --%>
 							<td>财务部</td>
 							<td>财务助理</td>
-							
+							<td>2020-12-12</td>
 							<td><fmt:formatDate value="${attendanceEmployee.signTime }" type="both"/></td>
 							<td><fmt:formatDate value="${attendanceEmployee.logoutTime }" type="both"/></td>
 							<c:choose>
@@ -82,11 +82,6 @@
     								<td style="color:red;">${attendanceEmployee.statusName }</td>
     							</c:otherwise>	
 							</c:choose>
-							<td>
-								<a class="a_detailContract" href="#">
-					    			<span class="label label-primary">详情</span>
-					    		</a>
-					    	</td>
 						</tr>
 					</c:forEach>
 				</tbody>
@@ -126,27 +121,6 @@
 	</div>
 	<%@ include file="../bottom.jsp" %>
 	
-		<!-- 弹出遮罩层，用于显示职工详细信息 -->
-		<div class="panel_employeeDetail" style="display:none;">
-			<div class="div-panel">
-    			<div class="panel-heading">
-    				<label>职工详细信息</label>
-    				<button id="btn-hidePanelEmployeeDetail" type="button" class="btn btn-success">退出</button>
-    			</div>
-    			<div class="panel_body">
-    				<ul class="list-group" style="width:100%;height:100%;overflow:auto;">
-        				<li class="list-group-item"><label>工号：</label><span class="span-empJobId"></span></li>
-        				<li class="list-group-item"><label>姓名：</label><span class="span-empName"></span></li>
-        				<li class="list-group-item"><label>性别：</label><span class="span-empSex"></span></li>
-        				<li class="list-group-item"><label>联系电话：</label><span class="span-empPhone"></span></li>
-        				<li class="list-group-item"><label>入职时间：</label><span class="span-empEntryTime"></span></li>
-       					<li class="list-group-item"><label>所属部门：</label><span class="span-deptName"></span></li>
-       					<li class="list-group-item"><label>状态：</label><span class="span-empStatus"></span></li>
-   					</ul>
-    			</div>
-			</div>
-		</div>
-		
 		<!-- 弹出遮罩层，用于显示部门详细信息 -->
 		<div class="panel_departmentDetail" style="display:none;">
 			<div class="div-panel">
@@ -194,5 +168,5 @@
 		</div>
 		
 </body>
-	<script type="text/javascript" src="/static/js/attendance/attendanceEmployeeList.js"></script>
+	<script type="text/javascript" src="/static/js/attendance/myAttendanceEmployeeList.js"></script>
 </html>

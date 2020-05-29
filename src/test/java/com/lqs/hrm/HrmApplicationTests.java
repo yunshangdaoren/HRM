@@ -9,8 +9,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.lqs.hrm.entity.Department;
 import com.lqs.hrm.entity.Employee;
+import com.lqs.hrm.entity.EmployeePosition;
+import com.lqs.hrm.entity.Position;
 import com.lqs.hrm.entity.User;
+import com.lqs.hrm.service.PositionService;
 import com.lqs.hrm.service.impl.DepartmentServiceImpl;
+import com.lqs.hrm.service.impl.EmployeePositionServiceImpl;
 import com.lqs.hrm.service.impl.EmployeeServiceImpl;
 import com.lqs.hrm.service.impl.LoginServiceImpl;
 import com.lqs.hrm.service.impl.MailServiceImpl;
@@ -28,6 +32,10 @@ class HrmApplicationTests {
 	private UserServiceImpl userService;
 	@Autowired
 	private EmployeeServiceImpl employeeService;
+	@Autowired
+	private PositionService positionService;
+	@Autowired
+	private EmployeePositionServiceImpl employeePositionService;
 	
 	@Test
 	void contextLoads() {
@@ -122,6 +130,36 @@ class HrmApplicationTests {
 			allDepartmentList.add(department);
 		}
 		return allDepartmentList;
+	}
+	
+	@Test
+	void getDeptEmpNum() {
+		Department department = departmentService.get(4);
+		System.out.println("----------------====================");
+		System.out.println("部门的职工数量："+getDeptEmpNum(department));
+	}
+	
+	
+	/**
+	 * 获取指定部门下的所有职工数量
+	 * @param department
+	 * @return
+	 */
+	public int getDeptEmpNum(Department department) {
+		//部门职工数量
+		Integer deptEmpNum = 0;
+	    List<Department> childDepartmentList = listChildDeptByDeptId(department.getDeptId());
+	    childDepartmentList.add(department);
+	    for (Department d : childDepartmentList) {
+	    	//System.out.print("子部门名称："+d.getDeptName());
+	    	 List<Position> positionList = positionService.listByDeptId(d.getDeptId());
+				for (Position position : positionList) {
+					List<EmployeePosition> employeePositionList = employeePositionService.listByPositionId(position.getPositionId());
+					deptEmpNum += employeePositionList.size();
+				}
+			//System.out.println();
+		}
+		return deptEmpNum;
 	}
 	
 }

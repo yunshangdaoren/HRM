@@ -4,6 +4,7 @@
 	min-height:620px;
 	background:black;
 	float:left;
+	clear:both;
 }
 #leftNav .modu{
 	width: 100%;

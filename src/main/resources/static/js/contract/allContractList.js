@@ -1,5 +1,5 @@
 //定义全局部门查询要跳转的地址
-var href = "http://localhost:8080/contract/contractList.do?pageNum=";
+var href = "http://localhost:8080/contract/toAllContractList.do?pageNum=";
 //当前页码
 var pageNum = parseInt($(".i-pageNum").text());
 //总页码
@@ -39,7 +39,7 @@ $("#span-jumPageNum").click(function(){
 		if(pageNum > totalPage || pageNum <= 0){
 			alert("请输入正确的页码！");
 		}else{
-			window.location.href = "/contract/contractList.do?pageNum="+pageNum+"&"+$("#form-queryDept").serialize();
+			window.location.href = "/contract/toAllContractList.do?pageNum="+pageNum+"&"+$("#form-queryDept").serialize();
 		}
 	}else{
 		alert("请输入正确的页码！")

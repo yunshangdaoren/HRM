@@ -1,5 +1,5 @@
 //定义全局部门查询要跳转的地址
-var href = "http://localhost:8080/contract/toCheckContract.do?pageNum=";
+var href = "http://localhost:8080/contract/toCheckResignContractList.do?pageNum=";
 //当前页码
 var pageNum = parseInt($(".i-pageNum").text());
 //总页码
@@ -39,7 +39,7 @@ $("#span-jumPageNum").click(function(){
 		if(pageNum > totalPage || pageNum <= 0){
 			alert("请输入正确的页码！");
 		}else{
-			window.location.href = "/contract/toCheckContract.do?pageNum="+pageNum+"&"+$("#form-queryDept").serialize();
+			window.location.href = "/contract/toCheckResignContractList.do?pageNum="+pageNum+"&"+$("#form-queryDept").serialize();
 		}
 	}else{
 		alert("请输入正确的页码！")
@@ -209,7 +209,7 @@ $(".a_checkContract").click(function(){
 		var conId = $(".a_detailContract").parent().parent().children().first().text();
 		//发送Ajax请求
 		$.ajax({
-			url:"/contract/checkContract.do?conId="+conId,
+			url:"/contract/checkResignContract.do?conId="+conId,
 			dataType:"json",
 			type:"post",
 			success:function(result){

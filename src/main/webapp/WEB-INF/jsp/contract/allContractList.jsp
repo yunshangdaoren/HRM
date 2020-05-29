@@ -4,8 +4,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-	<title>合同详情</title>
-	<link href="/static/css/contract/checkContract.css" rel="stylesheet" />
+	<title>所有合同列表</title>
+	<link href="/static/css/contract/allContractList.css" rel="stylesheet" />
 </head>
 <body>
 	<%@ include file="../top.jsp" %>
@@ -13,11 +13,12 @@
 		<%@ include file="../leftNav.jsp" %>
 		<div id="right">
 			<ul class="nav nav-tabs">
-  				<li role="presentation"><a href="/contract/contractList.do">合同列表</a></li>
-  				<li role="presentation" class="active"><a href="/contract/toCheckContract.do">合同审批</a></li>
+  				<li role="presentation" class="active"><a href="/contract/toAllContractList.do">所有合同列表</a></li>
+  				<li role="presentation"><a href="/contract/toCheckEntryContractList.do">入职合同审批</a></li>
+  				<li role="presentation"><a href="/contract/toCheckResignContractList.do">离职合同审批</a></li>
 			</ul>
 			<div class="div_search">
-				<form class="form-inline" id="form-queryDept" method="get" action="/contract/toCheckContract.do">
+				<form class="form-inline" id="form-queryDept" method="get" action="/contract/toAllContractList.do">
 					<div class="form-group">
     					<label for="exampleInputName2">合同ID</label>
     					<input type="text" class="form-control" name="conId" id="input-selectConId" value="${conIdStr }">
@@ -30,14 +31,32 @@
     					<label for="exampleInputName2">所属职位</label>
     					<input type="text" class="form-control"  name="positionName" id="input-selectPositionName" value="${positionNameStr }">
   					</div>
+  					<div class="form-group">
+  						<label for="exampleInputEmail2">合同状态</label>
+    					<select class="form-control" id="input-selectStatusId"  name="statusId">
+    						<option value="" disabled selected>请选择</option>
+    						<c:forEach items="${statusList }" var="status">
+    							<c:choose>
+    								<c:when test="${statusIdStr == status.statusId }">
+    									<option value="${statusIdStr }" selected = "selected">${status.statusName }</option>
+    								</c:when>
+    								<c:otherwise>
+    								<option value="${status.statusId }">${status.statusName }</option>
+    							</c:otherwise>
+    							</c:choose>
+    						</c:forEach>
+						</select>
+  					</div>
   					<button id="btn-resetSelect" type="button" class="btn btn-danger">重置</button>
   					<button id="btn-selectContract" type="submit" class="btn btn-danger">查询</button>
+  					<button id="btn-addContract" type="button" class="btn btn-success">添加合同</button>
 				</form>
 			</div>
 			<table class="table table-hover" id="table-deptDtail">
 				<thead>
 					<tr>
 						<th>合同ID</th>
+						<th>姓名</th>
 						<th>所属部门</th>
 						<th>职位</th>
 						<th>开始日期</th>
@@ -46,17 +65,17 @@
 						<th>状态</th>
 						<th>录入时间</th>
 						<th>录入人</th>
-						<th>审批时间</th>
-						<th>审批人</th>
-						<th>详情</th>
-						<th style="width:150px;">操作</th>
+						<th>入职审批时间</th>
+						<th>入职审批人</th>
+						<th>操作</th>
 					</tr>
 				</thead>
 				<tbody>
 					<c:forEach items="${pageResult.content }" var="contract">
 						<tr>
 							<td>${contract.conId }</td>
-							<td>
+							<td>${contract.empName }</td>
+							<td style="overflow:hiden;">
 								<a href="#" class="a-deptName">${contract.deptName }</a>
 								<i style="display:none;">${contract.deptId }</i>
 							</td>
@@ -77,22 +96,17 @@
 							</c:choose>
 							<td><fmt:formatDate value="${contract.addDate }" type="both"/></td>
 							<td>
-								<a href="#" class="a-operatorEmpName">${contract.addEmpName }</a>
+								<a href="#" class="a-addEmpName">${contract.addEmpName }</a>
 								<i style="display:none;">${contract.addEmpjobid }</i>
 							</td>
-							<td><fmt:formatDate value="${contract.checkDate }" type="both"/></td>
+							<td><fmt:formatDate value="${contract.entryCheckDate }" type="both"/></td>
 							<td>
-								<a href="#" class="a-operatorEmpName">${department.checkEmpName }</a>
-								<i style="display:none;">${department.checkEmpjobid }</i>
+								<a href="#" class="a-checkEmpName">${contract.entryCheckEmpName }</a>
+								<i style="display:none;">${contract.entryCheckEmpjobid }</i>
 							</td>
 							<td>
 								<a class="a_detailContract" href="#">
 					    			<span class="label label-primary">详情</span>
-					    		</a>
-					    	</td>
-					    	<td>
-								<a class="a_checkContract" href="#" style="text-decoration:none;">
-					    			<span class="label label-primary">审批</span>
 					    		</a>
 					    	</td>
 						</tr>
@@ -202,5 +216,5 @@
 		</div>
 		
 </body>
-	<script type="text/javascript" src="/static/js/contract/checkContract.js"></script>
+	<script type="text/javascript" src="/static/js/contract/allContractList.js"></script>
 </html>

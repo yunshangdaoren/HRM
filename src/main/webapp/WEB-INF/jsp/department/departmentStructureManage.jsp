@@ -52,11 +52,11 @@
 							<td>${department.deptName }</td>
 							<td>${department.dlLeve }级</td>
 							<td>
-								<a href="#" class="a-managePositionName">${department.managePositionName }</a>
+								<a href="#" class="a_detailManagePosition">${department.managePositionName }</a>
 								<i style="display:none;">${department.managePositionid }</i>
 							</td>
 							<td>
-								<a href="#" class="a-manageEmpName">${department.manageEmpName }</a>
+								<a href="#" class="a_detailManageEmployeeByManagerEmployee">${department.manageEmpName }</a>
 								<i style="display:none;">${department.manageEmpJobId }</i>
 							</td>
 							<td>${department.deptEmpnum }</td>
@@ -64,7 +64,7 @@
 							<td class="td-hideContent">${department.statusName }</td>
 							<td><fmt:formatDate value="${department.lastOperatorDate }" type="both"/></td>
 							<td>
-								<a href="#" class="a-operatorEmpName">${department.operatorEmpName }</a>
+								<a href="#" class="a_detailOperatorEmployeeByManagerEmployee">${department.operatorEmpName }</a>
 								<i style="display:none;">${department.operatorEmpjobid }</i>
 							</td>
 					    	<td>

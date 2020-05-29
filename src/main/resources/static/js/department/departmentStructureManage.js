@@ -550,7 +550,46 @@ function setUpdateDeptStatusSelect(){
 };
 //删除部门信息点击事件
 $(".a_deleteDepartment").click(function(){
-	var deptId = $(this).parent().parent().child().first().text();
-	alert(deptId);
-	
+	var value = confirm("删除该部门信息？");
+	//如果确认删除
+	if(value == true){
+		var deptId = $(this).parent().parent().children().first().text();
+		$.ajax({
+			url:"/department/delete.do?deptId="+deptId,
+			dataType:"json",
+			success:function(result){
+				if(result.code==100){
+					alert(result.msg);
+				}else{
+					alert(result.msg);
+					//删除该行记录
+					$(this).parent().parent().remove();
+					location.reload(); 
+				}  
+			}	
+		});
+	}
+});
+
+//跳转到指定部门的详细信息页面
+$(".a_departmentDetail").click(function(){
+	//获取到部门id
+	var deptId = $(this).parent().parent().children().first().text();
+	window.location.href = "/department/toDepartmentDetail.do?deptId="+deptId;
+});
+//跳转到指定职位的详细信息页面
+$(".a_detailManagePosition").click(function(){
+	//获取到职位id
+	var positionId = $(this).next().text();
+	window.location.href = "/position/toPositionDetail.do?positionId="+positionId;
+});
+//跳转到部门主管人职工详情页面
+$(".a_detailManageEmployeeByManagerEmployee").click(function(){
+	var empJobId = $(this).next().text();
+	window.location.href = "/employee/toEmployeeDetail.do?empJobId="+empJobId;
+});
+//跳转到部门操作人职工详情页面
+$(".a_detailOperatorEmployeeByManagerEmployee").click(function(){
+	var empJobId = $(this).next().text();
+	window.location.href = "/employee/toEmployeeDetail.do?empJobId="+empJobId;
 });

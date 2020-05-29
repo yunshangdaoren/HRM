@@ -13,27 +13,35 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.github.pagehelper.util.StringUtil;
 import com.lqs.hrm.entity.AttendanceEmployee;
 import com.lqs.hrm.entity.AttendanceTime;
 import com.lqs.hrm.entity.Contract;
+import com.lqs.hrm.entity.CountAttendanceDepartmant;
 import com.lqs.hrm.entity.Department;
-import com.lqs.hrm.entity.DepartmentAttendanceCount;
 import com.lqs.hrm.entity.Employee;
+import com.lqs.hrm.entity.EmployeePosition;
 import com.lqs.hrm.entity.EmployeeResign;
 import com.lqs.hrm.entity.Position;
 import com.lqs.hrm.entity.Status;
 import com.lqs.hrm.entity.User;
 import com.lqs.hrm.json.JsonCommonResult;
+import com.lqs.hrm.service.PositionService;
 import com.lqs.hrm.service.impl.AttendanceEmployeeServiceImpl;
 import com.lqs.hrm.service.impl.AttendanceTimeServiceImpl;
+import com.lqs.hrm.service.impl.CountAttendanceDepartmentServiceImpl;
 import com.lqs.hrm.service.impl.DepartmentServiceImpl;
 import com.lqs.hrm.service.impl.EmployeePositionServiceImpl;
 import com.lqs.hrm.service.impl.StatusServiceImpl;
@@ -41,7 +49,7 @@ import com.lqs.hrm.util.PageRequest;
 import com.lqs.hrm.util.PageResult;
 import com.lqs.hrm.util.PageResultUtil;
 import com.lqs.hrm.util.entity.AttendanceEmployeeInfoUtil;
-import com.lqs.hrm.util.entity.DepartmentAttendanceCountUtil;
+import com.lqs.hrm.util.entity.CountAttendanceDepartmantUtil;
 import com.lqs.hrm.util.entity.DepartmentInfoUtil;
 
 /**
@@ -61,13 +69,17 @@ public class AttendanceEmployeeController {
 	@Autowired
 	private DepartmentInfoUtil departmentInfoUtil;
 	@Autowired
-	private DepartmentAttendanceCountUtil departmentAttendanceCountUtil;
+	private CountAttendanceDepartmantUtil countAttendanceDepartmantUtil;
 	@Autowired
 	private StatusServiceImpl statusService;
 	@Autowired
 	private EmployeePositionServiceImpl employeePositionService;
 	@Autowired
 	private AttendanceTimeServiceImpl attendanceTimeService;
+	@Autowired
+	private PositionService positionService;
+	@Autowired
+	private CountAttendanceDepartmentServiceImpl countAttendanceDepartmentService;
 	
 	
 	/**
@@ -175,10 +187,10 @@ public class AttendanceEmployeeController {
 			//如果查询的条件全部为空，则查询出今日所有部门考勤信息
 			departmentList = departmentService.listByNo();
 			System.out.println("===============   查询条件为null");
-		}else if(StringUtil.isEmpty(dateStr) && StringUtil.isEmpty(dlIdStr)) {
+		}else if(StringUtil.isEmpty(dlIdStr)) {
 			//则根据部门名称查询查询
 			departmentList = departmentService.listByDeptName(deptNameStr);
-		}else if(StringUtil.isEmpty(deptNameStr) && StringUtil.isEmpty(dlIdStr)){
+		}else if(StringUtil.isEmpty(deptNameStr)){
 			//则根据部门级别查询
 			departmentList = departmentService.listByDlId(Integer.valueOf(dlIdStr));
 		}else {
@@ -188,9 +200,10 @@ public class AttendanceEmployeeController {
 		System.out.println("----------------------------");
 		System.out.println("查询出来的所有部门信息大小："+departmentList.size());
 		System.out.println("----------------------------");
-		List<DepartmentAttendanceCount> departmentAttendanceCountList = departmentAttendanceCountUtil.setDepartmentAttendanceCount(departmentList, format2.parse(dateStr));
+		List<CountAttendanceDepartmant> countAttendanceDepartmantList = countAttendanceDepartmentService.listByNo();
+		countAttendanceDepartmantUtil.setCountAttendanceDepartmantInfo(countAttendanceDepartmantList);
 		//设置分页查询结果
-		PageResult pageResult = PageResultUtil.getPageResult(new PageInfo<>(departmentAttendanceCountList));
+		PageResult pageResult = PageResultUtil.getPageResult(new PageInfo<>(countAttendanceDepartmantList));
 		//返回查询的部门信息
 		map.put("pageResult", pageResult);
 		//回显查询条件
@@ -230,8 +243,8 @@ public class AttendanceEmployeeController {
 		
 		//查询条件判断
 		if (StringUtil.isEmpty(dateStr) && StringUtil.isEmpty(statusIdStr)) {
-			//如果查询的条件全部为空，则查询出所有职工考勤信息
-			attendanceEmployeeList = attendanceEmployeeService.listByNo();
+			//如果查询的条件全部为空，则查询出当前登录职工所有考勤信息
+			attendanceEmployeeList = attendanceEmployeeService.listByEmpJobId(myEmpJobId);
 		}else if(StringUtil.isEmpty(statusIdStr)){
 			//则根据考勤日期查询
 			attendanceEmployeeList = attendanceEmployeeService.listByEmpJobIdDate(myEmpJobId, date);
@@ -257,7 +270,7 @@ public class AttendanceEmployeeController {
 		map.put("statusList", statusList);
 		//查询该职工所属的职位信息
 		//Position position = employeePositionService.list
-		return "attendance/toMyAttendanceEmployeeList";
+		return "attendance/myAttendanceEmployeeList";
 	}
 	
 	
@@ -314,6 +327,72 @@ public class AttendanceEmployeeController {
 		if (result == 0) {
 			return new JsonCommonResult<Object>("100", null, "签到失败");
 		}
+		//设置部门考勤信息
+		//获取职工-职位信息
+		List<EmployeePosition> employeePositionList = employeePositionService.listByEmpJobId(user.getUserAccount());
+		for (EmployeePosition employeePosition : employeePositionList) {
+			//找到职工所属职位信息
+			Position position = positionService.get(employeePosition.getPositionId());
+			//找到职工所属部门信息
+			Department department = departmentService.get(position.getDeptId());
+			//找到该部门的考勤统计信息
+			List<CountAttendanceDepartmant> countAttendanceDepartmantList = countAttendanceDepartmentService.getByDeptId(department.getDeptId());
+			if (countAttendanceDepartmantList == null || countAttendanceDepartmantList.size() == 0) {
+				//生成一个该部门今日的考勤统计信息
+				CountAttendanceDepartmant countAttendanceDepartmant = new CountAttendanceDepartmant();
+				countAttendanceDepartmant.setSignDate(format2.parse(format.format(new Date()).substring(0, 10)));
+				countAttendanceDepartmant.setDeptId(department.getDeptId());
+				countAttendanceDepartmant.setDeptName(department.getDeptName());
+				countAttendanceDepartmant.setDeptEmpNum(departmentInfoUtil.getDeptEmpNum(department));
+				countAttendanceDepartmentService.add(countAttendanceDepartmant);
+				
+			}
+			CountAttendanceDepartmant countAttendanceDepartmant = countAttendanceDepartmentService.getByDeptId(department.getDeptId()).get(0);
+			
+			//更新该部门的考勤信息
+			//设置考勤状态人数
+			if (attendanceEmployee.getStatusId() == 21) {
+				//设置考勤状态为签到且未签退人数+1
+				countAttendanceDepartmant.setSignNotLogoutNum(countAttendanceDepartmant.getSignNotLogoutNum() + 1);
+			}else if(attendanceEmployee.getStatusId() == 22){
+				//设置考勤状态为迟到且未签退人数+1
+				countAttendanceDepartmant.setLateNotLeaveNum(countAttendanceDepartmant.getLateNotLeaveNum() + 1);
+			}
+			//更新数据
+			countAttendanceDepartmentService.update(countAttendanceDepartmant);
+			
+			//更新该部门对应上级部门的考勤信息
+			while (department != null  && department.getParentId() != null) {
+				//设置为新的上级部门
+				department = departmentService.get(department.getParentId());
+				//找到此部门的考勤统计信息
+				List<CountAttendanceDepartmant> countAttendanceParentDepartmantList = countAttendanceDepartmentService.getByDeptId(department.getDeptId());
+				if (countAttendanceParentDepartmantList == null || countAttendanceParentDepartmantList.size() == 0) {
+					//生成一个该部门今日的考勤统计信息
+					CountAttendanceDepartmant countAttendanceParentDepartmant = new CountAttendanceDepartmant();
+					countAttendanceParentDepartmant.setSignDate(format2.parse(format.format(new Date()).substring(0, 10)));
+					countAttendanceParentDepartmant.setDeptId(department.getDeptId());
+					countAttendanceParentDepartmant.setDeptName(department.getDeptName());
+					countAttendanceParentDepartmant.setDeptEmpNum(departmentInfoUtil.getDeptEmpNum(department));
+					countAttendanceDepartmentService.add(countAttendanceParentDepartmant);
+				}
+				//找到该部门的考勤统计信息
+				CountAttendanceDepartmant countAttendanceParentDepartmant = countAttendanceDepartmentService.getByDeptId(department.getDeptId()).get(0);
+				//更新该部门的考勤信息
+				//设置考勤状态人数
+				if (attendanceEmployee.getStatusId() == 21) {
+					//设置考勤状态为签到且未签退人数+1
+					countAttendanceParentDepartmant.setSignNotLogoutNum(countAttendanceParentDepartmant.getSignNotLogoutNum() + 1);
+				}else if(attendanceEmployee.getStatusId() == 22){
+					//设置考勤状态为迟到且未签退人数+1
+					countAttendanceParentDepartmant.setLateNotLeaveNum(countAttendanceParentDepartmant.getLateNotLeaveNum() + 1);
+				}
+				//更新数据
+				countAttendanceDepartmentService.update(countAttendanceParentDepartmant);
+			}
+			
+		}
+		
 		return new JsonCommonResult<Object>("200", null, "签到成功");
 	}
 	

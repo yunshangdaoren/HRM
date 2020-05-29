@@ -1,6 +1,5 @@
 //职工签到打卡点击事件
 $("#div_attendanceEmployee").click(function(){
-	alert("点击了签到打卡");
 	$.ajax({
 		url:"/attendanceEmployee/sign.do",
 		dataType:"json",

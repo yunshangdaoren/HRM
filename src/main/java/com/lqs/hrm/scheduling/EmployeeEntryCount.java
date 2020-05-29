@@ -16,9 +16,8 @@ import org.springframework.stereotype.Component;
 @EnableScheduling
 public class EmployeeEntryCount {
 	
-	/**默认是fixedDelay 上一次执行完毕时间后执行下一轮*/
     @Scheduled(cron = "0 27 23 * * ?")
     public void run() throws InterruptedException {
-        System.out.println(Thread.currentThread().getName()+"-------------------------");
+       //定时完成任务代码
     }
 }

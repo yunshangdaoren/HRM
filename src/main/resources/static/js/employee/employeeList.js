@@ -51,47 +51,93 @@ $("#btn-resetSelect").click(function(){
 	$("#form-queryDept :input").not(":button, :submit, :reset, :hidden").val("").removeAttr("checked").remove("selected");
 });
 
-//弹出显示层，显示指定部门的详细信息
-$(".a_departmentDetail").click(function(){
-	//获取到部门id
-	var deptId = $(this).parent().parent().children().first().text();
+//职工操作人名称点击事件：弹出显示层，显示指定职工的详细信息
+$(".a_detailOperatorEmployeeByNormalEmployee").click(function(){
+	//获取到要查看的职工工号
+	var manageEmpjobid = $(this).next().text();
 	//显示面板
 	$(".shadeDiv").show();
-	$(".panel_departmentDetail").show();
+	$(".panel_employeeDetail").show();
 	//发送Ajax请求
 	$.ajax({
-		url:"/department/get.do?deptId="+deptId,
+		url:"/employee/get.do?empJobId="+manageEmpjobid,
 		dataType:"json",
 		type:"post",
 		success:function(result){
 			if(result.code==200){
-				//填充部门信息
-				$(".span-deptId").text(result.data.deptId);
-				$(".span-deptName").text(result.data.deptName);
-				$(".span-dlLevel").text(result.data.dlLeve+"级");
-				$(".span-manageEmpName").text(result.data.manageEmpName);
-				$(".span-deptEmpnum").text(result.data.deptEmpnum);
-				$(".span-parentDeptName").text(result.data.parentDeptName);
-				$(".span-deptDesc").text(result.data.deptDesc);
-				$(".span-lastOperatorDate").text(result.data.lastOperatorDate);
-				$(".span-operatorEmpName").text(result.data.operatorEmpName);
+				//填充职工信息
+				$(".span-empJobId").text(result.data.empJobid);
+				$(".span-empName").text(result.data.empName);
+				$(".span-empSex").text(result.data.empSexName);
+				$(".span-empPhone").text(result.data.empPhone);
+				$(".span-empEntryTime").text(result.data.entryTime);
+				$(".span-deptName").text(result.data.deptNameListStr);
+				$(".span-empStatus").text(result.data.statusName);
 			}else{
 				alert(result.msg);
 			}
 		}
 	});
 });
-//关闭部门详细信息弹出层面板
-$("#btn-hidePanelDepartmentDetail").click(function(){
-	$(".shadeDiv").hide();
-	$(".panel_departmentDetail").hide();
+
+//职工详情称点击事件：弹出显示层，显示指定职工的详细信息
+$(".a_detailEmployeeByNormalEmployee").click(function(){
+	//获取到要查看的职工工号
+	var manageEmpjobid = $(this).parent().parent().children().first().text();
+	//显示面板
+	$(".shadeDiv").show();
+	$(".panel_employeeDetail").show();
+	//发送Ajax请求
+	$.ajax({
+		url:"/employee/get.do?empJobId="+manageEmpjobid,
+		dataType:"json",
+		type:"post",
+		success:function(result){
+			if(result.code==200){
+				//填充职工信息
+				$(".span-empJobId").text(result.data.empJobid);
+				$(".span-empName").text(result.data.empName);
+				$(".span-empSex").text(result.data.empSexName);
+				$(".span-empPhone").text(result.data.empPhone);
+				$(".span-empEntryTime").text(result.data.entryTime);
+				$(".span-deptName").text(result.data.deptNameListStr);
+				$(".span-empStatus").text(result.data.statusName);
+			}else{
+				alert(result.msg);
+			}
+		}
+	});
 });
+//关闭职工详细信息弹出层面板
+$("#btn-hidePanelEmployeeDetail").click(function(){
+	$(".shadeDiv").hide();
+	$(".panel_employeeDetail").hide();
+});
+
+//跳转到指定部门的详细信息页面
+$(".a_departmentDetail").click(function(){
+	//获取到职工工号
+	var empJobId = $(this).parent().parent().children().first().text();
+	window.location.href = "/department/toDepartmentDetail.do?empJobId="+empJobId;
+});
+//跳转到指定职位的详细信息页面
+$(".a_positionDetail").click(function(){
+	//获取到职工工号
+	var empJobId = $(this).parent().parent().children().first().text();
+	window.location.href = "/position/toPositionDetail.do?empJobId="+empJobId;
+});
+//跳转到部门操作人职工详情页面
+$(".a_detailOperatorEmployeeByManagerEmployee").click(function(){
+	var empJobId = $(this).next().text();
+	window.location.href = "/employee/toEmployeeDetail.do?empJobId="+empJobId;
+});
+
 //职工入职按钮点击事件，跳转到职工入职页面
 $("#btn-entryContract").click(function(){
 	window.location.href = "/contract/needEntryContractList.do";
 });
 //跳转到职工详情页面
-$(".a_detailEmployee").click(function(){
+$(".a_detailEmployeeByManagerEmployee").click(function(){
 	var empJobId = $(this).parent().parent().children().first().text();
 	window.location.href = "/employee/toEmployeeDetail.do?empJobId="+empJobId;
 });

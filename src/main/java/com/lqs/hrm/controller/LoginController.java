@@ -1,5 +1,6 @@
 package com.lqs.hrm.controller;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.Cookie;
@@ -80,6 +81,12 @@ public class LoginController {
 					}
 				}
 			}
+			//修改该账户的最后一次登录时间
+			user.setLastLoginTime(new Date());
+			//修改该账户的登录次数
+			user.setLoginCount(user.getLoginCount() + 1);
+			//更新该账户信息
+			userService.update(user);
 			resultMap.put("statusCode", "1");
 			resultMap.put("message", "登录成功!");
 			resultMap.put("url", "http://localhost:8080/workbench/toIndex.do");

@@ -1,6 +1,7 @@
 package com.lqs.hrm.entity;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 职工考勤信息实体类
@@ -164,6 +165,27 @@ public class AttendanceEmployee {
      * 状态名称
      */
     private String statusName = "";
+    
+    /**
+     * 职工所属部门List集合
+     */
+    private List<Department> departmentList;
+    
+    /**
+     * 职工所属部门名称List集合的Str形式
+     */
+    private String deptNameListStr;
+    
+    /**
+     * 职工所属职位id
+     */
+    private List<Position> positionList;
+    
+    /**
+     * 职工所属部职位名称List集合的Str形式
+     */
+    private String positionNameListStr;
+    
 
     public String getEmpName() {
 		return empName;
@@ -180,5 +202,37 @@ public class AttendanceEmployee {
 	public void setStatusName(String statusName) {
 		this.statusName = statusName;
 	}
-    
+
+	public List<Department> getDepartmentList() {
+		return departmentList;
+	}
+
+	public void setDepartmentList(List<Department> departmentList) {
+		this.departmentList = departmentList;
+	}
+
+	public String getDeptNameListStr() {
+		return deptNameListStr;
+	}
+
+	public void setDeptNameListStr(String deptNameListStr) {
+		this.deptNameListStr = deptNameListStr;
+	}
+
+	public List<Position> getPositionList() {
+		return positionList;
+	}
+
+	public void setPositionList(List<Position> positionList) {
+		this.positionList = positionList;
+	}
+
+	public String getPositionNameListStr() {
+		return positionNameListStr;
+	}
+
+	public void setPositionNameListStr(String positionNameListStr) {
+		this.positionNameListStr = positionNameListStr;
+	}
+	
 }

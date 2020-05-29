@@ -44,6 +44,17 @@ public interface UserRoleService {
 	 */
 	List<UserRole> listByUserAccountRoleId(String userAccount, Integer roleId);
 	
+	/**
+	 * 查询出所有的用户角色信息
+	 * @return
+	 */
+	List<UserRole> listByNo();
+	
+	/**
+	 * 查询出所有用户角色信息，除了超级管理员
+	 * @return
+	 */
+	List<UserRole> listByNoExceptSuperManager();
 	
 	/**
 	 * 修改用户角色
@@ -52,6 +63,13 @@ public interface UserRoleService {
 	 * @return
 	 */
 	int update(UserRole userRole);
+	
+	/**
+	 * 删除
+	 * @param urId
+	 * @return
+	 */
+	int delete(Integer urId);
 	
 	/**
 	 * 添加用户角色

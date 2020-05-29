@@ -47,8 +47,8 @@
 						<th>状态</th>
 						<th>录入时间</th>
 						<th>录入人</th>
-						<th>审批时间</th>
-						<th>审批人</th>
+						<th>入职审批时间</th>
+						<th>入职审批人</th>
 						<th>操作</th>
 					</tr>
 				</thead>
@@ -81,10 +81,10 @@
 								<a href="#" class="a-operatorEmpName">${contract.addEmpName }</a>
 								<i style="display:none;">${contract.addEmpjobid }</i>
 							</td>
-							<td><fmt:formatDate value="${contract.checkDate }" type="both"/></td>
+							<td><fmt:formatDate value="${contract.entryCheckDate }" type="both"/></td>
 							<td>
-								<a href="#" class="a-operatorEmpName">${contract.checkEmpName }</a>
-								<i style="display:none;">${contract.checkEmpjobid }</i>
+								<a href="#" class="a-operatorEmpName">${contract.entryCheckEmpName }</a>
+								<i style="display:none;">${contract.entryCheckEmpjobid }</i>
 							</td>
 					    	<td>
 					    		<a class="a_detailContract" href="#">

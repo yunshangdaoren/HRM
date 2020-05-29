@@ -74,7 +74,7 @@ public interface EmployeeService {
 	 * @param employee
 	 * @return
 	 */
-	int update(String empJobId);
+	int update(Employee employee);
 	
 	
 }

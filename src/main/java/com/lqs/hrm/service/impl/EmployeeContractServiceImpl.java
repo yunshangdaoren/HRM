@@ -21,7 +21,7 @@ public class EmployeeContractServiceImpl implements EmployeeContractService{
 	private EmployeeContractMapper employeeContractMapper;
 	
 	/**
-	 * 返回指定id的职工合同信息
+	 * 返回指定id的职工-合同信息
 	 */
 	@Override
 	public EmployeeContract get(Integer ecId) {
@@ -29,7 +29,7 @@ public class EmployeeContractServiceImpl implements EmployeeContractService{
 	}
 
 	/**
-	 * 返回指定合同id的职工合同信息
+	 * 返回指定合同id的职工-合同信息
 	 */
 	@Override
 	public List<EmployeeContract> getByConId(Integer conId) {
@@ -40,7 +40,7 @@ public class EmployeeContractServiceImpl implements EmployeeContractService{
 
 
 	/**
-	 * 返回指定职工id的职工合同信息
+	 * 返回指定职工id的职工-合同信息
 	 */
 	@Override
 	public List<EmployeeContract> getByEmpJobid(String empJobid) {
@@ -50,7 +50,7 @@ public class EmployeeContractServiceImpl implements EmployeeContractService{
 	}
 	
 	/**
-	 * 返回指定合同id、职工id的职工合同信息
+	 * 返回指定合同id、职工id的职工-合同信息
 	 */
 	@Override
 	public List<EmployeeContract> getByConIdEmpJobid(Integer conId, String empJobid) {
@@ -60,7 +60,7 @@ public class EmployeeContractServiceImpl implements EmployeeContractService{
 	}
 
 	/**
-	 * 返回所有职工合同信息
+	 * 返回所有职工-合同信息
 	 */
 	@Override
 	public List<EmployeeContract> getAll() {
@@ -70,7 +70,7 @@ public class EmployeeContractServiceImpl implements EmployeeContractService{
 	}
 
 	/**
-	 * 添加职工合同信息
+	 * 添加职工-合同信息
 	 */
 	@Override
 	public int add(EmployeeContract employeeContract) {

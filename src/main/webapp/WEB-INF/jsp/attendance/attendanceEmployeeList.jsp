@@ -15,7 +15,6 @@
 			<ul class="nav nav-tabs">
   				<li role="presentation" class="active"><a href="/attendanceEmployee/toAttendanceEmployeeList.do">职工考勤详情列表</a></li>
   				<li role="presentation"><a href="/attendanceEmployee/countDepartmentAttendance.do">部门考勤统计</a></li>
-  				<li role="presentation"><a href="/attendanceEmployee/toCheckContract.do">职工考勤统计</a></li>
 			</ul>
 			<div class="div_search">
 				<form class="form-inline" id="form-queryDept" method="get" action="/attendanceEmployee/toAttendanceEmployeeList.do">
@@ -63,7 +62,6 @@
 						<th>签到时间</th>
 						<th>签退时间</th>
 						<th>状态</th>
-						<th>操作</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -71,7 +69,7 @@
 						<tr>
 							<td>${attendanceEmployee.aeId }</td>
 							<td>${attendanceEmployee.empJobid }</td>
-							<td>${attendanceEmployee.empName }</td>
+							<td><a class="a_employeeDetail" href="#" style="text-decoration:none;">${attendanceEmployee.empName }</a></td>
 							<%-- <td style="overflow:hiden;">
 								<a href="#" class="a-deptName">${deptName }</a>
 								<i style="display:none;">${deptId }</i>
@@ -80,9 +78,8 @@
 								<a href="#" class="a-positionName">${positionName }</a>
 								<i style="display:none;">${positionId }</i>
 							</td> --%>
-							<td>财务部</td>
-							<td>财务助理</td>
-							
+							<td><a class="a_departmentDetail" href="#" style="text-decoration:none;">${attendanceEmployee.deptNameListStr }</a></td>
+							<td><a class="a_positionDetail" href="#" style="text-decoration:none;">${attendanceEmployee.positionNameListStr }</a></td>
 							<td><fmt:formatDate value="${attendanceEmployee.signTime }" type="both"/></td>
 							<td><fmt:formatDate value="${attendanceEmployee.logoutTime }" type="both"/></td>
 							<c:choose>
@@ -93,11 +90,6 @@
     								<td style="color:red;">${attendanceEmployee.statusName }</td>
     							</c:otherwise>	
 							</c:choose>
-							<td>
-								<a class="a_detailContract" href="#">
-					    			<span class="label label-primary">详情</span>
-					    		</a>
-					    	</td>
 						</tr>
 					</c:forEach>
 				</tbody>

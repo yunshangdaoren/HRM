@@ -23,6 +23,7 @@ import com.github.pagehelper.util.StringUtil;
 import com.lqs.hrm.entity.Department;
 import com.lqs.hrm.entity.DepartmentLevel;
 import com.lqs.hrm.entity.Employee;
+import com.lqs.hrm.entity.EmployeePosition;
 import com.lqs.hrm.entity.Position;
 import com.lqs.hrm.entity.PositionLevel;
 import com.lqs.hrm.entity.Status;
@@ -31,6 +32,7 @@ import com.lqs.hrm.json.JsonCommonResult;
 import com.lqs.hrm.json.JsonPageResult;
 import com.lqs.hrm.service.impl.DepartmentLevelServiceImpl;
 import com.lqs.hrm.service.impl.DepartmentServiceImpl;
+import com.lqs.hrm.service.impl.EmployeePositionServiceImpl;
 import com.lqs.hrm.service.impl.EmployeeServiceImpl;
 import com.lqs.hrm.service.impl.PositionLevelServiceImpl;
 import com.lqs.hrm.service.impl.PositionServiceImpl;
@@ -39,6 +41,7 @@ import com.lqs.hrm.service.impl.UserServiceImpl;
 import com.lqs.hrm.util.PageRequest;
 import com.lqs.hrm.util.PageResult;
 import com.lqs.hrm.util.PageResultUtil;
+import com.lqs.hrm.util.entity.PositionInfoUtil;
 
 /**
  * 职位Controller
@@ -60,6 +63,10 @@ public class PositionController {
 	private EmployeeServiceImpl employeeService;
 	@Autowired
 	private UserServiceImpl userService;
+	@Autowired
+	private EmployeePositionServiceImpl employeePositionService;
+	@Autowired
+	private PositionInfoUtil positionInfoUtil;
 	
 	/**
 	 * 查询职位信息并跳转至职位详情页面
@@ -195,7 +202,7 @@ public class PositionController {
 				}
 			}
 		}
-		setPositionInfo(positionList);
+		positionInfoUtil.setPositionInfo(positionList);
 		PageResult pageResult = PageResultUtil.getPageResult(new PageInfo<>(positionList));
 		//返回查询的部门信息
 		map.put("pageResult", pageResult);
@@ -349,7 +356,7 @@ public class PositionController {
 		if (positionList == null) {
 			return new JsonPageResult("100", null, "没有数据！");
 		}
-		setPositionInfo(positionList);
+		positionInfoUtil.setPositionInfo(positionList);
 		return new JsonPageResult("200", PageResultUtil.getPageResult(new PageInfo<>(positionList)), "请求成功！");
 	}
 	
@@ -379,7 +386,7 @@ public class PositionController {
 		if (positionList == null || positionList.size() == 0) {
 			return new JsonCommonResult<List<Position>>("100", null, "没有数据！");
 		}
-		setPositionInfo(positionList);
+		positionInfoUtil.setPositionInfo(positionList);
 		return new JsonCommonResult<List<Position>>("200",positionList, "请求成功！");
 	}
 	
@@ -394,68 +401,11 @@ public class PositionController {
 		//职位id
 		String positionIdStr = request.getParameter("positionId");
 		Position position = positionService.get(Integer.valueOf(positionIdStr));
-		setPositionInfo(position);
+		positionInfoUtil.setPositionInfo(position);
 		if(position == null) {
 			return new JsonCommonResult<Position>("100",null, "请求失败！");
 		}
 		return new JsonCommonResult<Position>("200",position, "请求成功！");
-	}
-	
-	/**
-	 * 设置查询出来的职位实体类信息
-	 * @param departmentList
-	 */
-	public void setPositionInfo(List<Position> positionList) {
-		if (positionList.size() != 0 || positionList != null) {
-			for (int i = 0; i < positionList.size(); i++) {
-				//设置职位级别
-				positionList.get(i).setPlLeve(positionLevelService.get(positionList.get(i).getPlId()).getLevel());
-				//设置职位级别描述
-				positionList.get(i).setPlLevelDesc(positionLevelService.get(positionList.get(i).getPlId()).getLevelDesc());
-				//设置职位上级职位名称
-				if(positionList.get(i).getParentPositionid() != null && positionList.get(i).getParentPositionid() != 0) {
-					System.out.println("上级部门id为空："+positionList.get(i).getParentPositionid());
-					positionList.get(i).setParentPositionName(positionService.get(positionList.get(i).getParentPositionid()).getPositionName());
-				}
-				//设置职位所属部门名称
-				if (positionList.get(i).getDeptId() != null && positionList.get(i).getDeptId() != 0) {
-					positionList.get(i).setDeptName(departmentService.get(positionList.get(i).getDeptId()).getDeptName());
-				} 
-				//设置职位状态名称
-				positionList.get(i).setStatusName(statusService.get(positionList.get(i).getStatusId()).getStatusName());
-				//设置操作人名称
-				if(positionList.get(i).getOperatorEmpjobid() != null && !positionList.get(i).getOperatorEmpjobid().isEmpty()) {
-					positionList.get(i).setOperatorEmpName(employeeService.get(positionList.get(i).getOperatorEmpjobid()).getEmpName());
-				}
-			}
-		}
-	}
-	
-	/**
-	 * 设置查询出来的职位实体类信息
-	 * @param departmentList
-	 */
-	public void setPositionInfo(Position position) {
-		if (position != null) {
-			//设置职位级别
-			position.setPlLeve(positionLevelService.get(position.getPlId()).getLevel());
-			//设置职位级别描述
-			position.setPlLevelDesc(positionLevelService.get(position.getPlId()).getLevelDesc());
-			//设置职位上级职位名称
-			if(position.getParentPositionid() != null && position.getParentPositionid() != 0) {
-				position.setParentPositionName(positionService.get(position.getParentPositionid()).getPositionName());
-			}
-			//设置职位所属部门名称
-			if (position.getDeptId() != null && position.getDeptId() != 0) {
-				position.setDeptName(departmentService.get(position.getDeptId()).getDeptName());
-			} 
-			//设置职位状态名称
-			position.setStatusName(statusService.get(position.getStatusId()).getStatusName());
-			//设置操作人名称
-			if(position.getOperatorEmpjobid() != null && !position.getOperatorEmpjobid().isEmpty()) {
-				position.setOperatorEmpName(employeeService.get(position.getOperatorEmpjobid()).getEmpName());
-			}
-		}
 	}
 	
 	/**
@@ -477,7 +427,7 @@ public class PositionController {
 		//职位是否唯一
 		Boolean isOnly = false;
 		if (StringUtil.isNotEmpty(request.getParameter("isOnly"))) {
-			System.out.println("职位不唯一："+request.getParameter("isOnly"));
+			//System.out.println("职位不唯一："+request.getParameter("isOnly"));
 			isOnly = true;
 		}
 		//获取上级职位名称
@@ -521,6 +471,181 @@ public class PositionController {
 			return new JsonCommonResult<Object>("100", null, "添加失败");
 		}
 		return new JsonCommonResult<Object>("200", null, "添加成功");
+	}
+	
+	/**
+	 * 查询职位信息，并跳转至职位详情页面
+	 * 1.根据职工工号查询
+	 * 2.根据职位id查询
+	 * @param request
+	 * @param pageRequest
+	 * @param map
+	 * @return
+	 */
+	@RequestMapping("toPositionDetail.do")
+	public String toPositionDetail(HttpServletRequest request, PageRequest pageRequest, ModelMap map){
+		String empJobIdStr = request.getParameter("empJobId");
+		String positionIdStr = request.getParameter("positionId");
+		List<Position> positionList = new ArrayList<>();
+		if (StringUtil.isEmpty(empJobIdStr)) {
+			//根据职位ID查询
+			Position position = positionService.get(Integer.valueOf(positionIdStr));
+			if (position != null) {
+				positionList.add(position);
+			}
+		}else if(StringUtil.isEmpty(positionIdStr)) {
+			//根据职工工号查询
+			//查询该职工所属的职位信息
+			List<EmployeePosition> employeePositionList = employeePositionService.listByEmpJobId(empJobIdStr);
+			for (EmployeePosition employeePosition : employeePositionList) {
+				//找到对应的职位
+				Position position = positionService.get(employeePosition.getPositionId());
+				if (position != null) {
+					positionList.add(position);
+				}
+			}
+		}else {
+			//根据职工工号，职位id查询
+			//查询该职工所属的职位信息
+			List<EmployeePosition> employeePositionList = employeePositionService.listByEmpJobId(empJobIdStr);
+			for (EmployeePosition employeePosition : employeePositionList) {
+				//找到对应的职位
+				Position position = positionService.get(employeePosition.getPositionId());
+				if (position != null && position.getPositionId() == Integer.valueOf(positionIdStr)) {
+					positionList.add(position);
+				}
+			}
+		}
+		//查询该
+		if (positionList != null) {
+			positionInfoUtil.setPositionInfo(positionList);
+		}
+		//回显查询条件
+		map.put("positionList", positionList);
+		return "department/positionDetail";
+	}
+	
+	/**
+	 * 查询职位信息，并跳转至登录系统职工的职位详情页面
+	 * 1.根据职工工号查询
+	 * 2.根据职位id查询
+	 * @param request
+	 * @param pageRequest
+	 * @param map
+	 * @return
+	 */
+	@RequestMapping("toMyPositionDetail.do")
+	public String toMyPositionDetail(HttpServletRequest request, PageRequest pageRequest, ModelMap map){
+		//获取当前登录系统人工号
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("session_loginUser");
+		List<Position> positionList = new ArrayList<>();
+		//根据职工工号查询
+		//查询该职工所属的职位信息
+		List<EmployeePosition> employeePositionList = employeePositionService.listByEmpJobId(user.getUserAccount());
+		for (EmployeePosition employeePosition : employeePositionList) {
+			//找到对应的职位
+			Position position = positionService.get(employeePosition.getPositionId());
+			if (position != null) {
+				positionList.add(position);
+			}
+		}
+		if (positionList != null) {
+			positionInfoUtil.setPositionInfo(positionList);
+		}
+		//回显查询条件
+		map.put("positionList", positionList);
+		return "department/myPositionDetail";
+	}
+	
+	/**
+	 * 删除指定id的职位信息
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("delete.do")
+	@ResponseBody
+	public JsonCommonResult<Object> delete(HttpServletRequest request) {
+		//获取部门Id 
+		String positionIdStr = request.getParameter("positionId");		
+		//检查该职位下面是否还有职工信息
+		List<EmployeePosition> employeePositionList = employeePositionService.listByPositionId(Integer.valueOf(positionIdStr));
+		if (employeePositionList != null && employeePositionList.size() != 0) {
+			//该职位下面还有职工信息，不能删除
+			return new JsonCommonResult<>("100", null, "该职位下面还有职工信息，不能删除！");
+		}
+		int result = positionService.delte(Integer.valueOf(positionIdStr));
+		if (result == 0) {
+			return new JsonCommonResult<>("100", null, "删除失败");
+		}
+		return new JsonCommonResult<>("200", null, "删除成功");
+	}
+	
+	/**
+	 * 修改职位信息
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping("update.do")
+	@ResponseBody
+	public JsonCommonResult<Object> update(HttpServletRequest request, HttpServletResponse response) {
+		Map<String, Object> resultMap = new HashMap<>();
+		//获取职位id
+		String positionIdStr = request.getParameter("positionId");
+		//获取职位名称
+				String positionNameStr = request.getParameter("positionName");
+				//获取职位级别id
+				String plIdStr = request.getParameter("plId");
+				//获取职位所属部门id
+				String deptIdStr = request.getParameter("deptId");
+				//职位是否唯一
+				Boolean isOnly = false;
+				if (StringUtil.isNotEmpty(request.getParameter("isOnly"))) {
+					System.out.println("职位不唯一："+request.getParameter("isOnly"));
+					isOnly = true;
+				}
+				//获取上级职位名称
+				String parentPositionIdStr = request.getParameter("parentPositionid");
+				//获取职位状态id
+				String statusIdStr = request.getParameter("statusId");
+				//获取职位描述
+				String positionDescStr = request.getParameter("positionDesc");
+				
+				Position position = positionService.get(Integer.valueOf(positionIdStr));
+				//设置职位名称
+				position.setPositionName(positionNameStr);
+				//设置职位描述
+				position.setPositionDesc(positionDescStr);
+				//设置职位级别id
+				position.setPlId(Integer.valueOf(plIdStr));
+				//设置职位所属部门id
+				position.setDeptId(Integer.valueOf(deptIdStr));
+				//设置职位是否唯一
+				position.setIsOnly(isOnly);
+				if (StringUtil.isNotEmpty(parentPositionIdStr)) {
+					//设置上级职位id
+					position.setParentPositionid(Integer.valueOf(parentPositionIdStr));
+				}
+				//设置职位状态id
+				position.setStatusId(Integer.valueOf(statusIdStr));
+				//设置最后一次操作时间
+				position.setLastOperatorDate(new Date());
+				//设置操作人工号
+				//获取当前登录系统人工号
+				HttpSession session = request.getSession();
+				User user = (User) session.getAttribute("session_loginUser");
+				if (user == null) {
+					return new JsonCommonResult<Object>("100", null, "请先登录！");
+				}
+				//设置工号
+				position.setOperatorEmpjobid(user.getUserAccount());
+				//修改职位信息
+				int result = positionService.update(position);
+				if (result == 0) {
+					return new JsonCommonResult<Object>("100", null, "修改失败");
+				}
+				return new JsonCommonResult<Object>("200", null, "修改成功");
 	}
 	
 	

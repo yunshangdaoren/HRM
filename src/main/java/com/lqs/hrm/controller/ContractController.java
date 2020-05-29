@@ -26,20 +26,26 @@ import com.lqs.hrm.entity.Contract;
 import com.lqs.hrm.entity.Department;
 import com.lqs.hrm.entity.Employee;
 import com.lqs.hrm.entity.EmployeeContract;
+import com.lqs.hrm.entity.EmployeePosition;
 import com.lqs.hrm.entity.Position;
 import com.lqs.hrm.entity.Status;
 import com.lqs.hrm.entity.User;
+import com.lqs.hrm.entity.UserRole;
 import com.lqs.hrm.json.JsonCommonResult;
 import com.lqs.hrm.json.JsonPageResult;
 import com.lqs.hrm.service.impl.ContractServiceImpl;
 import com.lqs.hrm.service.impl.DepartmentServiceImpl;
 import com.lqs.hrm.service.impl.EmployeeContractServiceImpl;
+import com.lqs.hrm.service.impl.EmployeePositionServiceImpl;
 import com.lqs.hrm.service.impl.EmployeeServiceImpl;
 import com.lqs.hrm.service.impl.PositionServiceImpl;
 import com.lqs.hrm.service.impl.StatusServiceImpl;
+import com.lqs.hrm.service.impl.UserRoleServiceImpl;
+import com.lqs.hrm.service.impl.UserServiceImpl;
 import com.lqs.hrm.util.PageRequest;
 import com.lqs.hrm.util.PageResult;
 import com.lqs.hrm.util.PageResultUtil;
+import com.lqs.hrm.util.entity.ContractInfoUtil;
 
 /**
  * 合同Controller
@@ -61,6 +67,14 @@ public class ContractController {
 	private EmployeeServiceImpl employeeService;
 	@Autowired
 	private EmployeeContractServiceImpl employeeContractService;
+	@Autowired
+	private ContractInfoUtil contractInfoUtil;
+	@Autowired
+	private EmployeePositionServiceImpl employeePositionService;
+	@Autowired
+	private UserServiceImpl userService;
+	@Autowired
+	private UserRoleServiceImpl userRoleService;
 	
 	
 	/**
@@ -70,8 +84,8 @@ public class ContractController {
 	 * @param map
 	 * @return
 	 */
-	@RequestMapping("contractList.do")
-	public String departmentList(HttpServletRequest request, PageRequest pageRequest, ModelMap map){
+	@RequestMapping("toAllContractList.do")
+	public String toAllContractList(HttpServletRequest request, PageRequest pageRequest, ModelMap map){
 		//查询条件信息
 		String conIdStr = request.getParameter("conId"); //合同id
 		String deptNameStr = request.getParameter("deptName"); //所属部门名称
@@ -247,7 +261,7 @@ public class ContractController {
 				}
 			}
 		}
-		setContractInfo(contractList);
+		contractInfoUtil.setContractInfo(contractList);
 		//设置分页查询结果
 		PageResult pageResult = PageResultUtil.getPageResult(new PageInfo<>(contractList));
 		//返回查询的部门信息
@@ -262,7 +276,7 @@ public class ContractController {
 		List<Status> statusList = statusService.list(7);
 		//返回查询的合同状态信息
 		map.put("statusList", statusList);
-		return "contract/contractList";
+		return "contract/allContractList";
 	}
 	
 	/**
@@ -453,7 +467,7 @@ public class ContractController {
 		if (contractList == null) {
 			return new JsonPageResult("100", null, "没有数据！");
 		}
-		setContractInfo(contractList);
+		contractInfoUtil.setContractInfo(contractList);
 		return new JsonPageResult("200", PageResultUtil.getPageResult(new PageInfo<>(contractList)), "请求成功！");
 	}
 	
@@ -468,63 +482,11 @@ public class ContractController {
 		//合同id
 		String conIdStr = request.getParameter("conId");
 		Contract contract = contractService.get(Integer.valueOf(conIdStr));
-		setContractInfo(contract);
+		contractInfoUtil.setContractInfo(contract);
 		if(contract == null) {
 			return new JsonCommonResult<Contract>("100",null, "请求失败！");
 		}
 		return new JsonCommonResult<Contract>("200",contract, "请求成功！");
-	}
-	
-	/**
-	 * 设置查询出来的合同实体类信息
-	 * @param departmentList
-	 */
-	public void setContractInfo(List<Contract> list) {
-		if (list.size() != 0 || list != null) {
-			for (int i = 0; i < list.size(); i++) {
-				//设置职工性别描述
-				list.get(i).setEmpSexName(list.get(i).getEmpSex()==0?"女":"男");
-				//设置所属部门名称
-				list.get(i).setDeptName(departmentService.get(list.get(i).getDeptId()).getDeptName());
-				//设置所属职位名称
-				list.get(i).setPositionName(positionService.get(list.get(i).getPositionId()).getPositionName());
-				//设置状态名称
-				list.get(i).setStatusName(statusService.get(list.get(i).getStatusId()).getStatusName());
-				//设置录入人名称
-				if (StringUtil.isNotEmpty(list.get(i).getAddEmpjobid())) {
-					list.get(i).setAddEmpName(employeeService.get(list.get(i).getAddEmpjobid()).getEmpName());
-				}
-				//设置审批人名称
-				if (StringUtil.isNotEmpty(list.get(i).getCheckEmpjobid())) {
-					list.get(i).setCheckEmpName(employeeService.get(list.get(i).getCheckEmpjobid()).getEmpName());
-				}
-			}
-		}
-	}
-	
-	/**
-	 * 设置查询出来的合同实体类信息
-	 * @param departmentList
-	 */
-	public void setContractInfo(Contract contract) {
-		if (contract != null) {
-			//设置职工性别描述
-			contract.setEmpSexName(contract.getEmpSex()==0?"女":"男");
-			//设置所属部门名称
-			contract.setDeptName(departmentService.get(contract.getDeptId()).getDeptName());
-			//设置所属职位名称
-			contract.setPositionName(positionService.get(contract.getPositionId()).getPositionName());
-			//设置状态名称
-			contract.setStatusName(statusService.get(contract.getStatusId()).getStatusName());
-			//设置录入人名称
-			if (StringUtil.isNotEmpty(contract.getAddEmpjobid())) {
-				contract.setAddEmpName(employeeService.get(contract.getAddEmpjobid()).getEmpName());
-			}
-			//设置审批人名称
-			if (StringUtil.isNotEmpty(contract.getCheckEmpjobid())) {
-				contract.setAddEmpName(employeeService.get(contract.getCheckEmpjobid()).getEmpName());
-			}
-		}
 	}
 	
 	/**
@@ -605,14 +567,14 @@ public class ContractController {
 	}
 	
 	/**
-	 * 转至审批合同页面
+	 * 转至待入职合同审批列表页面
 	 * @param request
 	 * @param pageRequest
 	 * @param map
 	 * @return
 	 */
-	@RequestMapping("toCheckContract.do")
-	public String toCheckContract(HttpServletRequest request, PageRequest pageRequest, ModelMap map){
+	@RequestMapping("toCheckEntryContractList.do")
+	public String toCheckEntryContractList(HttpServletRequest request, PageRequest pageRequest, ModelMap map){
 		//查询条件信息
 				String conIdStr = request.getParameter("conId"); //合同id
 				String deptNameStr = request.getParameter("deptName"); //所属部门名称
@@ -622,13 +584,13 @@ public class ContractController {
 				List<Contract> contractList = new ArrayList<>();
 				//查询条件判断
 				if (StringUtil.isEmpty(conIdStr) && StringUtil.isEmpty(deptNameStr) && StringUtil.isEmpty(positionNameStr)) {
-					//如果查询的条件全部为空，则查询出所有待审批合同信息
+					//如果查询的条件全部为空，则查询出所有待入职审批合同信息
 					contractList = contractService.listByStatusId(16);
 				}else if(StringUtil.isEmpty(deptNameStr) && StringUtil.isEmpty(positionNameStr)) {
-					//则根据合同id查询所有待审批合同信息
+					//则根据合同id查询所有待入职审批合同信息
 					contractList = contractService.listByConIdStatusId(Integer.valueOf(conIdStr), 16);
 				}else if(StringUtil.isEmpty(conIdStr) && StringUtil.isEmpty(positionNameStr)){
-					//则根据所属部门名称查询所有待审批合同信息
+					//则根据所属部门名称查询所有待入职审批合同信息
 					List<Department> departmentList = departmentService.listByDeptName(deptNameStr);
 					for (Department department : departmentList) {
 						List<Contract> contracts = contractService.listByDeptIdStatusId(department.getDeptId(), 16);
@@ -639,7 +601,7 @@ public class ContractController {
 						}
 					}
 				}else if(StringUtil.isEmpty(conIdStr) && StringUtil.isEmpty(deptNameStr)) {
-					//则根据所属职位名称查询所有待审批合同信息
+					//则根据所属职位名称查询所有待入职审批合同信息
 					List<Position> positionList = positionService.listByPositionName(positionNameStr);
 					for (Position position : positionList) {
 						List<Contract> contracts = contractService.listByPositionIdStatusId(position.getPositionId(), 16);
@@ -650,7 +612,7 @@ public class ContractController {
 						}
 					}
 				}else if(StringUtil.isEmpty(positionNameStr)) {
-					//根据合同id，所属部门名称查询所有待审批合同信息
+					//根据合同id，所属部门名称查询所有待入职审批合同信息
 					List<Department> departmentList = departmentService.listByDeptName(deptNameStr);
 					for (Department department : departmentList) {
 						List<Contract> contracts = contractService.listByConIdDeptIdStatusId(Integer.valueOf(conIdStr), department.getDeptId(), 16);
@@ -661,7 +623,7 @@ public class ContractController {
 						}
 					}
 				}else if(StringUtil.isEmpty(deptNameStr) && StringUtil.isEmpty(conIdStr)) {
-					//根据合同id、所属职位名称查询所有待审批合同信息
+					//根据合同id、所属职位名称查询所有待入职审批合同信息
 					List<Position> positionList = positionService.listByPositionName(positionNameStr);
 					for (Position position : positionList) {
 						List<Contract> contracts = contractService.listByConIdPositionIdStatusId(Integer.valueOf(conIdStr), position.getPositionId(), 16);
@@ -672,7 +634,7 @@ public class ContractController {
 						}
 					}
 				}else if(StringUtil.isEmpty(conIdStr)) {
-					//根据合同所属部门名称、所属职位名称查询所有待审批合同信息
+					//根据合同所属部门名称、所属职位名称查询所有待入职审批合同信息
 					List<Department> departmentList = departmentService.listByDeptName(deptNameStr);
 					List<Position> positionList = positionService.listByPositionName(positionNameStr);
 					for (Department department : departmentList) {
@@ -686,7 +648,7 @@ public class ContractController {
 						}
 					}
 				}else{
-					//根据合同id、所属部门名称、所属职位名称查询所有待审批合同信息
+					//根据合同id、所属部门名称、所属职位名称查询所有待入职审批合同信息
 					List<Department> departmentList = departmentService.listByDeptName(deptNameStr);
 					List<Position> positionList = positionService.listByPositionName(positionNameStr);
 					for (Department department : departmentList) {
@@ -700,7 +662,7 @@ public class ContractController {
 						}
 					}
 				}
-		setContractInfo(contractList);
+		contractInfoUtil.setContractInfo(contractList);
 		//设置分页查询结果
 		PageResult pageResult = PageResultUtil.getPageResult(new PageInfo<>(contractList));
 		//返回查询的部门信息
@@ -709,20 +671,127 @@ public class ContractController {
 		map.put("conIdStr", conIdStr);
 		map.put("deptNameStr", deptNameStr);
 		map.put("positionNameStr", positionNameStr);
-		return "contract/checkContract";
+		return "contract/checkEntryContractList";
 	}
 	
 	/**
-	 * 审批合同信息
+	 * 转至待离职合同审批列表页面
+	 * @param request
+	 * @param pageRequest
+	 * @param map
+	 * @return
+	 */
+	@RequestMapping("toCheckResignContractList.do")
+	public String toCheckResignContractList(HttpServletRequest request, PageRequest pageRequest, ModelMap map){
+		//查询条件信息
+				String conIdStr = request.getParameter("conId"); //合同id
+				String deptNameStr = request.getParameter("deptName"); //所属部门名称
+				String positionNameStr = request.getParameter("positionName"); //所属职位名称
+				//分页
+				PageHelper.startPage(pageRequest.getPageNum(), pageRequest.getPageSize());
+				List<Contract> contractList = new ArrayList<>();
+				//查询条件判断
+				if (StringUtil.isEmpty(conIdStr) && StringUtil.isEmpty(deptNameStr) && StringUtil.isEmpty(positionNameStr)) {
+					//如果查询的条件全部为空，则查询出所有待审离职批合同信息
+					contractList = contractService.listByStatusId(26);
+				}else if(StringUtil.isEmpty(deptNameStr) && StringUtil.isEmpty(positionNameStr)) {
+					//则根据合同id查询所有待离职审批合同信息
+					contractList = contractService.listByConIdStatusId(Integer.valueOf(conIdStr), 16);
+				}else if(StringUtil.isEmpty(conIdStr) && StringUtil.isEmpty(positionNameStr)){
+					//则根据所属部门名称查询所有待离职审批合同信息
+					List<Department> departmentList = departmentService.listByDeptName(deptNameStr);
+					for (Department department : departmentList) {
+						List<Contract> contracts = contractService.listByDeptIdStatusId(department.getDeptId(), 26);
+						for (Contract contract : contracts) {
+							if (contract != null) {
+								contractList.add(contract);
+							}
+						}
+					}
+				}else if(StringUtil.isEmpty(conIdStr) && StringUtil.isEmpty(deptNameStr)) {
+					//则根据所属职位名称查询所有待离职审批合同信息
+					List<Position> positionList = positionService.listByPositionName(positionNameStr);
+					for (Position position : positionList) {
+						List<Contract> contracts = contractService.listByPositionIdStatusId(position.getPositionId(), 26);
+						for (Contract contract : contracts) {
+							if (contract != null) {
+								contractList.add(contract);
+							}
+						}
+					}
+				}else if(StringUtil.isEmpty(positionNameStr)) {
+					//根据合同id，所属部门名称查询所有待离职审批合同信息
+					List<Department> departmentList = departmentService.listByDeptName(deptNameStr);
+					for (Department department : departmentList) {
+						List<Contract> contracts = contractService.listByConIdDeptIdStatusId(Integer.valueOf(conIdStr), department.getDeptId(), 26);
+						for (Contract contract : contracts) {
+							if (contract != null) {
+								contractList.add(contract);
+							}
+						}
+					}
+				}else if(StringUtil.isEmpty(deptNameStr) && StringUtil.isEmpty(conIdStr)) {
+					//根据合同id、所属职位名称查询所有待离职审批合同信息
+					List<Position> positionList = positionService.listByPositionName(positionNameStr);
+					for (Position position : positionList) {
+						List<Contract> contracts = contractService.listByConIdPositionIdStatusId(Integer.valueOf(conIdStr), position.getPositionId(), 26);
+						for (Contract contract : contracts) {
+							if (contract != null) {
+								contractList.add(contract);
+							}
+						}
+					}
+				}else if(StringUtil.isEmpty(conIdStr)) {
+					//根据合同所属部门名称、所属职位名称查询所有待离职审批合同信息
+					List<Department> departmentList = departmentService.listByDeptName(deptNameStr);
+					List<Position> positionList = positionService.listByPositionName(positionNameStr);
+					for (Department department : departmentList) {
+						for (Position position : positionList) {
+							List<Contract> contracts = contractService.listByDeptIdPositionId(department.getDeptId(), position.getPositionId());
+							for (Contract contract : contracts) {
+								if (contract != null) {
+									contractList.add(contract);
+								}
+							}
+						}
+					}
+				}else{
+					//根据合同id、所属部门名称、所属职位名称查询所有待离职审批合同信息
+					List<Department> departmentList = departmentService.listByDeptName(deptNameStr);
+					List<Position> positionList = positionService.listByPositionName(positionNameStr);
+					for (Department department : departmentList) {
+						for (Position position : positionList) {
+							List<Contract> contracts = contractService.listByConIdDeptIdPositionStatusId(Integer.valueOf(conIdStr), department.getDeptId(), position.getPositionId(), 26);
+							for (Contract contract : contracts) {
+								if (contract != null) {
+									contractList.add(contract);
+								}
+							}
+						}
+					}
+				}
+		contractInfoUtil.setContractInfo(contractList);
+		//设置分页查询结果
+		PageResult pageResult = PageResultUtil.getPageResult(new PageInfo<>(contractList));
+		//返回查询的部门信息
+		map.put("pageResult", pageResult);
+		//回显查询条件
+		map.put("conIdStr", conIdStr);
+		map.put("deptNameStr", deptNameStr);
+		map.put("positionNameStr", positionNameStr);
+		return "contract/checkResignContractList";
+	}
+	
+	/**
+	 * 审批待入职合同信息
 	 * @param request
 	 * @param response
 	 * @return
 	 * @throws ParseException 
 	 */
-	@RequestMapping("checkContract.do")
+	@RequestMapping("checkEntryContract.do")
 	@ResponseBody
-	public JsonCommonResult<Object> checkContract(HttpServletRequest request, HttpServletResponse response) throws ParseException {
-		Map<String, Object> resultMap = new HashMap<>();
+	public JsonCommonResult<Object> checkContract(HttpServletRequest request, HttpServletResponse response){
 		//获取合同id
 		String conIdStr = request.getParameter("conId");
 		Contract contract = contractService.get(Integer.valueOf(conIdStr));
@@ -735,10 +804,10 @@ public class ContractController {
 		if (user == null) {
 			return new JsonCommonResult<Object>("100", null, "请先登录！");
 		}
-		//设置审批合同信息人工号
-		contract.setCheckEmpjobid(user.getUserAccount());
-		//设置审批时间
-		contract.setCheckDate(new Date());
+		//设置入职审批合同职工人工号
+		contract.setEntryCheckEmpjobid(user.getUserAccount());
+		//设置入职审批时间
+		contract.setEntryCheckDate(new Date());
 		//更新合同信息
 		int result = contractService.update(contract);
 		if (result == 0) {
@@ -746,6 +815,73 @@ public class ContractController {
 		}
 		return new JsonCommonResult<Object>("200", null, "审批成功");
 	}
+	
+	/**
+	 * 审批待离职合同信息
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws ParseException 
+	 */
+	@RequestMapping("checkResignContract.do")
+	@ResponseBody
+	public JsonCommonResult<Object> checkResignContract(HttpServletRequest request, HttpServletResponse response){
+		//获取合同id
+		String conIdStr = request.getParameter("conId");
+		Contract contract = contractService.get(Integer.valueOf(conIdStr));
+		//审批合同，将合同置为终止状态
+		contract.setStatusId(15);
+		//设置审批人工号
+		//获取当前登录系统人工号
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("session_loginUser");
+		if (user == null) {
+			return new JsonCommonResult<Object>("100", null, "请先登录！");
+		}
+		//设置离职审批合同信息人工号
+		contract.setResignCheckEmpjobid(user.getUserAccount());
+		//设置离职审批时间
+		contract.setResignCheckDate(new Date());
+		//更新合同信息
+		int result = contractService.update(contract);
+		if (result == 0) {
+			return new JsonCommonResult<Object>("100", null, "审批失败");
+		}
+		
+		//待审批离职合同职工的工号
+		String empJobId = employeeContractService.get(Integer.valueOf(conIdStr)).getEmpJobid();
+		//获取职工与对应的职位关联信息
+		List<EmployeePosition> employeePositionList = employeePositionService.listByEmpJobIdPositionId(empJobId, contract.getPositionId());
+		//遍历
+		for (EmployeePosition employeePosition : employeePositionList) {
+			//删除该职工-职位信息
+			int result3 = employeePositionService.delete(employeePosition.getEpId());
+			if (result3 == 0) {
+				return new JsonCommonResult<Object>("100", null, "审批失败");
+			}
+		}
+		//将职工状态置为离职状态
+		Employee employee = employeeService.get(empJobId);
+		employee.setStatusId(8);
+		int result4 = employeeService.update(employee);
+		if (result4 == 0) {
+			return new JsonCommonResult<Object>("100", null, "审批失败");
+		}
+		
+		//删除该职工对应的系统账户角色信息
+		int result5 = userService.delete(empJobId);
+		if (result5 == 0) {
+			return new JsonCommonResult<Object>("100", null, "审批失败");
+		}
+		//删除该职工对应的系统账户信息
+		int result6 = userService.delete(empJobId);
+		if (result6 == 0) {
+			return new JsonCommonResult<Object>("100", null, "审批失败");
+		}
+		
+		return new JsonCommonResult<Object>("200", null, "审批成功");
+	}
+	
 	/**
 	 * 查询指定父部门的所有子部门信息
 	 * @param request
@@ -805,7 +941,7 @@ public class ContractController {
 			}
 		}
 		
-		setContractInfo(contract);
+		contractInfoUtil.setContractInfo(contract);
 		map.put("contract", contract);		
 		return "contract/detailContract";
 	}
@@ -917,7 +1053,7 @@ public class ContractController {
 				}
 			}
 		}
-		setContractInfo(contractList);
+		contractInfoUtil.setContractInfo(contractList);
 		
 		//设置分页查询结果
 		PageResult pageResult = PageResultUtil.getPageResult(new PageInfo<>(contractList));
@@ -1038,7 +1174,7 @@ public class ContractController {
 						}
 					}
 				}
-				setContractInfo(contractList);
+				contractInfoUtil.setContractInfo(contractList);
 				
 				//设置分页查询结果
 				PageResult pageResult = PageResultUtil.getPageResult(new PageInfo<>(contractList));

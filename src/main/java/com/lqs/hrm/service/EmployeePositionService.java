@@ -57,5 +57,11 @@ public interface EmployeePositionService {
 	 */
 	int update(EmployeePosition employeePosition);
 	
+	/**
+	 * 删除
+	 * @param employeePosition
+	 * @return
+	 */
+	int delete(Integer epId);
 	
 }

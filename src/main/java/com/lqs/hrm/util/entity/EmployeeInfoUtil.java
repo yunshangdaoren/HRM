@@ -2,6 +2,7 @@ package com.lqs.hrm.util.entity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -97,7 +98,7 @@ public class EmployeeInfoUtil {
 				
 				//设置最后一次操作人名称
 				if(list.get(i).getOperatorEmpjobid() != null && StringUtil.isNotEmpty(list.get(i).getOperatorEmpjobid())) {
-					list.get(i).setOperatorEmpName(employeeService.get(list.get(i).getEmpJobid()).getEmpName());
+					list.get(i).setOperatorEmpName(employeeService.get(list.get(i).getOperatorEmpjobid()).getEmpName());
 				}
 			}
 		}
@@ -159,8 +160,16 @@ public class EmployeeInfoUtil {
 			
 			//设置最后一次操作人名称
 			if(employee.getOperatorEmpjobid() != null && StringUtil.isNotEmpty(employee.getOperatorEmpjobid())) {
-				employee.setOperatorEmpName(employeeService.get(employee.getEmpJobid()).getEmpName());
+				employee.setOperatorEmpName(employeeService.get(employee.getOperatorEmpjobid()).getEmpName());
 			}
 		}
+	}
+	
+	/**
+	 * 去除重复数据
+	 * @param employeeList
+	 */
+	public List<Employee> deleteRepeat(List<Employee> employeeList) {
+		return employeeList.stream().distinct().collect(Collectors.toList()); 
 	}
 }

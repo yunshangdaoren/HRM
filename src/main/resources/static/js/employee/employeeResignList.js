@@ -70,4 +70,8 @@ $(".a_detailContract").click(function(){
 	var positionId = $(this).parent().parent().children().eq(4).children().eq(1).text();
 	window.location.href="/contract/detailContract.do?deptId="+deptId+"&positionId="+positionId+"&empJobId="+empJobId;
 });
-
+//跳转到职工详情页面
+$(".a_detailEmployeeByManagerEmployee").click(function(){
+	var empJobId = $(this).parent().parent().children().eq(1).text();
+	window.location.href = "/employee/toEmployeeDetail.do?empJobId="+empJobId;
+});

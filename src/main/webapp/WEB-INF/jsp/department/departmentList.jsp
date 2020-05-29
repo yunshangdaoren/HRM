@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-	<title>组织架构</title>
+	<title>部门详情</title>
 	<link href="/static/css/department/departmentList.css" rel="stylesheet" />
 </head>
 <body>
@@ -12,9 +12,15 @@
 	<div id="center">
 		<%@ include file="../leftNav.jsp" %>
 		<div id="right">
-			<span class="title">部门详情</span>
+			<ul class="nav nav-tabs">
+  				<li role="presentation" class="active"><a href="/department/toDepartmentList.do">部门详情</a></li>
+  				<c:if test="${roles.roleId!=1 }">
+  					<li role="presentation"><a href="/department/toMyDepartmentDetail.do">我的部门信息</a></li>
+  					<li role="presentation"><a href="/employee/toMyDepartmentEmployeeList.do">部门同事信息</a></li>
+  				</c:if>
+			</ul>
 			<div class="div_search">
-				<form class="form-inline" id="form-queryDept" method="get" action="/department/departmentList.do">
+				<form class="form-inline" id="form-queryDept" method="get" action="/department/toDepartmentList.do">
 					<div class="form-group">
     					<label for="exampleInputName2">部门ID</label>
     					<input type="text" class="form-control" name="deptId" id="input-selectDeptId" value="${deptIdStr }">
@@ -45,7 +51,9 @@
   					</div>
   					<button id="btn-resetSelect" type="button" class="btn btn-danger">重置</button>
   					<button id="btn-selectDept" type="submit" class="btn btn-danger">查询</button>
-  					<button id="btn-addDept" type="button" class="btn btn-success">添加部门</button>
+  					<c:if test="${roles.roleId!=3 }">
+  						<button id="btn-addDept" type="button" class="btn btn-success">添加部门</button>
+  					</c:if>
 				</form>
 			</div>
 			<table class="table table-hover" id="table-deptDtail">
@@ -71,11 +79,18 @@
 							<td>${department.deptName }</td>
 							<td>${department.dlLeve }级</td>
 							<td>
-								<a href="#" class="a-managePositionName">${department.managePositionName }</a>
+								<a href="#" class="a_detailManagePosition">${department.managePositionName }</a>
 								<i style="display:none;">${department.managePositionid }</i>
 							</td>
 							<td>
-								<a href="#" class="a-manageEmpName">${department.manageEmpName }</a>
+								<c:choose>
+									<c:when test="${roles.roleId==3 }">
+										<a href="#" class="a_detailManageEmployeeByNormalEmployee">${department.manageEmpName }</a>
+									</c:when>
+									<c:otherwise>
+										<a href="#" class="a_detailManageEmployeeByManagerEmployee">${department.manageEmpName }</a>
+									</c:otherwise>
+								</c:choose>
 								<i style="display:none;">${department.manageEmpJobId }</i>
 							</td>
 							<td>${department.deptEmpnum }</td>
@@ -83,7 +98,14 @@
 							<td class="td-hideContent">${department.statusName }</td>
 							<td><fmt:formatDate value="${department.lastOperatorDate }" type="both"/></td>
 							<td>
-								<a href="#" class="a-operatorEmpName">${department.operatorEmpName }</a>
+								<c:choose>
+									<c:when test="${roles.roleId==3 }">
+										<a href="#" class="a_detailOperatorEmployeeByNormalEmployee">${department.operatorEmpName }</a>
+									</c:when>
+									<c:otherwise>
+										<a href="#" class="a_detailOperatorEmployeeByManagerEmployee">${department.operatorEmpName }</a>
+									</c:otherwise>
+								</c:choose>
 								<i style="display:none;">${department.operatorEmpjobid }</i>
 							</td>
 					    	<td>

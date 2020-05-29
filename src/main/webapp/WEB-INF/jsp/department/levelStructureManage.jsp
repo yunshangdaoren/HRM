@@ -40,7 +40,14 @@
 							<td>${departmentLevel.levelNote }</td>
 							<td><fmt:formatDate value="${departmentLevel.lastOperatorDate }" type="both"/></td>
 							<td>
-								<a href="#" class="a-operatorEmpName" style="text-decoration:none;">${departmentLevel.operatorEmpName }</a>
+								<c:choose>
+									<c:when test="${roles.roleId==3 }">
+										<a href="#" class="a_detailOperatorEmployeeByNormalEmployee">${departmentLevel.operatorEmpName }</a>
+									</c:when>
+									<c:otherwise>
+										<a href="#" class="a_detailOperatorEmployeeByManagerEmployee">${departmentLevel.operatorEmpName }</a>
+									</c:otherwise>
+								</c:choose>
 								<i style="display:none;">${departmentLevel.operatorEmpjobid }</i>
 							</td>
 							<td>

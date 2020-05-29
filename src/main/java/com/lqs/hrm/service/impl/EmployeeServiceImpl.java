@@ -136,8 +136,8 @@ public class EmployeeServiceImpl implements EmployeeService{
 	 * 修改职工信息
 	 */
 	@Override
-	public int update(String empJobId) {
-		return employeeMapper.deleteByPrimaryKey(empJobId);
+	public int update(Employee employee) {
+		return employeeMapper.updateByPrimaryKeySelective(employee);
 	}
 
 }

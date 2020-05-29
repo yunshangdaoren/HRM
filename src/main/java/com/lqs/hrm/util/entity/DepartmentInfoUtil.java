@@ -54,7 +54,7 @@ public class DepartmentInfoUtil {
 	 * @param departmentList
 	 * @throws ParseException 
 	 */
-	public void setDepartmentInfo(List<Department> list) throws ParseException {
+	public void setDepartmentInfo(List<Department> list) {
 		if (list.size() != 0 || list != null) {
 			for (int i = 0; i < list.size(); i++) {
 				//System.out.print("================ 部门名称："+list.get(i).getDeptName()+"===================\n");
@@ -182,5 +182,27 @@ public class DepartmentInfoUtil {
 			allDepartmentList.add(department);
 		}
 		return allDepartmentList;
+	}
+	
+	/**
+	 * 获取指定部门下的所有职工数量
+	 * @param department
+	 * @return
+	 */
+	public int getDeptEmpNum(Department department) {
+		//部门职工数量
+		Integer deptEmpNum = 0;
+	    List<Department> childDepartmentList = listChildDeptByDeptId(department.getDeptId());
+	    childDepartmentList.add(department);
+	    for (Department d : childDepartmentList) {
+	    	//System.out.print("子部门名称："+d.getDeptName());
+	    	 List<Position> positionList = positionService.listByDeptId(d.getDeptId());
+				for (Position position : positionList) {
+					List<EmployeePosition> employeePositionList = employeePositionService.listByPositionId(position.getPositionId());
+					deptEmpNum += employeePositionList.size();
+				}
+			//System.out.println();
+		}
+		return deptEmpNum;
 	}
 }

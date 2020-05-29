@@ -40,8 +40,10 @@
        				</li>
        				<li class="list-group-item"><label>合同录入人：</label><span class="span-addEmpName">${contract.addEmpName }</span></li>
        				<li class="list-group-item"><label>合同录入日期：</label><span class="span-addDate"><fmt:formatDate value="${contract.addDate }" type="both"/></span></li>
-       				<li class="list-group-item"><label>合同审批人：</label><span class="span-checkEmpName">${contract.checkEmpName }</span></li>
-       				<li class="list-group-item"><label>合同审批日期：</label><span class="span-checkDate"><fmt:formatDate value="${contract.checkDate }" type="both"/></span></li>
+       				<li class="list-group-item"><label>合同入职审批人：</label><span class="span-checkEmpName">${contract.entryCheckEmpName }</span></li>
+       				<li class="list-group-item"><label>合同入职审批日期：</label><span class="span-checkDate"><fmt:formatDate value="${contract.entryCheckDate }" type="both"/></span></li>
+   					<li class="list-group-item"><label>合同离职审批人：</label><span class="span-checkEmpName">${contract.resignCheckEmpName }</span></li>
+       				<li class="list-group-item"><label>合同离职审批日期：</label><span class="span-checkDate"><fmt:formatDate value="${contract.resignCheckDate }" type="both"/></span></li>
    					<li class="list-group-item"><label>备注：</label><span class="span-note"></span>${contract.note }</li>
    				</ul>
 			</div>

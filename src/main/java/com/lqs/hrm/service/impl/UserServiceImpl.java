@@ -59,5 +59,51 @@ public class UserServiceImpl implements UserService{
 		}
 		return users.get(0);
 	}
+
+	/**
+	 * 删除
+	 */
+	@Override
+	public int delete(String userAccount) {
+		UserExample example = new UserExample();
+		example.createCriteria().andUserAccountEqualTo(userAccount);
+		return userMapper.deleteByExample(example);
+	}
+
+	/**
+	 * 添加
+	 */
+	@Override
+	public int add(User user) {
+		return userMapper.insert(user);
+	}
+
+	@Override
+	public int update(User user) {
+		UserExample example = new UserExample();
+		example.or().andUserAccountEqualTo(user.getUserAccount());
+		return userMapper.updateByExampleSelective(user, example);
+	}
+
+	@Override
+	public List<User> listByStatusId(Integer statusId) {
+		UserExample example = new UserExample();
+		example.or().andStatusIdEqualTo(statusId);
+		return userMapper.selectByExample(example);
+	}
+
+	@Override
+	public List<User> listByUserAccountStatusId(String userAccount, Integer statusId) {
+		UserExample example = new UserExample();
+		example.or().andStatusIdEqualTo(statusId).andUserAccountEqualTo(userAccount);
+		return userMapper.selectByExample(example);
+	}
+
+	@Override
+	public List<User> listByNoExceptSuperManager() {
+		UserExample example = new UserExample();
+		example.or().andUserAccountNotEqualTo("1");
+		return userMapper.selectByExample(example);
+	}
 	
 }

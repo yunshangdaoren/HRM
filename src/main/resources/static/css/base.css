@@ -9,10 +9,10 @@ html, body{
 	width:100%;
 	background:black;
 }
-/* 锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷式 */
+/* 页面顶部样式 */
 #top{
 	height:65px;
-	min-width:1380px;
+	min-width:1400px;
 	user-select:none;
 }
 #top .div-title{
@@ -88,7 +88,7 @@ html, body{
 	margin-top:14px;
 	border-radius:10px;
 }
-/* 锟斤拷锟街诧拷锟斤拷式  */
+/* 弹出层样式  */
 .shadeDiv{
 	display:none;
 	position:absolute;
@@ -100,18 +100,18 @@ html, body{
 	line-height:100%;
 	z-index:2;
 }
-/* 锟叫硷拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷式 */
+/* 页面中部内容样式 */
 #center{
-	min-width:1380px;
+	min-width:1400px;
 	max-width:100%;
-	min-height:820px;
-	max-height:auto;
-	overflow: hidden;
+	min-height:620px;
+	height:auto;
 	padding:0px;
 	background:#ffffff;
+	overflow:hidden; /* 解决子DIV浮动不能撑开父容器 */
 }
 #right{
-	min-width:1220px;
+	min-width:1240px;
 	height:auto;
 	position: relative;
 	left: 10px;
@@ -138,13 +138,14 @@ html, body{
 }
 /* 锟阶诧拷锟斤拷锟斤拷式 */
 #bottom{
-	min-width:1380px;
+	min-width:1400px;
 	max-width:100%;
 	height:80px;
 	text-align:center;
 	color:#888;
 	line-height:80px;
 	position:relative;
+	bottom:0px;
 }
 /* 锟秸硷拷录 */
 .div_prpmptEmpty{

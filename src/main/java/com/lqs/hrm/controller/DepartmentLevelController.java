@@ -36,7 +36,13 @@ import com.lqs.hrm.service.impl.StatusServiceImpl;
 import com.lqs.hrm.util.PageRequest;
 import com.lqs.hrm.util.PageResult;
 import com.lqs.hrm.util.PageResultUtil;
+import com.lqs.hrm.util.entity.DepartmentInfoUtil;
 
+/**
+ * 部门级别Controller
+ * @author luckyliuqs
+ *
+ */
 @Controller
 @RequestMapping("departmentLevel")
 public class DepartmentLevelController {
@@ -52,6 +58,8 @@ public class DepartmentLevelController {
 	private EmployeePositionServiceImpl employeePositionService;
 	@Autowired
 	private PositionServiceImpl positionService;
+	@Autowired
+	private DepartmentInfoUtil departmentInfoUtil;
 	
 	/**
 	 * 查询部门并跳转至部门架构管理页面
@@ -84,7 +92,7 @@ public class DepartmentLevelController {
 			departmentList = departmentService.listByParentId(parentDeptId);
 		}
 		//设置查询出来的部门信息
-		setDeptInfo(departmentList);
+		departmentInfoUtil.setDepartmentInfo(departmentList);
 		//设置分页查询结果
 		PageResult pageResult = PageResultUtil.getPageResult(new PageInfo<>(departmentList));
 		//返回查询的部门信息
@@ -93,6 +101,12 @@ public class DepartmentLevelController {
 	}
 	
 	
+	/**
+	 * 查询部门级别信息
+	 * @param request
+	 * @param pageRequest
+	 * @return
+	 */
 	@RequestMapping("query.do")
 	@ResponseBody
 	public JsonPageResult query(HttpServletRequest request, PageRequest pageRequest) {
@@ -121,7 +135,7 @@ public class DepartmentLevelController {
 			return new JsonPageResult("100", null, "无数据！");
 		}
 		//设置查询出来的部门信息
-		setDeptInfo(departmentList);
+		departmentInfoUtil.setDepartmentInfo(departmentList);
 		PageResult pageResult = PageResultUtil.getPageResult(new PageInfo<>(departmentList));
 		return new JsonPageResult("200", PageResultUtil.getPageResult(new PageInfo<>(departmentList)), "请求成功！");
 	}
@@ -174,47 +188,6 @@ public class DepartmentLevelController {
 		}
 	}
 	
-	/**
-	 * 设置查询出来的部门实体类信息
-	 * @param departmentList
-	 */
-	public void setDeptInfo(List<Department> list) {
-		if (list.size() != 0 || list != null) {
-			for (int i = 0; i < list.size(); i++) {
-				//设置部门级别
-				list.get(i).setDlLeve(departmentLevelService.get(list.get(i).getDlId()).getLevel());
-				//设置部门主管职位名称
-				if (list.get(i).getManagePositionid() != null && list.get(i).getManagePositionid().intValue()!= 0) {
-					list.get(i).setManagePositionName(positionService.get(list.get(i).getManagePositionid()).getPositionName());
-				}
-				//设置部门主管人工号和姓名
-				if(list.get(i).getManagePositionid() != null && list.get(i).getManagePositionid() != 0) {
-					//获取部门主管职位
-					List<EmployeePosition> employeePositionList = employeePositionService.listByPositionId(list.get(i).getManagePositionid());
-					if (employeePositionList == null || employeePositionList.size() == 0) {
-						//该部门主管职位还未分配给职工
-						list.get(i).setManageEmpName("");
-					}else {
-						//该部门主管职位还已分配给职工，则查找该职工信息
-						Employee employee = employeeService.get(employeePositionList.get(0).getEmpJobid());
-						//设置部门主管人工号和姓名
-						list.get(i).setManageEmpJobId(employee.getEmpJobid());
-						list.get(i).setManageEmpName(employee.getEmpName());
-					}
-				}
-				//设置上级部门名称
-				if (list.get(i).getParentId() != null) {
-					list.get(i).setParentDeptName(departmentService.get(list.get(i).getParentId()).getDeptName());
-				} 
-				//设置部门状态名称
-				list.get(i).setStatusName(statusService.get(list.get(i).getStatusId()).getStatusName());
-				//设置操作人名称
-				if(list.get(i).getOperatorEmpjobid() != null && !list.get(i).getOperatorEmpjobid().isEmpty()) {
-					list.get(i).setOperatorEmpName(employeeService.get(list.get(i).getOperatorEmpjobid()).getEmpName());
-				}
-			}
-		}
-	}
 	
 	/**
 	 * 返回所有部门级别信息
@@ -289,7 +262,7 @@ public class DepartmentLevelController {
 	}
 	
 	/**
-	 * 添加部门级别信息
+	 * 修改部门级别信息
 	 * @param request
 	 * @param response
 	 * @return

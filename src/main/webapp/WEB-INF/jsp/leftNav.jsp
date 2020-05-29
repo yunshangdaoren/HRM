@@ -33,11 +33,12 @@
 				<c:choose>
 					<c:when test="${roles.roleId==3 }">
 						<a href="/department/toDepartmentList.do" >部门详情</a>
+						<a href="/position/positionList.do" >职位详情</a>
 					</c:when>
 					<c:otherwise>
 						<a href="/department/toDepartmentList.do" >部门详情</a>
 						<a href="/departmentLevel/departmentStructureManage.do" >部门架构管理</a>
-						<a href="/position/positionList.do" >职位管理</a>
+						<a href="/position/positionList.do" >职位详情</a>
 					</c:otherwise>
 				</c:choose>
 			</div>
@@ -50,14 +51,23 @@
 		<div class="modu-content">
 			<div class="content-body">
 				<c:choose>
-					<c:when test="${roles.roleId==3 }">
+					<c:when test="${roles.roleId==1 }">
 						<a href="/employee/toEmployeeList.do" >职工花名册</a>
+						<a href="/contract/needEntryContractList.do" >合同入职</a>
+						<a href="/employeeResign/toEmployeeResignList.do" >离职申请列表</a>
+					</c:when>
+					<c:when test="${roles.roleId==2 }">
+						<a href="/employee/toEmployeeList.do" >职工花名册</a>
+						<a href="/contract/needEntryContractList.do" >合同入职</a>
+						<a href="/employeeResign/toEmployeeResignList.do" >离职申请列表</a>
+						<a href="/employee/toMyEmployeeDetail.do">个人信息</a>
+						<a href="/employeeResign/toMyEmployeeResignList.do" >我的转岗申请</a>
 						<a href="/employeeResign/toMyEmployeeResignList.do" >我的离职申请</a>
 					</c:when>
 					<c:otherwise>
 						<a href="/employee/toEmployeeList.do" >职工花名册</a>
-						<a href="/contract/needEntryContractList.do" >合同入职</a>
-						<a href="/employeeResign/toEmployeeResignList.do" >离职申请列表</a>
+						<a href="/employee/toMyEmployeeDetail.do">个人信息</a>
+						<a href="/employeeResign/toMyEmployeeResignList.do" >我的转岗申请</a>
 						<a href="/employeeResign/toMyEmployeeResignList.do" >我的离职申请</a>
 					</c:otherwise>
 				</c:choose>
@@ -72,7 +82,7 @@
 			<div class="content-body">
 				<c:choose>
 					<c:when test="${roles.roleId==3 }">
-						<a href="/department/list.do" >个人考勤信息查看</a>
+						<a href="/attendanceEmployee/toMyAttendanceEmployeeList.do" >个人考勤信息查看</a>
 						<a href="/department/list.do" >请假申请</a>
 					</c:when>
 					<c:otherwise>
@@ -93,13 +103,13 @@
 			<div class="content-body">
 				<c:choose>
 					<c:when test="${roles.roleId==3 }">
-						<a href="/department/list.do" >我的个人绩效</a>
+						<a href="#" >我的个人绩效</a>
 					</c:when>
 					<c:otherwise>
-						<a href="/department/list.do" >绩效制定</a>
-						<a href="/department/list.do" >绩效查看与统计</a>
-						<a href="/department/list.do" >我的个人绩效</a>
-						<a href="/department/list.do" >下属考评</a>
+						<a href="#" >绩效制定</a>
+						<a href="#" >绩效查看与统计</a>
+						<a href="#" >我的个人绩效</a>
+						<a href="#" >下属考评</a>
 					</c:otherwise>
 				</c:choose>
 			</div>
@@ -114,12 +124,12 @@
 			<div class="content-body">
 				<c:choose>
 					<c:when test="${roles.roleId==3 }">
-						<a href="/department/list.do" >我的薪资</a>
+						<a href="#" >我的薪资</a>
 					</c:when>
 					<c:otherwise>
-						<a href="/department/list.do" >薪资查看与统计</a>
-						<a href="/department/list.do" >我的薪资</a>
-						<a href="/department/list.do" >审批</a>
+						<a href="#" >薪资查看与统计</a>
+						<a href="#" >我的薪资</a>
+						<a href="#" >审批</a>
 					</c:otherwise>
 				</c:choose>
 			</div>
@@ -137,7 +147,7 @@
 						<a href="/employeeContract/myContractList.do" >我的合同</a>
 					</c:when>
 					<c:otherwise>
-						<a href="/contract/contractList.do" >合同列表</a>
+						<a href="/contract/toAllContractList.do" >合同列表</a>
 						<a href="/contract/toAddContract.do" >添加合同</a>
 						<a href="/employeeContract/myContractList.do" >我的合同</a>
 					</c:otherwise>
@@ -151,17 +161,12 @@
 			</div>
 			<div class="modu-content">
 				<div class="content-body">
-					<c:choose>
-						<c:when test="${roles.roleId==3 }">
-							<a href="/user/toAddUser.do" >消息管理</a>
-						</c:when>
-						<c:otherwise>
-							<a href="/user/toAddUser.do" >消息管理</a>
-							<a href="/user/listSaleManager.do" >系统用户列表</a>
-							<a href="/user/toAddUser.do" >创建系统用户</a>
-							<a href="/user/toAddUser.do" >权限管理</a>
-						</c:otherwise>
-					</c:choose>
+					<c:if test="${roles.roleId!=3 }">
+						<a href="#" >消息管理</a>
+						<a href="/user/toUserList.do" >系统用户列表</a>
+						<a href="/userRole/toUserRoleList.do" >角色管理</a>
+					</c:if>
+					<a href="/user/toMyUserInfo.do" >个人账户信息管理</a>
 				</div>
 			</div>
 		</div>	

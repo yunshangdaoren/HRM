@@ -25,9 +25,39 @@
 	display:blcok-inline;
 }
 
-/* 弹出遮罩层，用于添加职位信息 */
+/* 寮瑰嚭閬僵灞傦紝鐢ㄤ簬娣诲姞鑱屼綅淇℃伅 */
 .panel_addPosition{
 	width:550px;
+	height:480px;
+	position:absolute;
+	display:none;
+	z-index:7;
+	left:0px; 
+	top:0px; 
+	right:0px; 
+	bottom:0px;
+    margin:auto;    /* 闁跨喐鏋婚幏鐑芥晸閺傘倖瀚归柨鐔告灮閹风兘鏁撻弬銈嗗闁跨喐鏋婚幏鐤箼闁跨喐鏋婚幏鐑芥晸閺傘倖瀚归柨鐔告灮閹风兘鏁撻敓锟� */
+    border:0px;
+    background-color:#fff;
+}
+/* 寮瑰嚭閬僵灞傦紝鐢ㄤ簬鏄剧ず鑱屼綅璇︾粏淇℃伅  */
+.panel_employeeDetail{
+	width:500px;
+	height:376px;
+	position:absolute;
+	display:none;
+	z-index:7;
+	left:0px; 
+	top:0px; 
+	right:0px; 
+	bottom:0px;
+    margin:auto;    /* 閿熸枻鎷烽敓鏂ゆ嫹閿熸枻鎷烽敓鏂ゆ嫹閿熸枻鎷疯繙閿熸枻鎷烽敓鏂ゆ嫹閿熸枻鎷烽敓锟� */
+    border:0px;
+    background-color:#fff;
+}
+/* 修改职位信息弹出层样式 */
+.panel_updatePosition{
+	width:600px;
 	height:480px;
 	position:absolute;
 	display:none;
@@ -40,51 +70,7 @@
     border:0px;
     background-color:#fff;
 }
-/* 弹出遮罩层，用于显示职位详细信息  */
-.panel_employeeDetail{
-	width:500px;
-	height:376px;
-	position:absolute;
-	display:none;
-	z-index:7;
-	left:0px; 
-	top:0px; 
-	right:0px; 
-	bottom:0px;
-    margin:auto;    /* 锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷远锟斤拷锟斤拷锟斤拷锟� */
-    border:0px;
-    background-color:#fff;
-}
-/* 显示部门详细信息弹出层 */
-.panel_departmentDetail{
-	width:700px;
-	height:376px;
-	position:absolute;
-	display:none;
-	z-index:7;
-	left:0px; 
-	top:0px; 
-	right:0px; 
-	bottom:0px;
-    margin:auto;    /* 锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷远锟斤拷锟斤拷锟斤拷锟� */
-    border:0px;
-    background-color:#fff;
-}
-/* 显示职位详细信息弹出层 */
-.panel_positionDetail{
-	width:700px;
-	height:376px;
-	position:absolute;
-	display:none;
-	z-index:7;
-	left:0px; 
-	top:0px; 
-	right:0px; 
-	bottom:0px;
-    margin:auto;    /* 锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷远锟斤拷锟斤拷锟斤拷锟� */
-    border:0px;
-    background-color:#fff;
-}
+
 .div-panel{
 	width:100%;
 	height:100%;
@@ -103,7 +89,7 @@
 	font-weight:500;
 	margin-left:5px;
 }
-/* 添加职位信息遮罩层退出按钮样式  */
+/* 娣诲姞鑱屼綅淇℃伅閬僵灞傞��鍑烘寜閽牱寮�  */
 .div-panel .panel-heading #btn-hidePanelAddPosition{
 	width:80px;
 	float:right;
@@ -114,7 +100,7 @@
 	text-align:center;
 	line-height:15px;
 }
-/* 职位详细信息遮罩层退出按钮样式  */
+/* 鑱屼綅璇︾粏淇℃伅閬僵灞傞��鍑烘寜閽牱寮�  */
 .div-panel .panel-heading #btn-hidePanelEmployeeDetail{
 	width:80px;
 	float:right;
@@ -125,7 +111,7 @@
 	text-align:center;
 	line-height:15px;
 }
-/* 关闭部门详细信息弹出层面板按钮样式 */
+/* 鍏抽棴閮ㄩ棬璇︾粏淇℃伅寮瑰嚭灞傞潰鏉挎寜閽牱寮� */
 .div-panel .panel-heading #btn-hidePanelDepartmentDetail{
 	width:80px;
 	float:right;
@@ -136,7 +122,7 @@
 	text-align:center;
 	line-height:15px;
 }
-/* 关闭职位详细信息弹出层面板按钮样式 */
+/* 鍏抽棴鑱屼綅璇︾粏淇℃伅寮瑰嚭灞傞潰鏉挎寜閽牱寮� */
 .div-panel .panel-heading #btn-hidePanelPositionDetail{
 	width:80px;
 	float:right;
@@ -148,7 +134,19 @@
 	line-height:15px;
 }
 
-/* 添加职位所属部门、上级职位信息下拉选择列表框信息样式 */
+/* 关闭修改部门信息弹出层按钮样式 */
+#btn-hidePanelUpdatePosition{
+	width:80px;
+	float:right;
+	height:38px;
+	margin-top:4px;
+	margin-right:3px;
+	font-size:16px;
+	text-align:center;
+	line-height:15px;
+}
+
+/* 娣诲姞鑱屼綅鎵�灞為儴闂ㄣ�佷笂绾ц亴浣嶄俊鎭笅鎷夐�夋嫨鍒楄〃妗嗕俊鎭牱寮� */
 .panel_addPosition .div-panel .panel_body .form-group #select-infoDeptName, #select-parentPositionName{
 	width:356px;
 	height:auto;
@@ -159,4 +157,14 @@
 	z-index:50;
 	display:none;
 }
-
+/* 淇敼鑱屼綅鎵�灞為儴闂ㄣ�佷笂绾ц亴浣嶄俊鎭笅鎷夐�夋嫨鍒楄〃妗嗕俊鎭牱寮� */
+#select-updateDeptId, #select-updateParentPositionid{
+	width:356px;
+	height:auto;
+	min-height:110px;
+	max-height:200px;
+	background-color:#fff;
+	position:absolute;
+	z-index:52;
+	display:none;
+}

@@ -214,18 +214,19 @@ $("#btn-resetSelect").click(function(){
 	$("#form-queryPosition :input").not(":button, :submit, :reset, :hidden").val("").removeAttr("checked").remove("selected");
 });
 
-//职位信息操作人名称点击事件：弹出显示层，显示指定职工的详细信息
-$(".a-operatorEmpName").click(function(){
+
+//部门操作人名称点击事件：弹出显示层，显示指定职工的详细信息
+$(".a_detailOperatorEmployeeByNormalEmployee").click(function(){
 	//获取到要查看的职工工号
 	var manageEmpjobid = $(this).next().text();
-	//获取到职工所属部门id
-	var deptId = $(this).parent().parent().children().first().text();
+//	//获取到职工所属部门id
+//	var deptId = $(this).parent().parent().children().first().text();
 	//显示面板
 	$(".shadeDiv").show();
 	$(".panel_employeeDetail").show();
 	//发送Ajax请求
 	$.ajax({
-		url:"/employee/get.do?empJobid="+manageEmpjobid+"&deptId="+deptId,
+		url:"/employee/get.do?empJobId="+manageEmpjobid,
 		dataType:"json",
 		type:"post",
 		success:function(result){
@@ -253,48 +254,37 @@ $("#btn-hidePanelEmployeeDetail").click(function(){
 	$(".shadeDiv").hide();
 	$(".panel_employeeDetail").hide();
 });
-//弹出显示层，显示指定部门的详细信息
-$(".a_departmentDetail").click(function(){
+
+//删除职位信息点击事件
+$(".a_deletePosition").click(function(){
+	var value = confirm("删除该职位信息？");
+	//如果确认删除
+	if(value == true){
+		var positionId = $(this).parent().parent().children().first().text();
+		$.ajax({
+			url:"/position/delete.do?positionId="+positionId,
+			dataType:"json",
+			success:function(result){
+				if(result.code==100){
+					alert(result.msg);
+				}else{
+					alert(result.msg);
+					//删除该行记录
+					$(this).parent().parent().remove();
+					location.reload(); 
+				}  
+			}	
+		});
+	}
+});
+
+//弹出显示层，显示要修改的指定部门信息
+$(".a_updatePosition").click(function(){
 	//获取到部门id
-	var deptId = $(this).next().text();
-	//显示面板
-	$(".shadeDiv").show();
-	$(".panel_departmentDetail").show();
-	//发送Ajax请求
-	$.ajax({
-		url:"/department/get.do?deptId="+deptId,
-		dataType:"json",
-		type:"post",
-		success:function(result){
-			if(result.code==200){
-				//填充部门信息
-				$(".span-deptId").text(result.data.deptId);
-				$(".span-deptName").text(result.data.deptName);
-				$(".span-dlLevel").text(result.data.dlLeve+"级");
-				$(".span-manageEmpName").text(result.data.manageEmpName);
-				$(".span-deptEmpnum").text(result.data.deptEmpnum);
-				$(".span-parentDeptName").text(result.data.parentDeptName);
-				$(".span-deptDesc").text(result.data.deptDesc);
-				$(".span-lastOperatorDate").text(result.data.lastOperatorDate);
-				$(".span-operatorEmpName").text(result.data.operatorEmpName);
-			}else{
-				alert(result.msg);
-			}
-		}
-	});
-});
-//关闭职工详细信息弹出层面板
-$("#btn-hidePanelDepartmentDetail").click(function(){
-	$(".shadeDiv").hide();
-	$(".panel_departmentDetail").hide();
-});
-//弹出显示层，显示指定职位的详细信息
-$(".a_positionDetail").click(function(){
-	//获取到职位id
 	var positionId = $(this).parent().parent().children().first().text();
 	//显示面板
 	$(".shadeDiv").show();
-	$(".panel_positionDetail").show();
+	$(".panel_updatePosition").show();
 	//发送Ajax请求
 	$.ajax({
 		url:"/position/get.do?positionId="+positionId,
@@ -303,23 +293,201 @@ $(".a_positionDetail").click(function(){
 		success:function(result){
 			if(result.code==200){
 				//填充部门信息
-				$(".span-positionId").text(result.data.positionId);
-				$(".span-positionName").text(result.data.positionName);
-				$(".span-plLevelDesc").text(result.data.plLevelDesc);
-				$(".span-deptName").text(result.data.deptName);
-				$(".span-parentPositionName").text(result.data.parentPositionName);
-				$(".span-statusName").text(result.data.statusName);
-				$(".span-positionDesc").text(result.data.positionDesc);
-				$(".span-lastOperatorDate").text(result.data.lastOperatorDate);
-				$(".span-operatorEmpName").text(result.data.operatorEmpName);
+				$("#input-updatePositionId").val(result.data.positionId);
+				$("#input-updatePositionName").val(result.data.positionName);
+				$("#input-updateDeptName").val(result.data.deptName);
+				$("#input-updateDeptId").val(result.data.deptId);
+				$("#input-updateIsOnly").val(result.data.isOnly);
+				$("#input-updateParentPositionName").val(result.data.parentPositionName);
+				$("#input-updateParentPositionid").val(result.data.parentPositionid);
+				$("#input-updatePositionDesc").text(result.data.positionDesc);
+				//修改职位信息，为职位级别信息下拉框赋值
+				setUpdatePositionLevelSelect();
+				//修改职位信息，为职位状态信息下拉框赋值
+				setUpdatePositionStatusSelect();
 			}else{
 				alert(result.msg);
 			}
 		}
 	});
 });
-//关闭职位详细信息弹出层面板
-$("#btn-hidePanelPositionDetail").click(function(){
+//修改部门信息弹出层面板提交按钮点击事件
+$("#btn-submitUpdatePosition").click(function(){
+	if(updateDeptFormEmptyCheck()){
+		$.ajax({
+			url:"/position/update.do",
+			data:$("#form-updateDept").serialize(),
+			dataType:"json",
+			success:function(result){
+				if(result.code==200){
+					alert(result.msg);
+					$(".shadeDiv").hide();
+					$(".panel_updateDepartment").hide();
+					location.reload();
+				}else{
+					alert(result.msg);
+				}
+			}
+		});
+	};
+});
+//关闭修改职位信息弹出层面板
+$("#btn-hidePanelUpdatePosition").click(function(){
 	$(".shadeDiv").hide();
-	$(".panel_positionDetail").hide();
+	$(".panel_updatePosition").hide();
+});
+//监听修改职位信息弹出层中所属部门名称输入框输入值，并动态查找指定部门信息赋值给下拉选项列表
+$("#input-updateDeptName").bind("input propertychange", function(){
+	//部门名称
+	var deptName = $("#input-updateDeptName").val();
+	$("#select-updateDeptId").empty();
+	$("#select-updateDeptId").show();
+	$.ajax({
+		url:"/department/queryLikeDeptName.do?deptName="+deptName,
+		dataType:"json",
+		success:function(result){
+			if(result.code==200){
+				$.each(result.data, function(i, item){
+					$("#select-updateDeptId").append("<option value='"+item.deptId+"'>"+item.deptName+"</option>");
+				});
+			}
+		}
+	});
+});
+//监听修改职位信息弹出层中，上级职位信息输入框输入值，并动态查找指定职位信息赋值给下拉选项列表
+$("#input-updateParentPositionName").bind("input propertychange", function(){
+	//部门名称
+	var positionName = $("#input-updateParentPositionName").val();
+	$("#select-updateParentPositionid").empty();
+	$("#select-updateParentPositionid").show();
+	$.ajax({
+		url:"/position/queryLikePositionName.do?positionName="+positionName,
+		dataType:"json",
+		success:function(result){
+			if(result.code==200){
+				$.each(result.data, function(i, item){
+					$("#select-updateParentPositionid").append("<option value='"+item.positionId+"'>"+item.positionName+"</option>");
+				});
+			}
+		}
+	});
+});
+//监听修改职位所属部门信息输入框鼠标光标移除事件
+$("#input-updateDeptName").focus(function(){
+	$("#select-updateDeptId").show();
+})
+//修改职位信息弹出层：职位所属部门、上级职位信息输入框鼠标移出
+$("#div-updateDeptName").mouseover(function(){
+	//鼠标移入
+	$("#select-updateDeptId").show();
+}).mouseout(function(){
+	//鼠标移出
+	$("#select-updateDeptId").hide();
+});
+$("#div-updateParentPositionName").mouseover(function(){
+	//鼠标移入
+	$("#select-updateParentPositionid").show();
+}).mouseout(function(){
+	//鼠标移出
+	$("#select-updateParentPositionid").hide();
+});
+
+//修改职位信息弹出层下拉列表，职位所属部门信息双击事件
+$("#select-updateDeptId").dblclick(function(){
+	//获取到选择的下拉列表的值
+	var options = $("#select-updateDeptId option:selected");
+	$("#select-updateDeptId").hide();
+	$("#input-updateDeptName").empty();
+	$("#input-updateDeptName").val(options.text());
+	$("#input-updateDeptId").val(options.val());
+});
+//修改职位信息弹出层的下拉列表，上级职位信息双击事件
+$("#select-updateParentPositionid").dblclick(function(){
+	//获取到选择的下拉列表的值
+	var options = $("#select-updateParentPositionid option:selected");
+	$("#select-updateParentPositionid").hide();
+	$("#input-updateParentPositionName").empty();
+	$("#input-updateParentPositionName").val(options.text());
+	$("#input-updateParentPositionid").val(options.val());
+});
+
+//修改职位弹出层面板非空判断
+function updateDeptFormEmptyCheck(){
+	if($("#input-updatePositionName").val()==''){
+		alert("职位名称不能为空！");
+		$("#input-updatePositionName").focus();
+		return false;
+	}
+	if($("#select-updatePositionLevel").val()==null){
+		alert("职位级别不能为空！");
+		$("#select-updatePositionLevel").focus();
+		return false;
+	}
+	if($("#select-updatePositionStatus").val()==null){
+		alert("职位状态不能为空！");
+		$("#select-updatePositionStatus").focus();
+		return false;
+	}
+	//上面判断无误则返回true
+	return true;
+}
+//修改职位信息，为职位级别信息下拉框赋值
+function setUpdatePositionLevelSelect(){
+	$.ajax({
+		url:"/positionLevel/list.do",
+		dataType:"json",
+		async:false,
+		success:function(result){
+			if(result.code==200){
+				//先清空值（除了第一个）
+				$("#select-updatePositionLevel option:not(:first)").remove();
+				//添加值
+				for(var i =0; i < result.data.length; i++){
+					$("#select-updatePositionLevel").append("<option value='"+result.data[i].plId+"'>"+result.data[i].levelDesc+"</option>")
+				}
+			}else{
+				alert("获取信息失败！");
+			}
+		}
+	});
+};
+
+//修改职位信息，为职位状态信息下拉框赋值
+function setUpdatePositionStatusSelect(){
+	$.ajax({
+		url:"/status/listPosition.do",
+		dataType:"json",
+		async:false,
+		success:function(result){
+			if(result.code==200){
+				//先清空值（除了第一个）
+				$("#select-updatePositionStatus option:not(:first)").remove();
+				//添加值
+				for(var i =0; i < result.data.length; i++){
+					$("#select-updatePositionStatus").append("<option value='"+result.data[i].statusId+"'>"+result.data[i].statusName+"</option>")
+				}
+			}else{
+				alert("获取信息失败！");
+			}
+		}
+	});
+};
+
+
+//跳转到指定部门的详细信息页面
+$(".a_departmentDetail").click(function(){
+	//获取到部门id
+	var deptId = $(this).next().text();
+	window.location.href = "/department/toDepartmentDetail.do?deptId="+deptId;
+});
+//跳转到部门操作人职工详情页面
+$(".a_detailOperatorEmployeeByManagerEmployee").click(function(){
+	var empJobId = $(this).next().text();
+	window.location.href = "/employee/toEmployeeDetail.do?empJobId="+empJobId;
+});
+//跳转到指定职位的详细信息页面
+$(".a_positionDetail").click(function(){
+	//获取到职位id
+	var positionId = $(this).parent().parent().children().first().text();
+	window.location.href = "/position/toPositionDetail.do?positionId="+positionId;
 });

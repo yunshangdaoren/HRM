@@ -709,7 +709,7 @@ public class DepartmentController {
 	}
 	
 	/**
-	 * 添加部门信息
+	 * 修改部门信息
 	 * @param request
 	 * @param response
 	 * @return
@@ -798,6 +798,100 @@ public class DepartmentController {
 		}
 		return new JsonCommonResult<>("200", null, "删除成功");
 	}
+	
+	/**
+	 * 查询部门信息，并跳转至部门详情页面
+	 * 1.根据职工工号查询
+	 * 2.根据部门id查询
+	 * @param request
+	 * @param pageRequest
+	 * @param map
+	 * @return
+	 */
+	@RequestMapping("toDepartmentDetail.do")
+	public String toDepartmentDetail(HttpServletRequest request, PageRequest pageRequest, ModelMap map){
+		String empJobIdStr = request.getParameter("empJobId");
+		String deptIdStr = request.getParameter("deptId");
+		List<Department> departmentList = new ArrayList<Department>();
+		if (StringUtil.isEmpty(empJobIdStr)) {
+			//根据部门ID查询
+			Department department = departmentService.get(Integer.valueOf(deptIdStr));
+			if (department != null) {
+				departmentList.add(department);
+			}
+		}else if(StringUtil.isEmpty(deptIdStr)) {
+			//根据职工工号查询
+			//查询该职工所属的部门信息
+			List<EmployeePosition> employeePositionList = employeePositionService.listByEmpJobId(empJobIdStr);
+			for (EmployeePosition employeePosition : employeePositionList) {
+				//找到对应的职位
+				Position position = positionService.get(employeePosition.getPositionId());
+				//找到职位对应的部门
+				Department department = departmentService.get(position.getDeptId());
+				if (department != null) {
+					departmentList.add(department);
+				}
+			}
+		}else {
+			//根据部门ID，职工工号查询
+			//查询该职工所属的部门信息
+			List<EmployeePosition> employeePositionList = employeePositionService.listByEmpJobId(empJobIdStr);
+			for (EmployeePosition employeePosition : employeePositionList) {
+				//找到对应的职位
+				Position position = positionService.get(employeePosition.getPositionId());
+				//找到职位对应的部门
+				Department department = departmentService.get(position.getDeptId());
+				if (department != null && department.getDeptId() == Integer.valueOf(deptIdStr)) {
+					departmentList.add(department);
+				}
+			}
+		}
+		//查询该
+		if (departmentList != null) {
+			departmentInfoUtil.setDepartmentInfo(departmentList);
+		}
+		//回显查询条件
+		map.put("departmentList", departmentList);
+		return "department/departmentDetail";
+	}
+	
+	/**
+	 * 查询部门信息，并跳转至登录账户职工的部门详情页面
+	 * 1.根据职工工号查询
+	 * 2.根据部门id查询
+	 * @param request
+	 * @param pageRequest
+	 * @param map
+	 * @return
+	 */
+	@RequestMapping("toMyDepartmentDetail.do")
+	public String toMyDepartmentDetail(HttpServletRequest request, PageRequest pageRequest, ModelMap map){
+		List<Department> departmentList = new ArrayList<Department>();
+		//获取当前登录系统人工号
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("session_loginUser");
+		List<EmployeePosition> employeePositionList = employeePositionService.listByEmpJobId(user.getUserAccount());
+		if (employeePositionList != null && employeePositionList.size() != 0) {
+			for (EmployeePosition employeePosition : employeePositionList) {
+				//找到对应的职位
+				Position position = positionService.get(employeePosition.getPositionId());
+				//找到职位对应的部门
+				Department department = departmentService.get(position.getDeptId());
+				if (department != null) {
+					departmentList.add(department);
+				}
+			}
+		}
+		//查询该
+		if (departmentList != null) {
+			departmentInfoUtil.setDepartmentInfo(departmentList);
+		}
+		//回显查询条件
+		map.put("departmentList", departmentList);
+		return "department/myDepartmentDetail";
+	}
+	
+	
 	
 }
 
