@@ -81,5 +81,14 @@ public class UserRoleServiceImpl implements UserRoleService{
 		return userRoleMapper.deleteByPrimaryKey(urId);
 	}
 
+	@Override
+	public int deleteByUserAccount(String userAccount) {
+		UserRoleExample example = new UserRoleExample();
+		example.or().andUserAccountEqualTo(userAccount);
+		return userRoleMapper.deleteByExample(example);
+	}
+	
+	
+
 	
 }

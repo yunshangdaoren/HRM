@@ -131,6 +131,7 @@ public class EmployeeContractController {
 			for (int i = 0; i < list.size(); i++) {
 				//设置职工名称
 				list.get(i).setEmpName(employeeService.get(list.get(i).getEmpJobid()).getEmpName());
+				
 			}
 		}
 	}

@@ -61,13 +61,13 @@
 						<a href="/contract/needEntryContractList.do" >合同入职</a>
 						<a href="/employeeResign/toEmployeeResignList.do" >离职申请列表</a>
 						<a href="/employee/toMyEmployeeDetail.do">个人信息</a>
-						<a href="/employeeResign/toMyEmployeeResignList.do" >我的转岗申请</a>
+						<a href="#" >我的转岗申请</a>
 						<a href="/employeeResign/toMyEmployeeResignList.do" >我的离职申请</a>
 					</c:when>
 					<c:otherwise>
 						<a href="/employee/toEmployeeList.do" >职工花名册</a>
 						<a href="/employee/toMyEmployeeDetail.do">个人信息</a>
-						<a href="/employeeResign/toMyEmployeeResignList.do" >我的转岗申请</a>
+						<a href="#" >我的转岗申请</a>
 						<a href="/employeeResign/toMyEmployeeResignList.do" >我的离职申请</a>
 					</c:otherwise>
 				</c:choose>
@@ -88,8 +88,8 @@
 					<c:otherwise>
 						<a href="/attendanceEmployee/toAttendanceEmployeeList.do" >考勤查看与统计</a>
 						<a href="/attendanceEmployee/toMyAttendanceEmployeeList.do" >个人考勤信息查看</a>
-						<a href="/department/list.do" >请假申请</a>
-						<a href="/department/list.do" >审批</a>
+						<a href="#" >请假申请</a>
+						<a href="#" >审批</a>
 					</c:otherwise>
 				</c:choose>
 			</div>
@@ -144,12 +144,12 @@
 			<div class="content-body">
 				<c:choose>
 					<c:when test="${roles.roleId==3 }">
-						<a href="/employeeContract/myContractList.do" >我的合同</a>
+						<a href="/contract/toMyContractList.do" >我的合同</a>
 					</c:when>
 					<c:otherwise>
 						<a href="/contract/toAllContractList.do" >合同列表</a>
 						<a href="/contract/toAddContract.do" >添加合同</a>
-						<a href="/employeeContract/myContractList.do" >我的合同</a>
+						<a href="/contract/toMyContractList.do" >我的合同</a>
 					</c:otherwise>
 				</c:choose>
 			</div>
@@ -161,7 +161,7 @@
 			</div>
 			<div class="modu-content">
 				<div class="content-body">
-					<c:if test="${roles.roleId!=3 }">
+					<c:if test="${roles.roleId==1 }">
 						<a href="#" >消息管理</a>
 						<a href="/user/toUserList.do" >系统用户列表</a>
 						<a href="/userRole/toUserRoleList.do" >角色管理</a>

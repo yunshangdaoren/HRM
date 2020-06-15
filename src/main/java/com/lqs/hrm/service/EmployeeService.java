@@ -60,7 +60,7 @@ public interface EmployeeService {
 	 * 查询出所有职工信息
 	 * @return
 	 */
-	List<Employee> listByNo();
+	List<Employee> listByNoExceptSuperManager();
 	
 	/**
 	 * 添加职工信息

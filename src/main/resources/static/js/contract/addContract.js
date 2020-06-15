@@ -8,7 +8,7 @@ $("#btn-submitAddContract").click(function(){
 			success:function(result){
 				if(result.code==200){
 					alert(result.msg);
-					window.location.href="/contract/contractList.do";
+					window.location.href="/contract/toAllContractList.do";
 				}else{
 					alert(result.msg);
 				}

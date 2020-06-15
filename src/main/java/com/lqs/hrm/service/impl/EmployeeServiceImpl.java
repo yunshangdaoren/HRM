@@ -37,7 +37,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 		EmployeeExample example = new EmployeeExample();
 		//按照日期排序
 		example.setOrderByClause("entry_time desc");
-		example.or().andEmpNameEqualTo(empName);
+		example.or().andEmpNameEqualTo(empName).andEmpJobidNotEqualTo("1");
 		return employeeMapper.selectByExample(example);
 	}
 	
@@ -49,7 +49,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 		EmployeeExample example = new EmployeeExample();
 		//按照日期排序
 		example.setOrderByClause("entry_time desc");
-		example.or().andStatusIdEqualTo(statusId);
+		example.or().andStatusIdEqualTo(statusId).andEmpJobidNotEqualTo("1");
 		return employeeMapper.selectByExample(example);
 	}
 	
@@ -61,7 +61,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 		EmployeeExample example = new EmployeeExample();
 		//按照日期排序
 		example.setOrderByClause("entry_time desc");
-		example.or().andEmpJobidEqualTo(empJobId).andEmpNameEqualTo(empName);
+		example.or().andEmpJobidEqualTo(empJobId).andEmpNameEqualTo(empName).andEmpJobidNotEqualTo("1");
 		return employeeMapper.selectByExample(example);
 	}
 	
@@ -73,7 +73,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 		EmployeeExample example = new EmployeeExample();
 		//按照日期排序
 		example.setOrderByClause("entry_time desc");
-		example.or().andEmpJobidEqualTo(empJobId).andStatusIdEqualTo(statusId);
+		example.or().andEmpJobidEqualTo(empJobId).andStatusIdEqualTo(statusId).andEmpJobidNotEqualTo("1");
 		return employeeMapper.selectByExample(example);
 	}
 	
@@ -85,7 +85,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 		EmployeeExample example = new EmployeeExample();
 		//按照日期排序
 		example.setOrderByClause("entry_time desc");
-		example.or().andEmpNameEqualTo(empName).andStatusIdEqualTo(statusId);
+		example.or().andEmpNameEqualTo(empName).andStatusIdEqualTo(statusId).andEmpJobidNotEqualTo("1");
 		return employeeMapper.selectByExample(example);
 	}
 	
@@ -97,7 +97,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 		EmployeeExample example = new EmployeeExample();
 		//按照日期排序
 		example.setOrderByClause("entry_time desc");
-		example.or().andEmpJobidEqualTo(empJobId).andEmpNameEqualTo(empName).andStatusIdEqualTo(statusId);
+		example.or().andEmpJobidEqualTo(empJobId).andEmpNameEqualTo(empName).andStatusIdEqualTo(statusId).andEmpJobidNotEqualTo("1");
 		return employeeMapper.selectByExample(example);
 	}
 	
@@ -109,18 +109,18 @@ public class EmployeeServiceImpl implements EmployeeService{
 		EmployeeExample example = new EmployeeExample();
 		//按照日期排序
 		example.setOrderByClause("entry_time desc");
-		example.or().andEmpSexEqualTo(empSex);
+		example.or().andEmpSexEqualTo(empSex).andEmpJobidNotEqualTo("1");
 		return employeeMapper.selectByExample(example);
 	}
 	
 	/**
-	 * 查询出所有职工信息
+	 * 查询出所有职工信息,处理超级管理员
 	 */
-	public List<Employee> listByNo(){
+	public List<Employee> listByNoExceptSuperManager(){
 		EmployeeExample example = new EmployeeExample();
 		//按照日期排序
 		example.setOrderByClause("entry_time desc");
-		example.or().andEmpIdcardIsNotNull();
+		example.or().andEmpJobidNotEqualTo("1");
 		return employeeMapper.selectByExample(example);
 	}
 

@@ -60,16 +60,25 @@ public class ContractInfoUtil {
 				list.get(i).setStatusName(statusService.get(list.get(i).getStatusId()).getStatusName());
 				//设置录入人名称
 				if (StringUtil.isNotEmpty(list.get(i).getAddEmpjobid())) {
-					list.get(i).setAddEmpName(employeeService.get(list.get(i).getAddEmpjobid()).getEmpName());
+					Employee employee = employeeService.get(list.get(i).getAddEmpjobid());
+					if (employee != null) {
+						list.get(i).setAddEmpName(employee.getEmpName());
+					}
 				}
 				//设置入职审批人名称
 				if (StringUtil.isNotEmpty(list.get(i).getEntryCheckEmpjobid())) {
-					list.get(i).setEntryCheckEmpName(employeeService.get(list.get(i).getEntryCheckEmpjobid()).getEmpName());
+					Employee employee = employeeService.get(list.get(i).getEntryCheckEmpjobid());
+					if (employee != null) {
+						list.get(i).setEntryCheckEmpName(employee.getEmpName());
+					}
 				}
 				
 				//设置离职审批人名称
 				if (StringUtil.isNotEmpty(list.get(i).getResignCheckEmpjobid())) {
-					list.get(i).setResignCheckEmpName(employeeService.get(list.get(i).getResignCheckEmpjobid()).getEmpName());
+					Employee employee = employeeService.get(list.get(i).getResignCheckEmpjobid());
+					if (employee != null) {
+						list.get(i).setResignCheckEmpName(employee.getEmpName());
+					}
 				}
 			}
 		}
@@ -91,16 +100,25 @@ public class ContractInfoUtil {
 			contract.setStatusName(statusService.get(contract.getStatusId()).getStatusName());
 			//设置录入人名称
 			if (StringUtil.isNotEmpty(contract.getAddEmpjobid())) {
-				contract.setAddEmpName(employeeService.get(contract.getAddEmpjobid()).getEmpName());
+				Employee employee = employeeService.get(contract.getAddEmpjobid());
+				if (employee != null) {
+					contract.setAddEmpName(employee.getEmpName());
+				}
 			}
 			//设置入职审批人名称
 			if (StringUtil.isNotEmpty(contract.getEntryCheckEmpjobid())) {
-				contract.setEntryCheckEmpName(employeeService.get(contract.getEntryCheckEmpjobid()).getEmpName());
+				Employee employee = employeeService.get(contract.getEntryCheckEmpjobid());
+				if (employee != null) {
+					contract.setEntryCheckEmpName(employee.getEmpName());
+				}
 			}
 			
 			//设置离职审批人名称
 			if (StringUtil.isNotEmpty(contract.getResignCheckEmpjobid())) {
-				contract.setResignCheckEmpName(employeeService.get(contract.getResignCheckEmpjobid()).getEmpName());
+				Employee employee = employeeService.get(contract.getResignCheckEmpjobid());
+				if (employee != null) {
+					contract.setResignCheckEmpName(employee.getEmpName());
+				}
 			}
 		}
 	}

@@ -1,5 +1,5 @@
 //定义全局部门查询要跳转的地址
-var href = "http://localhost:8080/contract/contractList.do?pageNum=";
+var href = "http://localhost:8080/contract/toMyContractList.do?pageNum=";
 //当前页码
 var pageNum = parseInt($(".i-pageNum").text());
 //总页码
@@ -39,7 +39,7 @@ $("#span-jumPageNum").click(function(){
 		if(pageNum > totalPage || pageNum <= 0){
 			alert("请输入正确的页码！");
 		}else{
-			window.location.href = "/contract/contractList.do?pageNum="+pageNum+"&"+$("#form-queryDept").serialize();
+			window.location.href = "/contract/toMyContractList.do?pageNum="+pageNum+"&"+$("#form-queryDept").serialize();
 		}
 	}else{
 		alert("请输入正确的页码！")
@@ -346,4 +346,14 @@ $("#btn-hidePanelPositionDetail").click(function(){
 $(".a_detailContract").click(function(){
 	var conId = $(".a_detailContract").parent().parent().children().first().text();
 	window.location.href="/contract/detailContract.do?conId="+conId;
+});
+//跳转到操作人职工详情页面
+$(".a-addEmpName").click(function(){
+	var empJobId = $(this).next().text();
+	window.location.href = "/employee/toEmployeeDetail.do?empJobId="+empJobId;
+});
+//跳转到审核人职工详情页面
+$(".a-checkEmpName").click(function(){
+	var empJobId = $(this).next().text();
+	window.location.href = "/employee/toEmployeeDetail.do?empJobId="+empJobId;
 });

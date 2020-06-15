@@ -14,7 +14,7 @@
 		<div id="right">
 			<span class="title">我的合同</span>
 			<div class="div_search">
-				<form class="form-inline" id="form-queryDept" method="get" action="/employeeContract/myContractList.do">
+				<form class="form-inline" id="form-queryDept" method="get" action="/contract/toMyContractList.do">
 					<div class="form-group">
     					<label for="exampleInputName2">合同ID</label>
     					<input type="text" class="form-control" name="conId" id="input-selectConId" value="${conIdStr }">
@@ -81,13 +81,13 @@
 							</c:choose>
 							<td><fmt:formatDate value="${contract.addDate }" type="both"/></td>
 							<td>
-								<a href="#" class="a-operatorEmpName">${contract.addEmpName }</a>
+								<a href="#" class="a-addEmpName">${contract.addEmpName }</a>
 								<i style="display:none;">${contract.addEmpjobid }</i>
 							</td>
-							<td><fmt:formatDate value="${contract.checkDate }" type="both"/></td>
+							<td><fmt:formatDate value="${contract.entryCheckDate }" type="both"/></td>
 							<td>
-								<a href="#" class="a-operatorEmpName">${department.checkEmpName }</a>
-								<i style="display:none;">${department.checkEmpjobid }</i>
+								<a href="#" class="a-checkEmpName">${contract.entryCheckEmpName }</a>
+								<i style="display:none;">${contract.entryCheckEmpjobid }</i>
 							</td>
 							<td>
 								<a class="a_detailContract" href="#">

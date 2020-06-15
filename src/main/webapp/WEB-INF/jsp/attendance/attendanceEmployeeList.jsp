@@ -23,10 +23,6 @@
     					<input type="text" class="form-control" name="empJobId" id="input-selectEmpJobId" value="${empJobIdStr }">
   					</div>
   					<div class="form-group">
-    					<label for="exampleInputName2">部门名称</label>
-    					<input type="text" class="form-control"  name="deptName" id="input-selectDeptName" value="${deptNameStr }">
-  					</div>
-  					<div class="form-group">
     					<label for="exampleInputName2">考勤日期</label>
     					<input type="date" style="width:160px;" class="form-control" name="date" id="input-selectDate" value="${dateStr }">
   					</div>

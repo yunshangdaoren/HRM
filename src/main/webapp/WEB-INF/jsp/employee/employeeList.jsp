@@ -75,22 +75,19 @@
 							<td>${employee.empName }</td>
 							<td>${employee.empSex==0?"女":"男" }</td>
 							<td>${employee.empPhone }</td>
-							<%-- <c:choose>
-    							<c:when test="${employee.departmentList!=null && fn:length(employee.departmentList) > 1 }">
-    								<td>
-    									<a class="a_moreDetailEmployeeDeptName" href="#" style="text-decoration:none;">
-					    				<span class="label label-primary" id="span_seeDetailEmployeeDeptName">查看</span>
-					    			</a>
-    								</td>
-    							</c:when>
-    							<c:otherwise>
-    								<td>${employee.deptNameListStr }</td>
-    							</c:otherwise>
-    						</c:choose> --%>
     						<td><a class="a_departmentDetail" href="#" style="text-decoration:none;">${employee.deptNameListStr }</a></td>
 							<td><a class="a_positionDetail" href="#" style="text-decoration:none;">${employee.positionNameListStr }</a></td>
 							<td><fmt:formatDate value="${employee.entryTime }" type="both"/></td>
-							<td class="td-hideContent">${employee.statusName }</td>
+							<td class="td-hideContent">
+								<c:choose>
+									<c:when test="${employee.statusId==7 }">
+										<label style="color:green;">${employee.statusName }</label>
+									</c:when>
+									<c:otherwise>
+										<label style="color:red">${employee.statusName }</label>
+									</c:otherwise>
+								</c:choose>
+							</td>
 							<td><fmt:formatDate value="${employee.lastOperatorDate }" type="both"/></td>
 							<td>
 								<c:choose>

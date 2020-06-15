@@ -89,7 +89,10 @@ public class DepartmentInfoUtil {
 				list.get(i).setStatusName(statusService.get(list.get(i).getStatusId()).getStatusName());
 				//设置操作人名称
 				if(list.get(i).getOperatorEmpjobid() != null && !list.get(i).getOperatorEmpjobid().isEmpty()) {
-					list.get(i).setOperatorEmpName(employeeService.get(list.get(i).getOperatorEmpjobid()).getEmpName());
+					Employee employee = employeeService.get(list.get(i).getOperatorEmpjobid());
+					if (employee != null) {
+						list.get(i).setOperatorEmpName(employee.getEmpName());
+					}
 				}
 				
 				//部门职工数量
@@ -146,7 +149,10 @@ public class DepartmentInfoUtil {
 			department.setStatusName(statusService.get(department.getStatusId()).getStatusName());
 			//设置操作人名称
 			if(department.getOperatorEmpjobid() != null && !department.getOperatorEmpjobid().isEmpty()) {
-				department.setOperatorEmpName(employeeService.get(department.getOperatorEmpjobid()).getEmpName());
+				Employee employee = employeeService.get(department.getOperatorEmpjobid());
+				if (employee != null) {
+					department.setOperatorEmpName(employee.getEmpName());
+				}
 			}
 			
 			//部门职工数量

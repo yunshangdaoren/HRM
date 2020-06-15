@@ -153,32 +153,29 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping("changeUserPwd.do")
-	public String changeUserPwd(String currentUserPwd, String newUserPwd, HttpServletRequest request,HttpServletResponse response) {
-		Map<String, Object> resultMap = new HashMap<>();
+	@ResponseBody
+	public JsonCommonResult<Object> changeUserPwd(String currentUserPwd, String newUserPwd, HttpServletRequest request,HttpServletResponse response) {
 		//获取当前登录用户的密码
 		HttpSession session = request.getSession();
 		User sessionLoginUser = (User) session.getAttribute("session_loginUser");
 		String userPwd = sessionLoginUser.getUserPwd();
+		System.out.println("新密码是："+newUserPwd);
 		
 		//判断密码跟输入的当前密码是否一致
 		if(!userPwd.equals(currentUserPwd)) {
+			System.out.println("密码不一致");
 			//不一致则返回报错
-			resultMap.put("statusCode", 0);
-			resultMap.put("message", "当前密码错误!");
-			return JSON.toJSONString(resultMap);
+			return new JsonCommonResult<Object>("100", null, "当前密码输入错误！");
 		}
+		System.out.println("密码一致");
 		//密码一致，则修改密码
 		//更新Session里面的用户密码信息
 		sessionLoginUser.setUserPwd(newUserPwd);
 		int statusCode = userService.update(sessionLoginUser.getUserAccount(), newUserPwd);
 		if(statusCode == 1) {
-			resultMap.put("statusCode", statusCode);
-			resultMap.put("message", "修改成功！");
-		}else {
-			resultMap.put("statusCode", 0);
-			resultMap.put("message", "修改失败！");
+			return new JsonCommonResult<Object>("200", null, "修改成功！");
 		}
-		return JSON.toJSONString(resultMap);
+		return new JsonCommonResult<Object>("100", null, "修改失败！");
 	}
 	
 	@RequestMapping("get")

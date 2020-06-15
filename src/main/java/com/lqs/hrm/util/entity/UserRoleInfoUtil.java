@@ -49,7 +49,10 @@ public class UserRoleInfoUtil {
 				//设置角色名称
 				list.get(i).setRoleName(rolesService.get(list.get(i).getRoleId()).getRoleName());
 				//设置最后一次操作人姓名
-				list.get(i).setOperatorEmpName(employeeService.get(list.get(i).getOperatorEmpjobid()).getEmpName());
+				Employee employee = employeeService.get(list.get(i).getOperatorEmpjobid());
+				if (employee != null) {
+					list.get(i).setOperatorEmpName(employee.getEmpName());
+				}
 			}
 		}
 	}
@@ -65,7 +68,10 @@ public class UserRoleInfoUtil {
 			//设置角色名称
 			userRole.setRoleName(rolesService.get(userRole.getRoleId()).getRoleName());
 			//设置最后一次操作人姓名
-			userRole.setOperatorEmpName(employeeService.get(userRole.getOperatorEmpjobid()).getEmpName());
+			Employee employee = employeeService.get(userRole.getOperatorEmpjobid());
+			if (employee != null) {
+				userRole.setOperatorEmpName(employee.getEmpName());
+			}
 		}
 	}
 }

@@ -71,6 +71,8 @@ public interface UserRoleService {
 	 */
 	int delete(Integer urId);
 	
+	int deleteByUserAccount(String userAccount);
+	
 	/**
 	 * 添加用户角色
 	 * @param userRole

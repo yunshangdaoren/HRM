@@ -25,7 +25,7 @@
 	display:blcok-inline;
 }
 
-/* 弹出遮罩层，用于显示职位详细信息  */
+/* 寮瑰嚭閬僵灞傦紝鐢ㄤ簬鏄剧ず鑱屼綅璇︾粏淇℃伅  */
 .panel_employeeDetail{
 	width:500px;
 	height:376px;
@@ -36,11 +36,11 @@
 	top:0px; 
 	right:0px; 
 	bottom:0px;
-    margin:auto;    /* 锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷远锟斤拷锟斤拷锟斤拷锟� */
+    margin:auto;    /* 閿熸枻鎷烽敓鏂ゆ嫹閿熸枻鎷烽敓鏂ゆ嫹閿熸枻鎷疯繙閿熸枻鎷烽敓鏂ゆ嫹閿熸枻鎷烽敓锟� */
     border:0px;
     background-color:#fff;
 }
-/* 显示部门详细信息弹出层 */
+/* 鏄剧ず閮ㄩ棬璇︾粏淇℃伅寮瑰嚭灞� */
 .panel_departmentDetail{
 	width:700px;
 	height:376px;
@@ -51,11 +51,11 @@
 	top:0px; 
 	right:0px; 
 	bottom:0px;
-    margin:auto;    /* 锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷远锟斤拷锟斤拷锟斤拷锟� */
+    margin:auto;    /* 閿熸枻鎷烽敓鏂ゆ嫹閿熸枻鎷烽敓鏂ゆ嫹閿熸枻鎷疯繙閿熸枻鎷烽敓鏂ゆ嫹閿熸枻鎷烽敓锟� */
     border:0px;
     background-color:#fff;
 }
-/* 显示职位详细信息弹出层 */
+/* 鏄剧ず鑱屼綅璇︾粏淇℃伅寮瑰嚭灞� */
 .panel_positionDetail{
 	width:700px;
 	height:376px;
@@ -66,7 +66,7 @@
 	top:0px; 
 	right:0px; 
 	bottom:0px;
-    margin:auto;    /* 锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷远锟斤拷锟斤拷锟斤拷锟� */
+    margin:auto;    /* 閿熸枻鎷烽敓鏂ゆ嫹閿熸枻鎷烽敓鏂ゆ嫹閿熸枻鎷疯繙閿熸枻鎷烽敓鏂ゆ嫹閿熸枻鎷烽敓锟� */
     border:0px;
     background-color:#fff;
 }
@@ -88,7 +88,7 @@
 	font-weight:500;
 	margin-left:5px;
 }
-/* 添加合同信息遮罩层退出按钮样式  */
+/* 娣诲姞鍚堝悓淇℃伅閬僵灞傞��鍑烘寜閽牱寮�  */
 .div-panel .panel-heading #btn-hidePanelAddContract{
 	width:80px;
 	float:right;
@@ -99,7 +99,7 @@
 	text-align:center;
 	line-height:15px;
 }
-/* 职位详细信息遮罩层退出按钮样式  */
+/* 鑱屼綅璇︾粏淇℃伅閬僵灞傞��鍑烘寜閽牱寮�  */
 .div-panel .panel-heading #btn-hidePanelEmployeeDetail{
 	width:80px;
 	float:right;
@@ -110,7 +110,7 @@
 	text-align:center;
 	line-height:15px;
 }
-/* 关闭部门详细信息弹出层面板按钮样式 */
+/* 鍏抽棴閮ㄩ棬璇︾粏淇℃伅寮瑰嚭灞傞潰鏉挎寜閽牱寮� */
 .div-panel .panel-heading #btn-hidePanelDepartmentDetail{
 	width:80px;
 	float:right;
@@ -121,7 +121,7 @@
 	text-align:center;
 	line-height:15px;
 }
-/* 关闭职位详细信息弹出层面板按钮样式 */
+/* 鍏抽棴鑱屼綅璇︾粏淇℃伅寮瑰嚭灞傞潰鏉挎寜閽牱寮� */
 .div-panel .panel-heading #btn-hidePanelPositionDetail{
 	width:80px;
 	float:right;
@@ -133,7 +133,7 @@
 	line-height:15px;
 }
 
-/* 添加职位所属部门、上级职位信息下拉选择列表框信息样式 */
+/* 娣诲姞鑱屼綅鎵�灞為儴闂ㄣ�佷笂绾ц亴浣嶄俊鎭笅鎷夐�夋嫨鍒楄〃妗嗕俊鎭牱寮� */
 .panel_addContract .div-panel .panel_body .form-group #select-infoDeptId, #select-positionId{
 	width:356px;
 	height:auto;

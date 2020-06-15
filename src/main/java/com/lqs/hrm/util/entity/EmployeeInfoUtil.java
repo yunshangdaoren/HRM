@@ -98,7 +98,10 @@ public class EmployeeInfoUtil {
 				
 				//设置最后一次操作人名称
 				if(list.get(i).getOperatorEmpjobid() != null && StringUtil.isNotEmpty(list.get(i).getOperatorEmpjobid())) {
-					list.get(i).setOperatorEmpName(employeeService.get(list.get(i).getOperatorEmpjobid()).getEmpName());
+					Employee employee = employeeService.get(list.get(i).getOperatorEmpjobid());
+					if (employee != null) {
+						list.get(i).setOperatorEmpName(employee.getEmpName());
+					}
 				}
 			}
 		}
@@ -160,7 +163,10 @@ public class EmployeeInfoUtil {
 			
 			//设置最后一次操作人名称
 			if(employee.getOperatorEmpjobid() != null && StringUtil.isNotEmpty(employee.getOperatorEmpjobid())) {
-				employee.setOperatorEmpName(employeeService.get(employee.getOperatorEmpjobid()).getEmpName());
+				Employee employee2 = employeeService.get(employee.getOperatorEmpjobid());
+				if (employee2 != null) {
+					employee.setOperatorEmpName(employee2.getEmpName());
+				}
 			}
 		}
 	}

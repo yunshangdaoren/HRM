@@ -103,7 +103,7 @@ public class EmployeeController {
 		//查询条件判断
 		if (StringUtil.isEmpty(empJobIdStr) && StringUtil.isEmpty(empNameStr) && StringUtil.isEmpty(deptNameStr) && StringUtil.isEmpty(statusIdStr)) {
 			//如果查询的条件全部为空，则查询出所有职工信息
-			employeeList = employeeService.listByNo();
+			employeeList = employeeService.listByNoExceptSuperManager();
 		}else if(StringUtil.isEmpty(empNameStr) && StringUtil.isEmpty(deptNameStr) && StringUtil.isEmpty(statusIdStr)) {
 			//则根据职工工号查询
 			Employee employee = employeeService.get(empJobIdStr);
@@ -361,7 +361,7 @@ public class EmployeeController {
 				//查询条件判断
 				if (StringUtil.isEmpty(empJobIdStr) && StringUtil.isEmpty(empNameStr) && StringUtil.isEmpty(deptNameStr) && StringUtil.isEmpty(statusIdStr)) {
 					//如果查询的条件全部为空，则查询出所有职工信息
-					employeeList = employeeService.listByNo();
+					employeeList = employeeService.listByNoExceptSuperManager();
 				}else if(StringUtil.isEmpty(empNameStr) && StringUtil.isEmpty(deptNameStr) && StringUtil.isEmpty(statusIdStr)) {
 					//则根据职工工号查询
 					Employee employee = employeeService.get(empJobIdStr);
@@ -727,18 +727,18 @@ public class EmployeeController {
 		//今日入职员工数量
 		int entryEmpnum = 0;	
 		List<EntryCount> entryCountList = entryCountService.get(zeroDate, twentyFourDate);
-		EntryCount entryCount = new EntryCount();
 		if (entryCountList == null || entryCountList.size() == 0) {
+			EntryCount entryCount = new EntryCount();
 			System.out.println("今日无入职统计数量");
 			//今日无职工入职统计记录，新创建一个记录
 			entryCount.setEntryDate(new Date());
-			entryCount.setEntryEmpnum(0);
+			entryCount.setEntryEmpnum(1);
 			entryCountService.add(entryCount);
 			entryEmpnum = 1;
 			result1 = 1;
 		}else {
 			//有入职统计记录，获取数量
-			entryCount = entryCountList.get(0);
+			EntryCount entryCount = entryCountList.get(0);
 			entryEmpnum = entryCount.getEntryEmpnum() + 1;
 			System.out.println("今日有入职统计数量："+entryEmpnum);
 			//当日职工入职数量+1
@@ -746,7 +746,7 @@ public class EmployeeController {
 			result1 = entryCountService.update(entryCount);
 		}
 		//生成职工工号
-		String empJobid = com.lqs.hrm.util.StringUtil.getEmpJobId(new Date(), entryEmpnum+1);
+		String empJobid = com.lqs.hrm.util.StringUtil.getEmpJobId(new Date(), entryEmpnum);
 		
 		Employee employee = new Employee();
 		employee.setEmpJobid(empJobid);
@@ -802,6 +802,12 @@ public class EmployeeController {
 						user2.setCreateDate(new Date());
 						user2.setCreateEmpjobid(user.getUserAccount());
 						user2.setLoginCount(0);
+						//设置最后一次操作时间
+						user2.setLastLoginTime(new Date());
+						//设置最后操作人
+						user2.setOperatorEmpjobid(user.getUserAccount());
+						//设置安全邮箱
+						user2.setSecurityMail(empEmailStr);
 						int result6 = userService.add(user2);
 						if (result6 !=0) {
 							//录入职工-角色信息，默认都为3-普通职工用户
@@ -864,7 +870,7 @@ public class EmployeeController {
 		if (StringUtil.isEmpty(empJobIdStr) && StringUtil.isEmpty(empNameStr) && StringUtil.isEmpty(statusIdStr)) {
 			//如果查询的条件全部为空，则查询出所有跟当前登录用户在同一个部门的职工信息
 			//查询出所有职工信息
-			List<Employee> allEmployeeList = employeeService.listByNo();
+			List<Employee> allEmployeeList = employeeService.listByNoExceptSuperManager();
 			//遍历
 			for (Employee employee : allEmployeeList) {
 				//查询非登录用户自己的职工信息
@@ -894,15 +900,17 @@ public class EmployeeController {
 				List<EmployeePosition> employeePositions = employeePositionService.listByEmpJobId(empJobIdStr);
 				//遍历
 				for (EmployeePosition employeePosition : employeePositions) {
-					//找到职位信息
-					Position position = positionService.get(employeePosition.getPositionId());
-					//找到职位所属部门信息
-					Department department = departmentService.get(position.getDeptId());
-					//遍历当前登录系统用户所属的部门id
-					for (Integer deptId : myDeptIdList) {
-						//如果该职工所属的部门id跟当前登录系统用户所属的部门id相同，则添加进去
-						if (department.getDeptId() == deptId) {
-							myDepartmentEmployeeList.add(employee);
+					if (!com.lqs.hrm.util.StringUtil.isEquqls(employee.getEmpJobid(), myEmpJobId)) {
+						//找到职位信息
+						Position position = positionService.get(employeePosition.getPositionId());
+						//找到职位所属部门信息
+						Department department = departmentService.get(position.getDeptId());
+						//遍历当前登录系统用户所属的部门id
+						for (Integer deptId : myDeptIdList) {
+							//如果该职工所属的部门id跟当前登录系统用户所属的部门id相同，则添加进去
+							if (department.getDeptId() == deptId) {
+								myDepartmentEmployeeList.add(employee);
+							}
 						}
 					}
 			}
@@ -912,19 +920,21 @@ public class EmployeeController {
 			List<Employee> allEmployeeList = employeeService.listByEmpName(empNameStr);
 			//遍历
 			for (Employee employee : allEmployeeList) {
-				//找到对应的职工-职位信息
-				List<EmployeePosition> employeePositions = employeePositionService.listByEmpJobId(employee.getEmpJobid());
-				//遍历
-				for (EmployeePosition employeePosition : employeePositions) {
-					//找到职位信息
-					Position position = positionService.get(employeePosition.getPositionId());
-					//找到职位所属部门信息
-					Department department = departmentService.get(position.getDeptId());
-					//遍历当前登录系统用户所属的部门id
-					for (Integer deptId : myDeptIdList) {
-						//如果该职工所属的部门id跟当前登录系统用户所属的部门id相同，则添加进去
-						if (department.getDeptId() == deptId) {
-							myDepartmentEmployeeList.add(employee);
+				if (!com.lqs.hrm.util.StringUtil.isEquqls(employee.getEmpJobid(), myEmpJobId)) {
+					//找到对应的职工-职位信息
+					List<EmployeePosition> employeePositions = employeePositionService.listByEmpJobId(employee.getEmpJobid());
+					//遍历
+					for (EmployeePosition employeePosition : employeePositions) {
+						//找到职位信息
+						Position position = positionService.get(employeePosition.getPositionId());
+						//找到职位所属部门信息
+						Department department = departmentService.get(position.getDeptId());
+						//遍历当前登录系统用户所属的部门id
+						for (Integer deptId : myDeptIdList) {
+							//如果该职工所属的部门id跟当前登录系统用户所属的部门id相同，则添加进去
+							if (department.getDeptId() == deptId) {
+								myDepartmentEmployeeList.add(employee);
+							}
 						}
 					}
 				}
@@ -935,19 +945,21 @@ public class EmployeeController {
 			List<Employee> allEmployeeList = employeeService.listByStatusId(Integer.valueOf(statusIdStr));
 			//遍历
 			for (Employee employee : allEmployeeList) {
-				//找到对应的职工-职位信息
-				List<EmployeePosition> employeePositions = employeePositionService.listByEmpJobId(employee.getEmpJobid());
-				//遍历
-				for (EmployeePosition employeePosition : employeePositions) {
-					//找到职位信息
-					Position position = positionService.get(employeePosition.getPositionId());
-					//找到职位所属部门信息
-					Department department = departmentService.get(position.getDeptId());
-					//遍历当前登录系统用户所属的部门id
-					for (Integer deptId : myDeptIdList) {
-						//如果该职工所属的部门id跟当前登录系统用户所属的部门id相同，则添加进去
-						if (department.getDeptId() == deptId) {
-							myDepartmentEmployeeList.add(employee);
+				if (!com.lqs.hrm.util.StringUtil.isEquqls(employee.getEmpJobid(), myEmpJobId)) {
+					//找到对应的职工-职位信息
+					List<EmployeePosition> employeePositions = employeePositionService.listByEmpJobId(employee.getEmpJobid());
+					//遍历
+					for (EmployeePosition employeePosition : employeePositions) {
+						//找到职位信息
+						Position position = positionService.get(employeePosition.getPositionId());
+						//找到职位所属部门信息
+						Department department = departmentService.get(position.getDeptId());
+						//遍历当前登录系统用户所属的部门id
+						for (Integer deptId : myDeptIdList) {
+							//如果该职工所属的部门id跟当前登录系统用户所属的部门id相同，则添加进去
+							if (department.getDeptId() == deptId) {
+								myDepartmentEmployeeList.add(employee);
+							}
 						}
 					}
 				}
@@ -958,19 +970,21 @@ public class EmployeeController {
 			List<Employee> allEmployeeList = employeeService.listByEmpJobIdEmpName(empJobIdStr, empNameStr);
 			//遍历
 			for (Employee employee : allEmployeeList) {
-				//找到对应的职工-职位信息
-				List<EmployeePosition> employeePositions = employeePositionService.listByEmpJobId(employee.getEmpJobid());
-				//遍历
-				for (EmployeePosition employeePosition : employeePositions) {
-					//找到职位信息
-					Position position = positionService.get(employeePosition.getPositionId());
-					//找到职位所属部门信息
-					Department department = departmentService.get(position.getDeptId());
-					//遍历当前登录系统用户所属的部门id
-					for (Integer deptId : myDeptIdList) {
-						//如果该职工所属的部门id跟当前登录系统用户所属的部门id相同，则添加进去
-						if (department.getDeptId() == deptId) {
-							myDepartmentEmployeeList.add(employee);
+				if (!com.lqs.hrm.util.StringUtil.isEquqls(employee.getEmpJobid(), myEmpJobId)) {
+					//找到对应的职工-职位信息
+					List<EmployeePosition> employeePositions = employeePositionService.listByEmpJobId(employee.getEmpJobid());
+					//遍历
+					for (EmployeePosition employeePosition : employeePositions) {
+						//找到职位信息
+						Position position = positionService.get(employeePosition.getPositionId());
+						//找到职位所属部门信息
+						Department department = departmentService.get(position.getDeptId());
+						//遍历当前登录系统用户所属的部门id
+						for (Integer deptId : myDeptIdList) {
+							//如果该职工所属的部门id跟当前登录系统用户所属的部门id相同，则添加进去
+							if (department.getDeptId() == deptId) {
+								myDepartmentEmployeeList.add(employee);
+							}
 						}
 					}
 				}
@@ -981,19 +995,21 @@ public class EmployeeController {
 			List<Employee> allEmployeeList = employeeService.listByEmpJobIdStatusId(empJobIdStr, Integer.valueOf(statusIdStr));
 			//遍历
 			for (Employee employee : allEmployeeList) {
-				//找到对应的职工-职位信息
-				List<EmployeePosition> employeePositions = employeePositionService.listByEmpJobId(employee.getEmpJobid());
-				//遍历
-				for (EmployeePosition employeePosition : employeePositions) {
-					//找到职位信息
-					Position position = positionService.get(employeePosition.getPositionId());
-					//找到职位所属部门信息
-					Department department = departmentService.get(position.getDeptId());
-					//遍历当前登录系统用户所属的部门id
-					for (Integer deptId : myDeptIdList) {
-						//如果该职工所属的部门id跟当前登录系统用户所属的部门id相同，则添加进去
-						if (department.getDeptId() == deptId) {
-							myDepartmentEmployeeList.add(employee);
+				if (!com.lqs.hrm.util.StringUtil.isEquqls(employee.getEmpJobid(), myEmpJobId)) {
+					//找到对应的职工-职位信息
+					List<EmployeePosition> employeePositions = employeePositionService.listByEmpJobId(employee.getEmpJobid());
+					//遍历
+					for (EmployeePosition employeePosition : employeePositions) {
+						//找到职位信息
+						Position position = positionService.get(employeePosition.getPositionId());
+						//找到职位所属部门信息
+						Department department = departmentService.get(position.getDeptId());
+						//遍历当前登录系统用户所属的部门id
+						for (Integer deptId : myDeptIdList) {
+							//如果该职工所属的部门id跟当前登录系统用户所属的部门id相同，则添加进去
+							if (department.getDeptId() == deptId) {
+								myDepartmentEmployeeList.add(employee);
+							}
 						}
 					}
 				}
@@ -1004,19 +1020,21 @@ public class EmployeeController {
 			List<Employee> allEmployeeList = employeeService.listByEmpNameStatusId(empNameStr, Integer.valueOf(statusIdStr));
 			//遍历
 			for (Employee employee : allEmployeeList) {
-				//找到对应的职工-职位信息
-				List<EmployeePosition> employeePositions = employeePositionService.listByEmpJobId(employee.getEmpJobid());
-				//遍历
-				for (EmployeePosition employeePosition : employeePositions) {
-					//找到职位信息
-					Position position = positionService.get(employeePosition.getPositionId());
-					//找到职位所属部门信息
-					Department department = departmentService.get(position.getDeptId());
-					//遍历当前登录系统用户所属的部门id
-					for (Integer deptId : myDeptIdList) {
-						//如果该职工所属的部门id跟当前登录系统用户所属的部门id相同，则添加进去
-						if (department.getDeptId() == deptId) {
-							myDepartmentEmployeeList.add(employee);
+				if (!com.lqs.hrm.util.StringUtil.isEquqls(employee.getEmpJobid(), myEmpJobId)) {
+					//找到对应的职工-职位信息
+					List<EmployeePosition> employeePositions = employeePositionService.listByEmpJobId(employee.getEmpJobid());
+					//遍历
+					for (EmployeePosition employeePosition : employeePositions) {
+						//找到职位信息
+						Position position = positionService.get(employeePosition.getPositionId());
+						//找到职位所属部门信息
+						Department department = departmentService.get(position.getDeptId());
+						//遍历当前登录系统用户所属的部门id
+						for (Integer deptId : myDeptIdList) {
+							//如果该职工所属的部门id跟当前登录系统用户所属的部门id相同，则添加进去
+							if (department.getDeptId() == deptId) {
+								myDepartmentEmployeeList.add(employee);
+							}
 						}
 					}
 				}
@@ -1027,19 +1045,21 @@ public class EmployeeController {
 			List<Employee> allEmployeeList = employeeService.listByEmpJobIdEmpNameStatusId(empJobIdStr, empNameStr, Integer.valueOf(statusIdStr));
 			//遍历
 			for (Employee employee : allEmployeeList) {
-				//找到对应的职工-职位信息
-				List<EmployeePosition> employeePositions = employeePositionService.listByEmpJobId(employee.getEmpJobid());
-				//遍历
-				for (EmployeePosition employeePosition : employeePositions) {
-					//找到职位信息
-					Position position = positionService.get(employeePosition.getPositionId());
-					//找到职位所属部门信息
-					Department department = departmentService.get(position.getDeptId());
-					//遍历当前登录系统用户所属的部门id
-					for (Integer deptId : myDeptIdList) {
-						//如果该职工所属的部门id跟当前登录系统用户所属的部门id相同，则添加进去
-						if (department.getDeptId() == deptId) {
-							myDepartmentEmployeeList.add(employee);
+				if (!com.lqs.hrm.util.StringUtil.isEquqls(employee.getEmpJobid(), myEmpJobId)) {
+					//找到对应的职工-职位信息
+					List<EmployeePosition> employeePositions = employeePositionService.listByEmpJobId(employee.getEmpJobid());
+					//遍历
+					for (EmployeePosition employeePosition : employeePositions) {
+						//找到职位信息
+						Position position = positionService.get(employeePosition.getPositionId());
+						//找到职位所属部门信息
+						Department department = departmentService.get(position.getDeptId());
+						//遍历当前登录系统用户所属的部门id
+						for (Integer deptId : myDeptIdList) {
+							//如果该职工所属的部门id跟当前登录系统用户所属的部门id相同，则添加进去
+							if (department.getDeptId() == deptId) {
+								myDepartmentEmployeeList.add(employee);
+							}
 						}
 					}
 				}

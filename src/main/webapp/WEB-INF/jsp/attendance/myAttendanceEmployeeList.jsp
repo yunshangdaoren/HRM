@@ -37,7 +37,6 @@
   					</div>
   					<button id="btn-resetSelect" type="button" class="btn btn-danger">重置</button>
   					<button id="btn-selectContract" type="submit" class="btn btn-danger">查询</button>
-  					<button id="btn-addContract" type="button" class="btn btn-success">考勤补录</button>
 				</form>
 			</div>
 			<table class="table table-hover" id="table-deptDtail">

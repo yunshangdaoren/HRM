@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.javassist.expr.NewArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
@@ -382,6 +383,7 @@ public class AttendanceEmployeeController {
 				//设置考勤状态人数
 				if (attendanceEmployee.getStatusId() == 21) {
 					//设置考勤状态为签到且未签退人数+1
+					System.out.println("该部门签到且未签退人数："+countAttendanceParentDepartmant.getSignNotLogoutNum());
 					countAttendanceParentDepartmant.setSignNotLogoutNum(countAttendanceParentDepartmant.getSignNotLogoutNum() + 1);
 				}else if(attendanceEmployee.getStatusId() == 22){
 					//设置考勤状态为迟到且未签退人数+1
@@ -397,5 +399,138 @@ public class AttendanceEmployeeController {
 	}
 	
 	
+	/**
+	 * 职工考勤打卡：签退
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws ParseException
+	 */
+	@RequestMapping("logout.do")
+	@ResponseBody
+	public JsonCommonResult<Object> logout(HttpServletRequest request, HttpServletResponse response) throws ParseException {
+		
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:ss:mm");
+		SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd");
+		
+		//获取当前登录系统人工号
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("session_loginUser");
+		if (user == null) {
+			return new JsonCommonResult<Object>("100", null, "请先登录！");
+		}
+		
+		//获取该职工考勤信息
+		List<AttendanceEmployee> attendanceEmployeeList = attendanceEmployeeService.listByEmpJobIdDate(user.getUserAccount(), format2.parse(format.format(new Date()).substring(0, 10)));
+		if (attendanceEmployeeList == null && attendanceEmployeeList.size() == 0) {
+			return new JsonCommonResult<Object>("100", null, "请先签到!");
+		}
+		AttendanceEmployee attendanceEmployee = attendanceEmployeeList.get(0);
+		Date nowDate = new Date();
+		//设置签退时间
+		attendanceEmployee.setLogoutTime(nowDate);
+		
+		//获取考勤时间的下午最早签退时间
+		AttendanceTime attendanceTime = attendanceTimeService.get();
+		String afternoonEarly = format.format(nowDate).substring(0,10) + " " + attendanceTime.getMorningEarly();
+		Date afternoonEarlyDate = format.parse(afternoonEarly);
+		//获取考勤时间的下午最晚签退时间
+		String afternoonLastStr = format.format(nowDate).substring(0,10) + " " + attendanceTime.getMorningEarly();
+		Date afternoonLastDate = format.parse(afternoonLastStr);
+		
+		int attendanceStatus = 0;
+		if (nowDate.getTime() < afternoonEarlyDate.getTime()) {
+			//签退状态为早退
+			if (attendanceEmployee.getStatusId() == 21) {
+				//如果早上为签到且未签退，则整天状态为签到且早退
+				attendanceEmployee.setStatusId(22);
+				attendanceStatus = 22;
+			}else {
+				//如果早上为迟到且未签退，则整天状态为迟到且早退
+				attendanceEmployee.setStatusId(24);
+				attendanceStatus = 24;
+			}
+		}else {
+			if (attendanceEmployee.getStatusId() == 21) {
+				//如果早上为签到且未签退，则整天状态为到勤
+				attendanceEmployee.setStatusId(25);
+				attendanceStatus = 25;
+			}else {
+				//如果早上为迟到且未签退，则整天状态为迟到
+				attendanceEmployee.setStatusId(27);
+				attendanceStatus = 27;
+			}
+		}
+		
+		//添加职工考勤信息
+		int result = attendanceEmployeeService.update(attendanceEmployee);
+		if (result == 0) {
+			return new JsonCommonResult<Object>("100", null, "签到失败");
+		}
+		//设置部门考勤信息
+		//获取职工-职位信息
+		List<EmployeePosition> employeePositionList = employeePositionService.listByEmpJobId(user.getUserAccount());
+		for (EmployeePosition employeePosition : employeePositionList) {
+			//找到职工所属职位信息
+			Position position = positionService.get(employeePosition.getPositionId());
+			//找到职工所属部门信息
+			Department department = departmentService.get(position.getDeptId());
+			//找到该部门的考勤统计信息
+			List<CountAttendanceDepartmant> countAttendanceDepartmantList = countAttendanceDepartmentService.getByDeptId(department.getDeptId());
+			for (CountAttendanceDepartmant countAttendanceDepartmant : countAttendanceDepartmantList) {
+				if (format2.parse(format.format(nowDate).substring(0, 10)).getTime() == format2.parse(format.format(countAttendanceDepartmant.getSignDate()).substring(0, 10)).getTime()) {
+					//countAttendanceDepartmant.set
+					countAttendanceDepartmentService.add(countAttendanceDepartmant);
+				}
+			}
+				
+			CountAttendanceDepartmant countAttendanceDepartmant = countAttendanceDepartmentService.getByDeptId(department.getDeptId()).get(0);
+			
+			//更新该部门的考勤信息
+			//设置考勤状态人数
+			if (attendanceEmployee.getStatusId() == 21) {
+				//设置考勤状态为签到且未签退人数+1
+				countAttendanceDepartmant.setSignNotLogoutNum(countAttendanceDepartmant.getSignNotLogoutNum() + 1);
+			}else if(attendanceEmployee.getStatusId() == 22){
+				//设置考勤状态为迟到且未签退人数+1
+				countAttendanceDepartmant.setLateNotLeaveNum(countAttendanceDepartmant.getLateNotLeaveNum() + 1);
+			}
+			//更新数据
+			countAttendanceDepartmentService.update(countAttendanceDepartmant);
+			
+			//更新该部门对应上级部门的考勤信息
+			while (department != null  && department.getParentId() != null) {
+				//设置为新的上级部门
+				department = departmentService.get(department.getParentId());
+				//找到此部门的考勤统计信息
+				List<CountAttendanceDepartmant> countAttendanceParentDepartmantList = countAttendanceDepartmentService.getByDeptId(department.getDeptId());
+				if (countAttendanceParentDepartmantList == null || countAttendanceParentDepartmantList.size() == 0) {
+					//生成一个该部门今日的考勤统计信息
+					CountAttendanceDepartmant countAttendanceParentDepartmant = new CountAttendanceDepartmant();
+					countAttendanceParentDepartmant.setSignDate(format2.parse(format.format(new Date()).substring(0, 10)));
+					countAttendanceParentDepartmant.setDeptId(department.getDeptId());
+					countAttendanceParentDepartmant.setDeptName(department.getDeptName());
+					countAttendanceParentDepartmant.setDeptEmpNum(departmentInfoUtil.getDeptEmpNum(department));
+					countAttendanceDepartmentService.add(countAttendanceParentDepartmant);
+				}
+				//找到该部门的考勤统计信息
+				CountAttendanceDepartmant countAttendanceParentDepartmant = countAttendanceDepartmentService.getByDeptId(department.getDeptId()).get(0);
+				//更新该部门的考勤信息
+				//设置考勤状态人数
+				if (attendanceEmployee.getStatusId() == 21) {
+					//设置考勤状态为签到且未签退人数+1
+					countAttendanceParentDepartmant.setSignNotLogoutNum(countAttendanceParentDepartmant.getSignNotLogoutNum() + 1);
+				}else if(attendanceEmployee.getStatusId() == 22){
+					//设置考勤状态为迟到且未签退人数+1
+					countAttendanceParentDepartmant.setLateNotLeaveNum(countAttendanceParentDepartmant.getLateNotLeaveNum() + 1);
+				}
+				//更新数据
+				countAttendanceDepartmentService.update(countAttendanceParentDepartmant);
+			}
+			
+		}
+		
+		return new JsonCommonResult<Object>("200", null, "签到成功");
+	}
 	
 }

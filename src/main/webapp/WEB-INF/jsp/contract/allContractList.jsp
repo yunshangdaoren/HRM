@@ -87,8 +87,14 @@
 							<td><fmt:formatDate value="${contract.endDate }" type="both"/></td>
 							<td><fmt:formatDate value="${contract.entryTime }" type="both"/></td>
 							<c:choose>
-								<c:when test="${contract.statusName =='正常' }">
-									<td style="color:black;">${contract.statusName }</td>
+								<c:when test="${contract.statusId==14 }">
+									<td style="color:green;">${contract.statusName }</td>
+    							</c:when>
+    							<c:when test="${contract.statusId==16 }">
+									<td style="color:#DDB100;">${contract.statusName }</td>
+    							</c:when>
+    							<c:when test="${contract.statusId==17 }">
+									<td style="color:purple;">${contract.statusName }</td>
     							</c:when>
     							<c:otherwise>
     								<td style="color:red;">${contract.statusName }</td>
@@ -107,6 +113,9 @@
 							<td>
 								<a class="a_detailContract" href="#">
 					    			<span class="label label-primary">详情</span>
+					    		</a>
+					    		<a class="a_detailContract" href="#">
+					    			<span class="label label-primary">删除</span>
 					    		</a>
 					    	</td>
 						</tr>

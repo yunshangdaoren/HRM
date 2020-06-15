@@ -77,7 +77,10 @@ public class PositionInfoUtil {
 				positionList.get(i).setStatusName(statusService.get(positionList.get(i).getStatusId()).getStatusName());
 				//设置操作人名称
 				if(positionList.get(i).getOperatorEmpjobid() != null && !positionList.get(i).getOperatorEmpjobid().isEmpty()) {
-					positionList.get(i).setOperatorEmpName(employeeService.get(positionList.get(i).getOperatorEmpjobid()).getEmpName());
+					Employee employee = employeeService.get(positionList.get(i).getOperatorEmpjobid());
+					if (employee != null) {
+						positionList.get(i).setOperatorEmpName(employee.getEmpName());
+					}
 				}
 			}
 		}
@@ -105,7 +108,10 @@ public class PositionInfoUtil {
 			position.setStatusName(statusService.get(position.getStatusId()).getStatusName());
 			//设置操作人名称
 			if(position.getOperatorEmpjobid() != null && !position.getOperatorEmpjobid().isEmpty()) {
-				position.setOperatorEmpName(employeeService.get(position.getOperatorEmpjobid()).getEmpName());
+				Employee employee = employeeService.get(position.getOperatorEmpjobid());
+				if (employee != null) {
+					position.setOperatorEmpName(employee.getEmpName());
+				}
 			}
 		}
 	}

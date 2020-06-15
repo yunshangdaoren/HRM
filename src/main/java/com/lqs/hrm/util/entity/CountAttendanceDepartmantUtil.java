@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.lqs.hrm.entity.CountAttendanceDepartmant;
+import com.lqs.hrm.entity.Department;
 import com.lqs.hrm.service.impl.DepartmentServiceImpl;
 
 
@@ -30,7 +31,10 @@ public class CountAttendanceDepartmantUtil {
 		if (countAttendanceDepartmantList.size() != 0 || countAttendanceDepartmantList != null) {
 			for (int i = 0; i < countAttendanceDepartmantList.size(); i++) {
 				//设置部门名称
-				countAttendanceDepartmantList.get(i).setDeptName(departmentService.get(countAttendanceDepartmantList.get(i).getDeptId()).getDeptName());
+				Department department = departmentService.get(countAttendanceDepartmantList.get(i).getDeptId());
+				if (department != null) {
+					countAttendanceDepartmantList.get(i).setDeptName(department.getDeptName());
+				}
 			}
 		}
 				
@@ -44,7 +48,10 @@ public class CountAttendanceDepartmantUtil {
 	public void setCountAttendanceDepartmantInfo(CountAttendanceDepartmant countAttendanceDepartmant) {
 		if (countAttendanceDepartmant != null) {
 			//设置部门名称
-			countAttendanceDepartmant.setDeptName(departmentService.get(countAttendanceDepartmant.getDeptId()).getDeptName());
+			Department department = departmentService.get(countAttendanceDepartmant.getDeptId());
+			if (department != null) {
+				countAttendanceDepartmant.setDeptName(department.getDeptName());
+			}
 		}
 	}
 }

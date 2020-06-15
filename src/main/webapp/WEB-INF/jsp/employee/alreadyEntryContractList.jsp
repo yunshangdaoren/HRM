@@ -17,10 +17,10 @@
   				<li role="presentation" class="active"><a href="/contract/alreadyEntryContractList.do">已入职列表</a></li>
 			</ul>
 			<div class="div_search">
-				<form class="form-inline" id="form-queryDept" method="get" action="/contract/toCheckContract.do">
+				<form class="form-inline" id="form-queryDept" method="get" action="/contract/alreadyEntryContractList.do">
 					<div class="form-group">
     					<label for="exampleInputName2">职工姓名</label>
-    					<input type="text" class="form-control" name="empName" id="input-selectConId" value="${conIdStr }">
+    					<input type="text" class="form-control" name="empName" id="input-selectConId" value="${empNameStr }">
   					</div>
   					<div class="form-group">
     					<label for="exampleInputName2">所属部门</label>
@@ -69,8 +69,14 @@
 							<td><fmt:formatDate value="${contract.endDate }" type="both"/></td>
 							<td><fmt:formatDate value="${contract.entryTime }" type="both"/></td>
 							<c:choose>
-								<c:when test="${contract.statusName =='正常' }">
-									<td style="color:black;">${contract.statusName }</td>
+								<c:when test="${contract.statusId==14 }">
+									<td style="color:green;">${contract.statusName }</td>
+    							</c:when>
+    							<c:when test="${contract.statusId==16 }">
+									<td style="color:#DDB100;">${contract.statusName }</td>
+    							</c:when>
+    							<c:when test="${contract.statusId==17 }">
+									<td style="color:purple;">${contract.statusName }</td>
     							</c:when>
     							<c:otherwise>
     								<td style="color:red;">${contract.statusName }</td>

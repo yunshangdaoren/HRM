@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.github.pagehelper.util.StringUtil;
+import com.lqs.hrm.entity.Employee;
 import com.lqs.hrm.entity.EmployeeResign;
 import com.lqs.hrm.service.impl.DepartmentServiceImpl;
 import com.lqs.hrm.service.impl.EmployeeServiceImpl;
@@ -47,7 +48,10 @@ public class EmployeeResignInfoUtil {
 				
 				//设置审批人姓名
 				if(list.get(i).getCheckEmpjobid() != null && StringUtil.isNotEmpty(list.get(i).getCheckEmpjobid())) {
-					list.get(i).setCheckEmpName(employeeService.get(list.get(i).getEmpJobid()).getEmpName());
+					Employee employee = employeeService.get(list.get(i).getEmpJobid());
+					if (employee != null) {
+						list.get(i).setCheckEmpName(employee.getEmpName());
+					}
 				}
 			}
 		}
@@ -70,7 +74,10 @@ public class EmployeeResignInfoUtil {
 			
 			//设置审批人姓名
 			if(employeeResign.getCheckEmpjobid() != null && StringUtil.isNotEmpty(employeeResign.getCheckEmpjobid())) {
-				employeeResign.setCheckEmpName(employeeService.get(employeeResign.getEmpJobid()).getEmpName());
+				Employee employee = employeeService.get(employeeResign.getEmpJobid());
+				if (employee != null) {
+					employeeResign.setCheckEmpName(employee.getEmpName());
+				}
 			}
 		}
 	}

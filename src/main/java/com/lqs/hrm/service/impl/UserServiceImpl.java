@@ -88,14 +88,14 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public List<User> listByStatusId(Integer statusId) {
 		UserExample example = new UserExample();
-		example.or().andStatusIdEqualTo(statusId);
+		example.or().andStatusIdEqualTo(statusId).andUserAccountNotEqualTo("1");
 		return userMapper.selectByExample(example);
 	}
 
 	@Override
 	public List<User> listByUserAccountStatusId(String userAccount, Integer statusId) {
 		UserExample example = new UserExample();
-		example.or().andStatusIdEqualTo(statusId).andUserAccountEqualTo(userAccount);
+		example.or().andStatusIdEqualTo(statusId).andUserAccountEqualTo(userAccount).andUserAccountNotEqualTo("1");
 		return userMapper.selectByExample(example);
 	}
 

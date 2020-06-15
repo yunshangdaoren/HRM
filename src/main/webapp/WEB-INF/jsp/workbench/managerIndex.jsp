@@ -138,61 +138,7 @@
 						</div>
 					</div>
 					<div class="div2">
-						<div class="panel">
-  							<div class="panel-heading">
-    							<span class="panel-title">待办理事项</span>
-  							</div>
-  							<div class="panel-body">
-    							<div class="div-thing1" onclick="window.open('')">
-    								<div class="div-img">
-    									<img src="/static/img/birthday.png">
-    								</div>
-    								<div class="div-num">
-    									<span class="num" style="font-size:21px;">0</span>
-    									<span>人</span>
-    								</div>
-    								<div class="div-desc">
-    									<p style="font-">生日提醒</p>
-    								</div>
-    							</div>
-    							<div class="div-thing2" onclick="window.open('')">
-    								<div class="div-img">
-    									<img src="/static/img/experationOfContact.png">
-    								</div>
-    								<div class="div-num">
-    									<span class="num" style="font-size:21px;">0</span>
-    									<span>人</span>
-    								</div>
-    								<div class="div-desc">
-    									<p style="font-">合同到期提醒</p>
-    								</div>
-    							</div>
-    							<div class="div-thing3" onclick="window.open('')">
-    								<div class="div-img">
-    									<img src="/static/img/holiday.png">
-    								</div>
-    								<div class="div-num">
-    									<span class="num" style="font-size:21px;">0</span>
-    									<span>人</span>
-    								</div>
-    								<div class="div-desc">
-    									<p style="font-">假期审批</p>
-    								</div>
-    							</div>
-    							<div class="div-thing4" onclick="window.open('')">
-    								<div class="div-img">
-    									<img src="/static/img/overtime.png">
-    								</div>
-    								<div class="div-num">
-    									<span class="num" style="font-size:21px;">0</span>
-    									<span>人</span>
-    								</div>
-    								<div class="div-desc">
-    									<p style="font-">加班审批</p>
-    								</div>
-    							</div>
-  							</div>
-						</div>
+						
 					</div>
 					<div class="div3"></div>
 				</div>

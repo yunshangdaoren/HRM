@@ -145,7 +145,7 @@
 }
 #right .div-content .content-center{
 	width:37.5%;
-	background:yellow;
+	/* background:yellow; */
 	height:770px;
 	float:left;
 	margin-left:10px;
@@ -168,7 +168,7 @@
 
 #right .div-content .content-right{
 	width:23.3%;
-	background:blue;
+	/* background:blue; */
 	height:770px;
 	float:right;
 }

@@ -849,7 +849,9 @@ public class ContractController {
 		}
 		
 		//待审批离职合同职工的工号
-		String empJobId = employeeContractService.get(Integer.valueOf(conIdStr)).getEmpJobid();
+		System.out.println("------审批离职合同ID："+conIdStr);
+		String empJobId = employeeContractService.getByConId(Integer.valueOf(conIdStr)).get(0).getEmpJobid();
+		System.out.println("------职工工号："+empJobId);
 		//获取职工与对应的职位关联信息
 		List<EmployeePosition> employeePositionList = employeePositionService.listByEmpJobIdPositionId(empJobId, contract.getPositionId());
 		//遍历
@@ -869,7 +871,7 @@ public class ContractController {
 		}
 		
 		//删除该职工对应的系统账户角色信息
-		int result5 = userService.delete(empJobId);
+		int result5 = userRoleService.deleteByUserAccount(empJobId);
 		if (result5 == 0) {
 			return new JsonCommonResult<Object>("100", null, "审批失败");
 		}
@@ -1188,6 +1190,77 @@ public class ContractController {
 		return "employee/alreadyEntryContractList";
 	}
 	
+	/**
+	 * 转至我的合同页面
+	 * @param request
+	 * @param pageRequest
+	 * @param map
+	 * @return
+	 */
+	@RequestMapping("toMyContractList.do")
+	public String myContractList(HttpServletRequest request, PageRequest pageRequest, ModelMap map){
+		//分页
+		PageHelper.startPage(pageRequest.getPageNum(), pageRequest.getPageSize());
+		//获得当前登录系统人信息
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("session_loginUser");
+		//获取当前登录系统人工号
+		String empJobIdStr = user.getUserAccount();
+				
+		//查询的合同id信息
+		String conIdStr = request.getParameter("conId");
+		//查询的合同状态信息
+		String statusIdStr = request.getParameter("statusId");
+		
+		List<EmployeeContract> employeeContractList = new ArrayList<>();
+		if (StringUtil.isEmpty(conIdStr) && StringUtil.isEmpty(statusIdStr)) {
+			//获取当前登录系统人的所有职工合同信息
+			employeeContractList = employeeContractService.getByEmpJobid(empJobIdStr);
+		}else if(StringUtil.isEmpty(statusIdStr)) {
+			//获取当前登录系统人的指定合同id的职工合同信息
+			employeeContractList = employeeContractService.getByConIdEmpJobid(Integer.valueOf(conIdStr), empJobIdStr);
+		}else if(StringUtil.isEmpty(conIdStr)) {
+			//获取当前登录系统人的指定状态id的职工合同信息
+			List<EmployeeContract> contracts = employeeContractService.getByEmpJobid(empJobIdStr);
+			//遍历
+			for (EmployeeContract ec : contracts) {
+				if (contractService.get(ec.getConId()).getStatusId() == Integer.valueOf(statusIdStr)) {
+					//如果状态id相同，则添加进去
+					employeeContractList.add(ec);
+				}
+			}
+		}else {
+			//获取当前登录系统人的指定合同id、状态id的职工合同信息
+			List<EmployeeContract> contracts = employeeContractService.getByConIdEmpJobid(Integer.valueOf(conIdStr), empJobIdStr);
+			//遍历
+			for (EmployeeContract ec : contracts) {
+				if (contractService.get(ec.getConId()).getStatusId() == Integer.valueOf(statusIdStr)) {
+					//如果状态id相同，则添加进去
+					employeeContractList.add(ec);
+				}
+			}
+		}
+		//储存该职工的所有合同信息
+		List<Contract> contractList = new ArrayList<>();
+		for(EmployeeContract employeeContract : employeeContractList) {
+			contractList.add(contractService.get(employeeContract.getConId()));
+		}
+		contractInfoUtil.setContractInfo(contractList);
+		//设置分页查询结果
+		PageResult pageResult = PageResultUtil.getPageResult(new PageInfo<>(contractList));
+		//合同状态信息：合同类型为7
+		List<Status> statusList = statusService.list(7);
+		//返回查询的合同状态信息
+		map.put("statusList", statusList);
+		//返回查询的部门信息
+		map.put("pageResult", pageResult);
+		
+		//回显查询条件
+		map.put("conIdStr", conIdStr);
+		map.put("statusIdStr", statusIdStr);
+				
+		return "contract/myContractList";
+	}
 	
 }
 

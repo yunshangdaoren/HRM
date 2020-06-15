@@ -322,6 +322,21 @@ $("#btn-hidePanelPositionDetail").click(function(){
 	$(".panel_positionDetail").hide();
 });
 
+//跳转至操作人详情页面
+$(".a_detailOperatorEmployeeByManagerEmployee").click(function(){
+	var empJobId = $(this).next().text();
+	window.location.href = "/employee/toEmployeeDetail.do?empJobId="+empJobId;
+});
+//跳转到操作人职工详情页面
+$(".a-addEmpName").click(function(){
+	var empJobId = $(this).next().text();
+	window.location.href = "/employee/toEmployeeDetail.do?empJobId="+empJobId;
+});
+//跳转到审核人职工详情页面
+$(".a-checkEmpName").click(function(){
+	var empJobId = $(this).next().text();
+	window.location.href = "/employee/toEmployeeDetail.do?empJobId="+empJobId;
+});
 //跳转至合同详情页面
 $(".a_detailContract").click(function(){
 	var conId = $(".a_detailContract").parent().parent().children().first().text();

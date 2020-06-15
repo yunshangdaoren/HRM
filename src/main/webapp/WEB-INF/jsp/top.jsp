@@ -12,9 +12,9 @@
 			设置 <span class="caret"></span>
 		</button>
 		<ul class="dropdown-menu dropdown-menu-right" role="menu">
-			<li><a href="#">个人中心</a></li>
+			<li><a href="/user/toMyUserInfo.do">个人中心</a></li>
 			<li><a href="#" class="a_changeUserPwd">修改密码</a></li>
-			<li><a href="#">联系管理员</a></li>
+			<li><a href="#" class="a_callManager">联系管理员</a></li>
 			<li class="divider"></li>
 			<li><a href="#">帮助</a></li>
 			<li><a class="a-logout" href="/login/logout.do">退出登录</a></li>
@@ -25,12 +25,11 @@
 		<b class="b-newsAlt"></b>
 	</div>
 	<div class="div-userInfo">
-		<img id="img-headPortrait" src="/static/img/head.jpg" alt="头像" class="img-circle">
-		<span>账户:${session_loginUser.userAccount }</span>
+		<span>欢迎账户${session_loginUser.userAccount }:${session_loginUser.userName }</span>
 	</div>
 </div>
 
-<!-- 遮罩层 -->
+<!-- 修改密码遮罩层 -->
 <div class="shadeDiv">
 	<!-- 弹出层，用于修改密码 -->
 	<div class="panel_changeUserPwd">
@@ -57,10 +56,25 @@
     			</div>
 			</div>
 		</div>
+		<!-- 联系管理员遮罩层 -->
+	<div class="panel_callManager">
+			<div class="panel">
+    			<div class="panel-heading">
+    				<label>联系管理员</label>
+    				<button id="btn_hidePanelCallManager" type="button" class="btn btn-success">退出</button>
+    			</div>
+    			<div class="panel_body">
+    				<form id="form_changeUserPwd">
+  						<div class="form-group">
+  							<label style="margin-top:20px;">请到人力资源部联系相关工作人员！</label>
+  						</div>
+					</form>
+    			</div>
+			</div>
+		</div>
+	
 </div>
 
-	
-	
 	
 	
 	

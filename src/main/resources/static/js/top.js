@@ -12,6 +12,18 @@ $("#btn_hidePanelChangeUserPwd").click(function(){
 	$(".shadeDiv").hide();
 	$(".panel_changeUserPwd").hide();
 });
+
+//显示联系管理员弹出层
+$(".a_callManager").click(function(){
+	$(".shadeDiv").show();
+	$(".panel_callManager").show();
+});
+//关闭联系管理员弹出层
+$("#btn_hidePanelCallManager").click(function(){
+	$(".shadeDiv").hide();
+	$(".panel_callManager").hide();
+});
+
 //修改密码对话框非空判断
 function changeUserPwdFormEmptyCheck(){
 	if($("#currentUserPwd").val()==''){
@@ -46,14 +58,14 @@ $("#btn_submitChangeUserPwd").click(function(){
 			data:$("#form_changeUserPwd").serialize(),
 			dataType:"json",
 			success:function(result){
-				if(result.statusCode==1){
-					alert("修改成功！");
+				if(result.code==200){
+					alert(result.msg);
 					$(".shadeDiv").hide();
 					$(".panel_changeUserPwd").hide();
 					$("input").val("");
 				}else{
-					alert(result.message);
-					$(".span_erroCurrentPwd").text(result.message);
+					alert(result.msg);
+					$(".span_erroCurrentPwd").text(result.msg);
 					$(".span_erroCurrentPwd").show();
 				}
 			}

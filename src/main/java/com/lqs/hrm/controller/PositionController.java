@@ -431,7 +431,7 @@ public class PositionController {
 			isOnly = true;
 		}
 		//获取上级职位名称
-		String parentPositionIdStr = request.getParameter("parentPositionId");
+		String parentPositionIdStr = request.getParameter("parentPositionid");
 		//获取职位状态id
 		String statusIdStr = request.getParameter("statusId");
 		//获取职位描述

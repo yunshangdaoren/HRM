@@ -1,5 +1,5 @@
-/* �޸����뵯������ʽ */
-.panel_changeUserPwd{
+/* 锟睫革拷锟斤拷锟诫弹锟斤拷锟斤拷锟斤拷式 */
+.shadeDiv{
 	position:absolute;
 	display:none;
 	z-index:7;
@@ -7,7 +7,7 @@
 	top:0px; 
 	right:0px; 
 	bottom:0px;
-    margin:auto;    /* ����������Զ������� */
+    margin:auto;    /* 锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷远锟斤拷锟斤拷锟斤拷锟� */
 }
 .panel_changeUserPwd{
 	width: 450px;
@@ -18,7 +18,21 @@
 	background-color:#fff;
 	z-index:6;
 	padding:0px;
+	display:none;
 }
+
+.panel_callManager{
+	width: 360px;
+	height: 206px;
+	overflow: hide;
+	margin:auto;
+	margin-top:200px;
+	background-color:#fff;
+	z-index:6;
+	padding:0px;
+	display:none;
+}
+
 .panel_changeUserPwd .panel{
 	width:100%;
 	height:100%;
@@ -90,4 +104,55 @@
 	margin-left:34px;
 	line-height:30px;
 	font-size:15px;
+}
+
+
+.panel_callManager .panel{
+	width:100%;
+	height:100%;
+	border:0px;
+	border-radius:0px;
+}
+.panel_callManager .panel .panel-heading{
+	background-color:#0085DD;
+	height:46px;
+	padding:0px;
+	border-radius:0px;
+}
+.panel_callManager .panel .panel-heading label{
+	font-size:18px;
+	line-height:46px;
+	color:#FFF;
+	font-weight:500;
+	margin-left:5px;
+}
+.panel_callManager .panel .panel_body #form_retrievePwd .form-group{
+	margin-left:0px;
+	margin-right:0px;
+}
+.panel_callManager .panel .panel-heading #btn_hidePanelCallManager{
+	float:right;
+	height:38px;
+	margin-top:4px;
+	margin-right:3px;
+	font-size:16px;
+	text-align:center;
+	line-height:15px;
+}
+.panel_callManager .panel .panel_body{
+	width:100%;
+	height:234px;
+}
+.panel_callManager .panel .panel_body form{
+	width:100%;
+	height:100%;
+	padding-top:12px;
+	text-align:center;
+}
+.panel_callManager .panel .panel_body form div{
+	width:100%;
+}
+.panel_callManager .panel .panel_body #btn_submitRetrievePwd{
+	margin-left:225px;
+	font-size:16px;
 }

@@ -50,7 +50,7 @@
   					</div>
   					<button id="btn-resetSelect" type="button" class="btn btn-danger">重置</button>
   					<button id="btn-selectPosition" type="submit" class="btn btn-danger">查询</button>
-  					<c:if test="${roles.roleId!=3} ">
+  					<c:if test="${roles.roleId!=3 }">
 					    <button id="btn-addPosition" type="button" class="btn btn-success">添加职位</button>
 					</c:if>
   					

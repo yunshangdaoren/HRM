@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 	<title>离职合同审批</title>
-	<link href="/static/css/contract/checkResignContractList.css" rel="stylesheet" />
+	<link href="/static/css/contract/checkEntryContractList.css" rel="stylesheet" />
 </head>
 <body>
 	<%@ include file="../top.jsp" %>
@@ -39,6 +39,7 @@
 				<thead>
 					<tr>
 						<th>合同ID</th>
+						<th>姓名</th>
 						<th>所属部门</th>
 						<th>职位</th>
 						<th>开始日期</th>
@@ -50,13 +51,14 @@
 						<th>入职审批时间</th>
 						<th>入职审批人</th>
 						<th>详情</th>
-						<th style="width:150px;">操作</th>
+						<th>操作</th>
 					</tr>
 				</thead>
 				<tbody>
 					<c:forEach items="${pageResult.content }" var="contract">
 						<tr>
 							<td>${contract.conId }</td>
+							<td>${contract.empName }</td>
 							<td>
 								<a href="#" class="a-deptName">${contract.deptName }</a>
 								<i style="display:none;">${contract.deptId }</i>
@@ -69,8 +71,14 @@
 							<td><fmt:formatDate value="${contract.endDate }" type="both"/></td>
 							<td><fmt:formatDate value="${contract.entryTime }" type="both"/></td>
 							<c:choose>
-								<c:when test="${contract.statusName =='正常' }">
-									<td style="color:black;">${contract.statusName }</td>
+								<c:when test="${contract.statusId==14 }">
+									<td style="color:green;">${contract.statusName }</td>
+    							</c:when>
+    							<c:when test="${contract.statusId==16 }">
+									<td style="color:#DDB100;">${contract.statusName }</td>
+    							</c:when>
+    							<c:when test="${contract.statusId==17 }">
+									<td style="color:purple;">${contract.statusName }</td>
     							</c:when>
     							<c:otherwise>
     								<td style="color:red;">${contract.statusName }</td>
@@ -93,7 +101,10 @@
 					    	</td>
 					    	<td>
 								<a class="a_checkContract" href="#" style="text-decoration:none;">
-					    			<span class="label label-primary">审批</span>
+					    			<span class="label label-primary">通过</span>
+					    		</a>
+					    		<a class="a_notAgree" href="#" style="text-decoration:none;">
+					    			<span class="label label-primary">不通过</span>
 					    		</a>
 					    	</td>
 						</tr>

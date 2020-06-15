@@ -46,7 +46,10 @@ public class RoleInfoUtil {
 		if (list.size() != 0 || list != null) {
 			for (int i = 0; i < list.size(); i++) {
 				//设置最后一次操作人姓名
-				list.get(i).setOperatorEmpName(employeeService.get(list.get(i).getOperatorEmpjobid()).getEmpName());
+				Employee employee = employeeService.get(list.get(i).getOperatorEmpjobid());
+				if (employee != null) {
+					list.get(i).setOperatorEmpName(employee.getEmpName());
+				}
 			}
 		}
 	}
@@ -58,7 +61,10 @@ public class RoleInfoUtil {
 	public void setRoleInfo(Roles roles) {
 		if (roles != null) {
 			//设置最后一次操作人姓名
-			roles.setOperatorEmpName(employeeService.get(roles.getOperatorEmpjobid()).getEmpName());
+			Employee employee = employeeService.get(roles.getOperatorEmpjobid());
+			if (employee != null) {
+				roles.setOperatorEmpName(employee.getEmpName());
+			}
 		}
 	}
 }

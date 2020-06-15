@@ -169,7 +169,10 @@ public class DepartmentLevelController {
 			for (int i = 0; i < list.size(); i++) {
 				//设置操作人名称
 				if(list.get(i).getOperatorEmpjobid() != null && !list.get(i).getOperatorEmpjobid().isEmpty()) {
-					list.get(i).setOperatorEmpName(employeeService.get(list.get(i).getOperatorEmpjobid()).getEmpName());
+					Employee employee = employeeService.get(list.get(i).getOperatorEmpjobid());
+					if (employee != null) {
+						list.get(i).setOperatorEmpName(employee.getEmpName());
+					}
 				}
 			}
 		}
@@ -183,7 +186,10 @@ public class DepartmentLevelController {
 		if (departmentLevel != null) {
 			//设置操作人名称
 			if(departmentLevel.getOperatorEmpjobid() != null && !departmentLevel.getOperatorEmpjobid().isEmpty()) {
-				departmentLevel.setOperatorEmpName(employeeService.get(departmentLevel.getOperatorEmpjobid()).getEmpName());
+				Employee employee = employeeService.get(departmentLevel.getOperatorEmpjobid());
+				if (employee != null) {
+					departmentLevel.setOperatorEmpName(employee.getEmpName());
+				}
 			}
 		}
 	}
