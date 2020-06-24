@@ -1,2 +1,2 @@
 # HRM
-Human resource management system
+Human resource management system.
